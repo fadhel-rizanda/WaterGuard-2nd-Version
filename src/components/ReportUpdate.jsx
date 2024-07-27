@@ -1,7 +1,6 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import alertLogo from "/ASSET/image-logo/alert.png";
-// import { DeleteData } from "./DeleteData";
 import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
 
 export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
@@ -247,8 +246,8 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
           )}
 
           {profesional && (
-            <div className="">
-              <div className="mt-1 mb-4 flex gap-5 items-center">
+            
+              <div className="mt-4 mb-4 flex gap-5 items-center flex-col sm:flex-row">
                 <div className="">
                   <label
                     htmlFor="ika_score"
@@ -278,36 +277,40 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
                     id="ika_calculation_file"
                     name="ika_calculation_file"
                     required
-                    className="w-full text-sm text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
+                    className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
                   />
                 </div>
               </div>
-            </div>
+            
           )}
 
-          <div className="flex flex-wrap gap-5">
-            <button
-              type="submit"
-              className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
-            >
-              Report Update
-            </button>
+          <div className="flex flex-col sm:flex-row gap-5 items-center">
+            <div className="flex gap-5">
+              <button
+                type="submit"
+                className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
+              >
+                Report Update
+              </button>
 
-            <button
-              type="button"
-              className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300"
-              onClick={onClose}
-            >
-              Cancel Update
-            </button>
+              <button
+                type="button"
+                className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300"
+                onClick={onClose}
+              >
+                Cancel Update
+              </button>
+            </div>
 
-            <button
-              type="button"
-              className="items-end mt-10 h-fit cursor-pointer flex text-center justify-end text-red-500 gap-1 border-2 bg-gray-100 hover:bg-gray-200 active:bg-red-200 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-2xl"
-            >
-              <img src={deleteActiveIcon} className="w-5 h-5" alt="" />
-              delete data
-            </button>
+            {profesional && (
+              <button
+                type="button"
+                className="flex h-min text-start text-red-500 sm:mt-10 gap-1 border-2 bg-gray-100 hover:bg-gray-200 active:bg-red-200 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl"
+              >
+                <img src={deleteActiveIcon} className="w-5 h-5" alt="" />
+                delete data
+              </button>
+            )}
           </div>
         </form>
       </div>

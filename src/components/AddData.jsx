@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { CloseDisplay } from "./CloseDisplay";
 import alertLogo from "/ASSET/image-logo/alert.png";
+import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
 
 export const AddData = ({ onUpdate, onClose }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -95,8 +96,8 @@ export const AddData = ({ onUpdate, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-white bg-opacity-75 flex justify-center items-center z-50">
-      <div className="bg-white  w-4/5  sm:max-w-3xl rounded-xl border-2 shadow-custom p-7 pr-0 pt-2 flex flex-col text-center sm:text-left">
-        <div className="flex flex-col lg:gap-2 overflow-auto max-h-[80vh] pr-5">
+      <div className="bg-white  w-4/5  sm:max-w-3xl rounded-xl border-2 shadow-custom p-7 pt-2 flex flex-col text-center sm:text-left">
+        <div className="flex flex-col lg:gap-2 overflow-auto max-h-[80vh] no-scrollbar">
           <CloseDisplay onClose={onClose} />
 
           <div className="flex flex-col sm:flex-row justify-between pb-5 sm:text-2xl">
@@ -313,7 +314,7 @@ export const AddData = ({ onUpdate, onClose }) => {
             )}
 
             {profesional && (
-              <div className="mt-1 mb-4 flex gap-5 items-center">
+              <div className="mt-4 mb-4 flex gap-5 items-center flex-col sm:flex-row">
                 <div className="">
                   <label
                     htmlFor="ika_score"
@@ -343,26 +344,38 @@ export const AddData = ({ onUpdate, onClose }) => {
                     id="ika_calculation_file"
                     name="ika_calculation_file"
                     required
-                    className="w-full text-sm text-gray-400 file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
+                    className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
                   />
                 </div>
               </div>
             )}
-            <div className="flex gap-5">
-              <button
-                type="submit"
-                className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
-              >
-                Add Data
-              </button>
+            <div className="flex flex-col sm:flex-row gap-5 items-center">
+              <div className="flex gap-5">
+                <button
+                  type="submit"
+                  className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
+                >
+                  Report Update
+                </button>
 
-              <button
-                type="button"
-                className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300"
-                onClick={onClose}
-              >
-                Cancel Add
-              </button>
+                <button
+                  type="button"
+                  className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300"
+                  onClick={onClose}
+                >
+                  Cancel Update
+                </button>
+              </div>
+
+              {profesional && (
+                <button
+                  type="button"
+                  className="flex h-min text-start text-red-500 sm:mt-10 gap-1 border-2 bg-gray-100 hover:bg-gray-200 active:bg-red-200 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl"
+                >
+                  <img src={deleteActiveIcon} className="w-5 h-5" alt="" />
+                  delete data
+                </button>
+              )}
             </div>
           </form>
         </div>
