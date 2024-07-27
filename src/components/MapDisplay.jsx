@@ -66,23 +66,23 @@ export const MapDisplay = ({ getData, onUpdate }) => {
   const [selectedData, setSelectedData] = useState(null);
 
   const handleClose = () => {
-    setSelectedData(null); 
+    setSelectedData(null);
   };
 
   const handleUpdate = () => {
     console.log("Update triggered...");
     if (onUpdate) {
-      onUpdate(); 
+      onUpdate();
     }
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     setData(getData);
     setLoading(false);
   }, [getData]);
 
   if (loading) {
-    return <Loading/>
+    return <Loading />;
   }
 
   const getCategoryClass = (category) => {
@@ -166,7 +166,7 @@ export const MapDisplay = ({ getData, onUpdate }) => {
 
       {/* Detail information */}
       {selectedData && (
-        <div className="mt-10 rounded-3xl border-2 shadow-custom items-center p-7 pt-2 flex text-center sm:text-left">
+        <div className="mt-10 rounded-3xl border-2 shadow-custom items-center p-7 pr-0 pt-2 flex text-center sm:text-left">
           {selectedData.status === "verified" ? (
             <VerifiedDetail
               selectedData={selectedData}

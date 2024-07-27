@@ -120,7 +120,7 @@ export const MapContent = () => {
         <div className="flex justify-center">
           <form
             action=""
-            className="flex flex-wrap w-7/12 sm:w-fit gap-5 gap-y-1 text-base font-light justify-center bg-gray-100 hover:bg-gray-200 py-2 px-5 rounded-t-3xl shadow-inner"
+            className="flex flex-wrap w-7/12 sm:w-fit gap-5 gap-y-1 text-base font-light justify-center bg-gray-100 hover:bg-gray-200 p-1.5 px-2.5 rounded-t-xl shadow-inner"
           >
             <div className="hover:font-normal">
               <input
@@ -152,7 +152,7 @@ export const MapContent = () => {
               <select
                 value={categoryFilter}
                 onChange={handleCategoryFilterChange}
-                className="rounded-lg px-2 cursor-pointer focus:outline-none border-2 border-gray-200 focus:border-gray-300"
+                className="rounded-lg  cursor-pointer focus:outline-none border-2 border-gray-200 focus:border-gray-300"
               >
                 <option value="">Select a category</option>
                 <option value="Good">Good</option>
@@ -191,6 +191,7 @@ export const MapContent = () => {
             </div>
           </div>
         </div>
+        
         <div className="flex justify-center">
           <button
             aria-label="clear search"

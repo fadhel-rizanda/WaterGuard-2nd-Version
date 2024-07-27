@@ -1,10 +1,14 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { CloseDisplay } from "./CloseDisplay";
+import alertLogo from "/ASSET/image-logo/alert.png";
 
 export const AddData = ({ onUpdate, onClose }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [passwordActive, setPasswordActive] = useState(false);
+  const [passwordValue, setPasswordValue] = useState("");
   const [profesional, setProfesional] = useState(false);
+  const [wrongPassword, setWrongPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     lat: "",
@@ -40,6 +44,16 @@ export const AddData = ({ onUpdate, onClose }) => {
     .getHours()
     .toString()
     .padStart(2, "0")}:${currentTime.getMinutes().toString().padStart(2, "0")}`;
+
+  const verifyPassword = () => {
+    if (passwordValue === "admin123") {
+      setProfesional(!profesional);
+      setWrongPassword(false);
+      setPasswordActive(false);
+    } else {
+      setWrongPassword(true);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -238,18 +252,68 @@ export const AddData = ({ onUpdate, onClose }) => {
               </select>
             </div>
 
-            <div
-              className="cursor-pointer w-fit mt-10 text-gray-500 hover:italic hover:font-medium text-sm font-light"
-              onClick={() => setProfesional(!profesional)}
-            >
-              {profesional
-                ? "Are You not a Professional ?"
-                : "Are You a Professional ?"}{" "}
-              <span className="text-xs">(optional)</span>
+            <div className="cursor-pointer w-fit mt-10 text-gray-500 hover:italic hover:font-medium text-sm font-light">
+              {passwordActive || profesional ? (
+                <div
+                  className="flex gap-1 items-center"
+                  onClick={() => {
+                    setPasswordActive(false);
+                    setProfesional(false);
+                  }}
+                >
+                  Are You not a Professional ?
+                  <span className="text-xs">(optional)</span>
+                </div>
+              ) : (
+                <div
+                  className="flex gap-1 items-center"
+                  onClick={() => {
+                    setPasswordActive(true);
+                  }}
+                >
+                  Are You a Professional ?
+                  <span className="text-xs">(optional)</span>
+                </div>
+              )}{" "}
             </div>
 
+            {passwordActive && !profesional && (
+              <div className="my-4">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Password:
+                </label>
+
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  onChange={(e) => setPasswordValue(e.target.value)}
+                  required
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Enter Text"
+                />
+
+                {wrongPassword && (
+                  <div className="mt-2 flex gap-1 text-red-500  items-center text-sm">
+                    <img src={alertLogo} alt="alert" className="w-3.5 h-3.5" />
+                    wrong password
+                  </div>
+                )}
+
+                <button
+                  onClick={verifyPassword}
+                  className="text-start text-sm rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300"
+                >
+                  Verify
+                </button>
+              </div>
+            )}
+
             {profesional && (
-              <div className="mt-1 mb-4 flex gap-5 items-center flex-col md:flex-row">
+              <div className="mt-1 mb-4 flex gap-5 items-center">
                 <div className="">
                   <label
                     htmlFor="ika_score"
@@ -279,7 +343,7 @@ export const AddData = ({ onUpdate, onClose }) => {
                     id="ika_calculation_file"
                     name="ika_calculation_file"
                     required
-                    className=" mt-1 w-full text-sm text-gray-400 file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
+                    className="w-full text-sm text-gray-400 file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
                   />
                 </div>
               </div>
