@@ -33,8 +33,8 @@ export const VerificationDisplay = ({ selectedData, onClose }) => {
       {selectedData ? (
         <div className="flex flex-col gap-4">
           <div className="flex justify-between flex-col xl:flex-row font-medium text-xl sm:text-2xl gap-10">
-            <div className="w-80">
-              <div className="max-w-xs">{selectedData.name}</div>
+            <div className="md:w-80">
+              <div className="max-w-sm">{selectedData.name}</div>
               <div className={getCategoryClass(selectedData.ikaCategories)}>
                 {selectedData.ikaCategories}
                 {selectedData.status === "verified" && (

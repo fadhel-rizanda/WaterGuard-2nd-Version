@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import alertLogo from "/ASSET/image-logo/alert.png";
+// import { DeleteData } from "./DeleteData";
+import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
 
 export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -245,43 +247,45 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
           )}
 
           {profesional && (
-            <div className="mt-1 mb-4 flex gap-5 items-center">
-              <div className="">
-                <label
-                  htmlFor="ika_score"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  IKA Score:
-                </label>
-                <input
-                  type="number"
-                  id="ika_score"
-                  name="ika_score"
-                  value={formData.ika_score}
-                  onChange={handleInputChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  placeholder="Enter Text"
-                />
-              </div>
-              <div className="w-56">
-                <label
-                  htmlFor="ika_calculation_file"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  IKA Calculation File:
-                </label>
-                <input
-                  type="file"
-                  id="ika_calculation_file"
-                  name="ika_calculation_file"
-                  required
-                  className="w-full text-sm text-gray-400 file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
-                />
+            <div className="">
+              <div className="mt-1 mb-4 flex gap-5 items-center">
+                <div className="">
+                  <label
+                    htmlFor="ika_score"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    IKA Score:
+                  </label>
+                  <input
+                    type="number"
+                    id="ika_score"
+                    name="ika_score"
+                    value={formData.ika_score}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    placeholder="Enter Text"
+                  />
+                </div>
+                <div className="w-56">
+                  <label
+                    htmlFor="ika_calculation_file"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    IKA Calculation File:
+                  </label>
+                  <input
+                    type="file"
+                    id="ika_calculation_file"
+                    name="ika_calculation_file"
+                    required
+                    className="w-full text-sm text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
+                  />
+                </div>
               </div>
             </div>
           )}
 
-          <div className="flex gap-5">
+          <div className="flex flex-wrap gap-5">
             <button
               type="submit"
               className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
@@ -295,6 +299,14 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
               onClick={onClose}
             >
               Cancel Update
+            </button>
+
+            <button
+              type="button"
+              className="items-end mt-10 h-fit cursor-pointer flex text-center justify-end text-red-500 gap-1 border-2 bg-gray-100 hover:bg-gray-200 active:bg-red-200 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-2xl"
+            >
+              <img src={deleteActiveIcon} className="w-5 h-5" alt="" />
+              delete data
             </button>
           </div>
         </form>

@@ -11,9 +11,21 @@ export default {
       },
       backgroundImage: {
         "no-data":
-          "url('/ASSET/image-background/woman-looking-through-binoculars.jpg')", // Perhatikan path dan ekstensi gambar
+          "url('/ASSET/image-background/woman-looking-through-binoculars.jpg')", // Ensure the path and file extension are correct
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none', /* For Internet Explorer and Edge */
+          'scrollbar-width': 'none', /* For Firefox */
+        },
+        '.no-scrollbar::-webkit-scrollbar': {
+          display: 'none', /* For Chrome, Safari, and Opera */
+        },
+      }, ['responsive', 'hover']); // Optionally add variants like responsive and hover
+    },
+  ],
 };

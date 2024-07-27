@@ -163,25 +163,26 @@ export const MapDisplay = ({ getData, onUpdate }) => {
           ))}
         </MapContainer>
       </div>
-
-      {/* Detail information */}
-      {selectedData && (
-        <div className="mt-10 rounded-3xl border-2 shadow-custom items-center p-7 pr-0 pt-2 flex text-center sm:text-left">
-          {selectedData.status === "verified" ? (
-            <VerifiedDetail
-              selectedData={selectedData}
-              onClose={handleClose}
-              onUpdate={handleUpdate}
-            />
-          ) : (
-            <UnverifiedDetail
-              selectedData={selectedData}
-              onClose={handleClose}
-              onUpdate={handleUpdate}
-            />
-          )}
-        </div>
-      )}
+      <div className="flex flex-col justify-center items-center">
+        {/* Detail information */}
+        {selectedData && (
+          <div className="mt-10 w-fit rounded-3xl border-2 shadow-custom items-center p-7 pt-2 flex justify-center text-center sm:text-left">
+            {selectedData.status === "verified" ? (
+              <VerifiedDetail
+                selectedData={selectedData}
+                onClose={handleClose}
+                onUpdate={handleUpdate}
+              />
+            ) : (
+              <UnverifiedDetail
+                selectedData={selectedData}
+                onClose={handleClose}
+                onUpdate={handleUpdate}
+              />
+            )}
+          </div>
+        )}
+      </div>
     </>
   );
 };

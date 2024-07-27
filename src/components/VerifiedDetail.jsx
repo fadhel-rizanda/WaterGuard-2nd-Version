@@ -15,7 +15,8 @@ export const VerifiedDetail = ({ selectedData, onClose, onUpdate }) => {
 
   return (
     <>
-      <div className="flex flex-col lg:gap-2 overflow-auto max-h-[80vh] pr-7">
+      <div className="flex flex-col lg:gap-2 overflow-auto max-h-[80vh] no-scrollbar">
+        
         <VerificationDisplay selectedData={selectedData} onClose={onClose} />
 
         {showReportUpdate ? (

@@ -111,7 +111,7 @@ export const MapContent = () => {
     <div className="flex flex-wrap gap-9 p-6 md:p-10 lg:p-12 xl:p-16 justify-center">
       {/* Map */}
       <div className="flex flex-col w-full justify-center items-center">
-        <div className="w-full lg:w-4/5">
+        <div className="w-full lg:w-4/5 flex flex-col justify-center">
           <MapDisplay getData={filteredData} onUpdate={handleUpdate} />
         </div>
       </div>
@@ -191,7 +191,7 @@ export const MapContent = () => {
             </div>
           </div>
         </div>
-        
+
         <div className="flex justify-center">
           <button
             aria-label="clear search"

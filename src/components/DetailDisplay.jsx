@@ -4,7 +4,7 @@ import { UnverifiedDetail } from "./UnverifiedDetail";
 export const DetailDisplay = ({ selectedData, onClose, onUpdate }) => {
   return (
     <div className="fixed inset-0 bg-white bg-opacity-75 flex justify-center items-center z-50">
-      <div className="bg-white w-fit  sm:max-w-3xl rounded-xl border-2 shadow-custom items-center p-7 pr-0 pt-2 flex flex-col text-center sm:text-left">
+      <div className="bg-white w-fit  sm:max-w-3xl rounded-xl border-2 shadow-custom items-center p-7 mx-10 pt-2 flex flex-col text-center sm:text-left">
         {selectedData.status === "verified" ? (
           <VerifiedDetail
             selectedData={selectedData}
