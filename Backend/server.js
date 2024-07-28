@@ -108,7 +108,7 @@ app.post("/", (req, res) => {
     !name ||
     !lat ||
     !lng ||
-    !status ||    
+    !status ||
     !reporter_name ||
     !email ||
     !description ||
@@ -143,6 +143,23 @@ app.post("/", (req, res) => {
       res.json({ success: "Record inserted successfully" });
     }
   );
+});
+
+// Delete data
+app.delete("/user/:id", (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  const sql = `DELETE FROM water_conditions WHERE id = ?`;
+
+  db.query(sql, [id], (err) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Failed to delete record" });
+    }
+    res.json({ success: "Record deleted successfully" });
+  });
 });
 
 app.listen(8081, () => {

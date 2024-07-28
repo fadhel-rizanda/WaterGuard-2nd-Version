@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import alertLogo from "/ASSET/image-logo/alert.png";
 import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
+import { DeleteData } from "./DeleteData";
 
 export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -9,6 +10,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   const [passwordValue, setPasswordValue] = useState("");
   const [profesional, setProfesional] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+  const [deleteData, setDeleteData] = useState(null);
   const [formData, setFormData] = useState({
     status: "",
     ika_score: "",
@@ -30,6 +32,10 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
       ...formData,
       [name]: value,
     });
+  };
+
+  const handleClose = () => {
+    setDeleteData(null);
   };
 
   const handleSubmit = (e) => {
@@ -78,6 +84,10 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     } else {
       setWrongPassword(true);
     }
+  };
+
+  const handleDelete = () => {
+    setDeleteData(selectedData);
   };
 
   const formattedTime = `${
@@ -246,42 +256,40 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
           )}
 
           {profesional && (
-            
-              <div className="mt-4 mb-4 flex gap-5 items-center flex-col sm:flex-row">
-                <div className="">
-                  <label
-                    htmlFor="ika_score"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    IKA Score:
-                  </label>
-                  <input
-                    type="number"
-                    id="ika_score"
-                    name="ika_score"
-                    value={formData.ika_score}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                    placeholder="Enter Text"
-                  />
-                </div>
-                <div className="w-56">
-                  <label
-                    htmlFor="ika_calculation_file"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    IKA Calculation File:
-                  </label>
-                  <input
-                    type="file"
-                    id="ika_calculation_file"
-                    name="ika_calculation_file"
-                    required
-                    className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
-                  />
-                </div>
+            <div className="mt-4 mb-4 flex gap-5 items-center flex-col sm:flex-row">
+              <div className="">
+                <label
+                  htmlFor="ika_score"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  IKA Score:
+                </label>
+                <input
+                  type="number"
+                  id="ika_score"
+                  name="ika_score"
+                  value={formData.ika_score}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  placeholder="Enter Text"
+                />
               </div>
-            
+              <div className="w-56">
+                <label
+                  htmlFor="ika_calculation_file"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  IKA Calculation File:
+                </label>
+                <input
+                  type="file"
+                  id="ika_calculation_file"
+                  name="ika_calculation_file"
+                  required
+                  className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
+                />
+              </div>
+            </div>
           )}
 
           <div className="flex flex-col sm:flex-row gap-5 items-center">
@@ -305,13 +313,21 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
             {profesional && (
               <button
                 type="button"
-                className="flex h-min text-start text-red-500 sm:mt-10 gap-1 border-2 bg-gray-100 hover:bg-gray-200 active:bg-red-200 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl"
+                onClick={handleDelete}
+                className="flex h-min text-start text-red-500 sm:mt-10 gap-1 border-2 border-red-500 bg-gray-100 hover:bg-red-100 active:bg-red-300 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl"
               >
                 <img src={deleteActiveIcon} className="w-5 h-5" alt="" />
                 delete data
               </button>
             )}
           </div>
+          {deleteData !== null && (
+            <DeleteData
+              selectedData={deleteData}
+              onUpdate={onUpdate}
+              onClose={handleClose}
+            />
+          )}
         </form>
       </div>
     </div>
