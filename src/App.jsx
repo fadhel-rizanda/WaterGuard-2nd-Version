@@ -1,9 +1,13 @@
+import { Navbar } from "./objects/Navbar";
 import Monitoring from "./pages/Monitoring";
 
 export default function App() {
   return (
-    <div className="">
-      <Monitoring />
-    </div>
+    <>
+      <Navbar />
+      <div className="pt-11">
+        <Monitoring />
+      </div>
+    </>
   );
 }

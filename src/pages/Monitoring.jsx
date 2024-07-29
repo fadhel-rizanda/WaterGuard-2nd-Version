@@ -2,7 +2,7 @@ import { MapContent } from "../components/MapContent";
 
 const Monitoring = () => {
   return (
-    <div>      
+    <div className="">        
       <MapContent />
     </div>
   );

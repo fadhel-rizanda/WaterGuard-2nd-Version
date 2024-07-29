@@ -1,8 +1,7 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { CloseDisplay } from "./CloseDisplay";
+import { CloseDisplay } from "../objects/CloseDisplay";
 import alertLogo from "/ASSET/image-logo/alert.png";
-import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
 
 export const AddData = ({ onUpdate, onClose }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -366,16 +365,6 @@ export const AddData = ({ onUpdate, onClose }) => {
                   Cancel Update
                 </button>
               </div>
-
-              {profesional && (
-                <button
-                  type="button"
-                  className="flex h-min text-start text-red-500 sm:mt-10 gap-1 border-2 bg-gray-100 hover:bg-gray-200 active:bg-red-200 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl"
-                >
-                  <img src={deleteActiveIcon} className="w-5 h-5" alt="" />
-                  delete data
-                </button>
-              )}
             </div>
           </form>
         </div>

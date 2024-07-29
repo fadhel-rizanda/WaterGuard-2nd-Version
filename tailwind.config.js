@@ -13,19 +13,25 @@ export default {
         "no-data":
           "url('/ASSET/image-background/woman-looking-through-binoculars.jpg')", // Ensure the path and file extension are correct
       },
+      height: {
+        custom: "450px",
+      },
     },
   },
   plugins: [
     function ({ addUtilities }) {
-      addUtilities({
-        '.no-scrollbar': {
-          '-ms-overflow-style': 'none', /* For Internet Explorer and Edge */
-          'scrollbar-width': 'none', /* For Firefox */
+      addUtilities(
+        {
+          ".no-scrollbar": {
+            "-ms-overflow-style": "none" /* For Internet Explorer and Edge */,
+            "scrollbar-width": "none" /* For Firefox */,
+          },
+          ".no-scrollbar::-webkit-scrollbar": {
+            display: "none" /* For Chrome, Safari, and Opera */,
+          },
         },
-        '.no-scrollbar::-webkit-scrollbar': {
-          display: 'none', /* For Chrome, Safari, and Opera */
-        },
-      }, ['responsive', 'hover']); // Optionally add variants like responsive and hover
+        ["responsive", "hover"]
+      ); // Optionally add variants like responsive and hover
     },
   ],
 };

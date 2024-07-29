@@ -1,10 +1,12 @@
 import { MapDisplay } from "./MapDisplay";
 import { useState, useEffect } from "react";
 import searchLogo from "/ASSET/image-logo/search.png";
+import questionLogo from "/ASSET/image-logo/question.png";
 import { NoData } from "./NoData";
 import { Loading } from "./Loading";
 import { AddData } from "./AddData";
 import { DetailDisplay } from "./DetailDisplay";
+import { QuestionDisplay } from "./QuestionDisplay";
 
 export const MapContent = () => {
   const [data, setData] = useState([]);
@@ -13,6 +15,7 @@ export const MapContent = () => {
   const [filter, setFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [addButton, setAddButton] = useState(false);
+  const [questionDisplay, setQuestionDisplay] = useState(false);
   const [statusFilter, setStatusFilter] = useState({
     verified: false,
     unverified: false,
@@ -21,6 +24,9 @@ export const MapContent = () => {
 
   const handleClose = () => {
     setSelectedData(null);
+  };
+  const questionHandleClose = () => {
+    setQuestionDisplay(false);
   };
 
   const addHandleClose = () => {
@@ -108,7 +114,7 @@ export const MapContent = () => {
   };
 
   return (
-    <div className="flex flex-wrap gap-9 p-6 md:p-10 lg:p-12 xl:p-16 justify-center">
+    <div className="flex flex-wrap gap-9 p-6 md:p-10 lg:p-12 xl:p-16 pt-16 justify-center">
       {/* Map */}
       <div className="flex flex-col w-full justify-center items-center">
         <div className="w-full lg:w-4/5 flex flex-col justify-center">
@@ -181,6 +187,12 @@ export const MapContent = () => {
               >
                 &times;
               </button>
+              <div
+                className="h-fit mx-1 mt-2 w-fit bg-white hover:bg-gray-300 active:bg-gray-200 rounded-3xl"
+                onClick={() => setQuestionDisplay(true)}
+              >
+                <img src={questionLogo} className="w-6 h-6" alt="" />
+              </div>
             </div>
             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
               <img
@@ -192,6 +204,7 @@ export const MapContent = () => {
           </div>
         </div>
 
+        {questionDisplay && <QuestionDisplay onClose={questionHandleClose} />}
         <div className="flex justify-center">
           <button
             aria-label="clear search"

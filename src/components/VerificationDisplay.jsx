@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import noData from "/ASSET/image-logo/image-logo-location/location-no_data.png";
-import { CloseDisplay } from "./CloseDisplay";
+import { CloseDisplay } from "../objects/CloseDisplay";
 
 export const VerificationDisplay = ({ selectedData, onClose }) => {
   const getScoreClass = (score) => {
