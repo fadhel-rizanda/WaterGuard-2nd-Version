@@ -126,9 +126,9 @@ export const MapContent = () => {
         <div className="flex justify-center">
           <form
             action=""
-            className="flex flex-wrap w-7/12 sm:w-fit gap-5 gap-y-1 text-base font-light justify-center bg-gray-100 hover:bg-gray-200 p-1.5 px-2.5 rounded-t-xl shadow-inner"
+            className="flex flex-wrap w-7/12 sm:w-fit gap-5 gap-y-1 text-base font-light justify-center bg-gray-100 hover:bg-gray-200 p-1.5 px-2.5 rounded-t-xl shadow-inner trasition ease-out duration-200"
           >
-            <div className="hover:font-normal">
+            <div className="hover:font-normal trasition ease-out duration-200">
               <input
                 type="checkbox"
                 id="verified"
@@ -141,7 +141,7 @@ export const MapContent = () => {
               </label>
             </div>
 
-            <div className="hover:font-normal">
+            <div className="hover:font-normal trasition ease-out duration-200">
               <input
                 type="checkbox"
                 id="unverified"
@@ -170,7 +170,7 @@ export const MapContent = () => {
             </div>
           </form>
         </div>
-        <div className="bg-gray-100 hover:bg-gray-200 p-2 rounded-3xl shadow-custom">
+        <div className="bg-gray-100 hover:bg-gray-200 p-2 rounded-3xl shadow-custom trasition ease-out duration-200">
           <div className="relative">
             <div className="flex">
               <input
@@ -183,12 +183,12 @@ export const MapContent = () => {
               />{" "}
               <button
                 onClick={() => setFilter("")}
-                className="text-3xl mx-1 h-min w-min text-gray-500 hover:text-red-500 active:text-red-300"
+                className="text-3xl mx-1 h-min w-min text-gray-500 hover:text-red-500 active:text-red-300 trasition ease-out duration-200"
               >
                 &times;
               </button>
               <div
-                className="h-fit mx-1 mt-2 w-fit bg-white hover:bg-gray-300 active:bg-gray-200 rounded-3xl"
+                className="h-fit mx-1 mt-2 w-fit bg-white hover:bg-gray-300 active:bg-gray-200 rounded-3xl trasition ease-out duration-200"
                 onClick={() => setQuestionDisplay(true)}
               >
                 <img src={questionLogo} className="w-6 h-6" alt="" />
@@ -208,7 +208,7 @@ export const MapContent = () => {
         <div className="flex justify-center">
           <button
             aria-label="clear search"
-            className="flex gap-5 text-base font-light justify-center bg-gray-100 hover:bg-gray-200 py-1 px-3 rounded-b-xl shadow-md"
+            className="flex gap-5 text-base font-light justify-center bg-gray-100 hover:bg-gray-200 py-1 px-3 rounded-b-xl shadow-md trasition ease-out duration-200"
             onClick={() => setAddButton(true)}
           >
             + Add Data
@@ -223,7 +223,7 @@ export const MapContent = () => {
         filteredData.map((e, index) => (
           <div
             key={index}
-            className="cursor-pointer justify-center flex flex-col hover:bg-gray-300 active:bg-gray-200 w-full sm:w-2/5 md:w-1/3 lg:w-1/4 shadow-custom rounded-lg min-h-40 sm:min-h-48"
+            className="cursor-pointer justify-center flex flex-col hover:bg-gray-300 active:bg-gray-200 w-full sm:w-2/5 md:w-1/3 lg:w-1/4 shadow-custom rounded-lg min-h-40 sm:min-h-48 trasition ease-out duration-200"
             onClick={() => setSelectedData(e)}
           >
             <div className="p-4 flex flex-col sm:flex-row sm:text-sm justify-between font-semibold border-b-2 border-gray-300">

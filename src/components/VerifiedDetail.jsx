@@ -16,7 +16,6 @@ export const VerifiedDetail = ({ selectedData, onClose, onUpdate }) => {
   return (
     <>
       <div className="flex flex-col lg:gap-2 overflow-auto max-h-[80vh] no-scrollbar">
-        
         <VerificationDisplay selectedData={selectedData} onClose={onClose} />
 
         {showReportUpdate ? (
@@ -31,7 +30,7 @@ export const VerifiedDetail = ({ selectedData, onClose, onUpdate }) => {
         ) : (
           <div className="pt-5">
             <button
-              className="text-start rounded-xl text-white p-2 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
+              className="text-start rounded-xl text-white p-2 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-200"
               onClick={() => setShowReportUpdate(true)}
             >
               Report Update
@@ -51,6 +50,11 @@ VerifiedDetail.propTypes = {
     ikaCategories: PropTypes.string.isRequired,
     lastUpdate: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    ika_file: PropTypes.shape({
+      type: PropTypes.string,
+      data: PropTypes.arrayOf(PropTypes.number),
+    }),
+    file_extension: PropTypes.string,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
   onUpdate: PropTypes.func,

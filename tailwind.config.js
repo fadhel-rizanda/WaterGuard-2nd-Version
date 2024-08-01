@@ -16,6 +16,12 @@ export default {
       height: {
         custom: "450px",
       },
+      transitionProperty: {
+        padding: "padding",
+      },
+      padding: {
+        transition: "0.3s ease-out", // Define your padding transition duration here
+      },
     },
   },
   plugins: [

@@ -3,6 +3,37 @@ import noData from "/ASSET/image-logo/image-logo-location/location-no_data.png";
 import { CloseDisplay } from "../objects/CloseDisplay";
 
 export const VerificationDisplay = ({ selectedData, onClose }) => {
+  const handleDownload = () => {
+    if (selectedData.ika_file && selectedData.file_extension) {
+      // Convert buffer array to a Uint8Array
+      const byteArray = new Uint8Array(selectedData.ika_file.data);
+
+      // Create a Blob from the byteArray
+      const blob = new Blob([byteArray], {
+        type: `application/${selectedData.file_extension}`,
+      });
+
+      // Create a temporary URL for the Blob
+      const url = URL.createObjectURL(blob);
+
+      // Create a temporary anchor element
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `file.${selectedData.file_extension}`; // Adjust filename as needed
+
+      // Append the link to the body and trigger a click to start the download
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } else {
+      // Handle the case where the file data or extension is missing
+      console.error("File data or file extension is missing.");
+    }
+  };
+
   const getScoreClass = (score) => {
     if (score >= 70) return "text-blue-500";
     else if (score >= 60 && score < 70) return "text-teal-400";
@@ -70,6 +101,15 @@ export const VerificationDisplay = ({ selectedData, onClose }) => {
           )}
 
           <div className="text-sm md:text-base">{selectedData.description}</div>
+
+          {selectedData.status === "verified" && (
+            <div
+              className="shadow-lg cursor-pointer rounded-2xl flex justify-center items-center p-2 bg-gray-300 hover:bg-gray-200 active:bg-gray-100 text-gray-500 trasition ease-out duration-200"
+              onClick={handleDownload}
+            >
+              Click to Download IKA File
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex text-4xl justify-center text-center gap-3">
@@ -83,6 +123,7 @@ export const VerificationDisplay = ({ selectedData, onClose }) => {
 
 VerificationDisplay.propTypes = {
   selectedData: PropTypes.shape({
+    id: PropTypes.number,
     name: PropTypes.string,
     status: PropTypes.string,
     ikaCategories: PropTypes.string,
@@ -91,6 +132,11 @@ VerificationDisplay.propTypes = {
     description: PropTypes.string,
     reporter_name: PropTypes.string,
     email: PropTypes.string,
+    ika_file: PropTypes.shape({
+      type: PropTypes.string,
+      data: PropTypes.arrayOf(PropTypes.number),
+    }),
+    file_extension: PropTypes.string,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
 };

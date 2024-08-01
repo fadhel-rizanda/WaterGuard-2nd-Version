@@ -3,7 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
-
-:root{
+:root {
   font-family: "Inter", sans-serif;
+}
+
+.menu-transition {
+  transition: height 0.3s ease-out;
+  height: 0;
+  overflow: hidden;
+}
+
+.menu-transition-active {
+  height: 100vh;
 }

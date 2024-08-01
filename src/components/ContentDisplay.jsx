@@ -41,7 +41,7 @@ export const ContentDisplay = ({ filteredData, onSelectData }) => {
         filteredData.map((e, index) => (
           <div
             key={index}
-            className="cursor-pointer justify-center flex flex-col hover:bg-gray-300 active:bg-gray-200 w-full sm:w-2/5 md:w-1/3 lg:w-1/4 shadow-custom rounded-lg min-h-40 sm:min-h-48"
+            className="cursor-pointer justify-center flex flex-col hover:bg-gray-300 active:bg-gray-200 w-full sm:w-2/5 md:w-1/3 lg:w-1/4 shadow-custom rounded-lg min-h-40 sm:min-h-48 trasition ease-out duration-200"
             onClick={() => setLocalSelectedData(e)}
           >
             <div className="p-4 flex flex-col sm:flex-row sm:text-sm justify-between font-semibold border-b-2 border-gray-300">

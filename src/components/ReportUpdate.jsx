@@ -18,6 +18,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     email: "",
     description: "",
     ikaCategories: "",
+    ika_file: null,
   });
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -27,11 +28,20 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   }, [selectedData]);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, files } = e.target;
+
+    if (name === "ika_file" && files.length > 0) {
+      console.log(files[0]); // Check if the file object is correctly received
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleClose = () => {
@@ -43,20 +53,24 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     const url = `http://localhost:8081/user/${selectedData.id}`;
     const status = profesional ? "verified" : "unverified";
     const ika_score = profesional ? formData.ika_score : null;
+    const ika_file = profesional ? formData.ika_file : null;
+    const file_extension = ika_file ? ika_file.name.split(".").pop() || "" : "";
 
-    const updatedData = {
-      ...formData,
-      ika_score,
-      status,
-      lastUpdate: formattedTime,
-    };
+    // untuk mengirim data dalam bentuk file harus menggunakan FormData, jika tidak maka dapat menggunakna json
+    const formatToSend = new FormData();
+    formatToSend.append("status", status);
+    formatToSend.append("ika_score", ika_score);
+    formatToSend.append("ika_file", ika_file);
+    formatToSend.append("file_extension", file_extension);
+    formatToSend.append("reporter_name", formData.reporter_name);
+    formatToSend.append("email", formData.email);
+    formatToSend.append("description", formData.description);
+    formatToSend.append("ikaCategories", formData.ikaCategories);
+    formatToSend.append("lastUpdate", formattedTime);
 
     fetch(url, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
+      body: formatToSend,
     })
       .then((response) => {
         if (!response.ok) {
@@ -195,7 +209,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
             </select>
           </div>
 
-          <div className="cursor-pointer w-fit mt-10 text-gray-500 hover:italic hover:font-medium text-sm font-light">
+          <div className="cursor-pointer w-fit mt-10 text-gray-500 hover:italic hover:font-medium text-sm font-light trasition ease-out duration-200">
             {passwordActive || profesional ? (
               <div
                 className="flex gap-1 items-center"
@@ -248,7 +262,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
 
               <button
                 onClick={verifyPassword}
-                className="text-start text-sm rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300"
+                className="text-start text-sm rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200"
               >
                 Verify
               </button>
@@ -270,23 +284,25 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
                   name="ika_score"
                   value={formData.ika_score}
                   onChange={handleInputChange}
+                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   placeholder="Enter Text"
                 />
               </div>
               <div className="w-56">
                 <label
-                  htmlFor="ika_calculation_file"
+                  htmlFor="ika_file"
                   className="block text-sm font-medium text-gray-700"
                 >
                   IKA Calculation File:
                 </label>
                 <input
                   type="file"
-                  id="ika_calculation_file"
-                  name="ika_calculation_file"
+                  id="ika_file"
+                  name="ika_file"
+                  onChange={handleInputChange}
                   required
-                  className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
+                  className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100 trasition ease-out duration-200"
                 />
               </div>
             </div>
@@ -296,14 +312,14 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
             <div className="flex gap-5">
               <button
                 type="submit"
-                className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
+                className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-200"
               >
                 Report Update
               </button>
 
               <button
                 type="button"
-                className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300"
+                className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200"
                 onClick={onClose}
               >
                 Cancel Update
@@ -314,7 +330,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
               <button
                 type="button"
                 onClick={handleDelete}
-                className="flex h-min text-start text-red-500 sm:mt-10 gap-1 border-2 border-red-500 bg-gray-100 hover:bg-red-100 active:bg-red-300 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl"
+                className="flex h-min text-start text-red-500 sm:mt-10 gap-1 border-2 border-red-500 bg-gray-100 hover:bg-red-100 active:bg-red-300 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl trasition ease-out duration-200"
               >
                 <img src={deleteActiveIcon} className="w-5 h-5" alt="" />
                 delete data
@@ -347,6 +363,11 @@ ReportUpdate.propTypes = {
     description: PropTypes.string,
     reporter_name: PropTypes.string,
     email: PropTypes.string,
+    ika_file: PropTypes.shape({
+      type: PropTypes.string,
+      data: PropTypes.arrayOf(PropTypes.number),
+    }),
+    file_extension: PropTypes.string,
   }),
   onClose: PropTypes.func.isRequired,
   onUpdate: PropTypes.func,

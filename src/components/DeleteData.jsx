@@ -86,7 +86,7 @@ export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
         <div className="flex gap-5 text-xs sm:text-base">
           <button
             type="button"
-            className="flex h-min text-start text-red-500 mt-8 gap-1 border-2 border-red-500 bg-gray-100 hover:bg-red-100 active:bg-red-300 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl"
+            className="flex h-min text-start text-red-500 mt-8 gap-1 border-2 border-red-500 bg-gray-100 hover:bg-red-100 active:bg-red-300 active:border-red-500 w-fit p-2 pl-1 text-sm rounded-xl trasition ease-out duration-200"
             onClick={verifyText}
           >
             <img src={deleteActiveIcon} className="w-5 h-5" alt="" />
@@ -95,7 +95,7 @@ export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
 
           <button
             type="button"
-            className="text-start rounded-xl text-white p-2 mt-8 bg-red-500 hover:bg-red-400 active:bg-red-300"
+            className="text-start rounded-xl text-white p-2 mt-8 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200"
             onClick={onClose}
           >
             Cancel Delete

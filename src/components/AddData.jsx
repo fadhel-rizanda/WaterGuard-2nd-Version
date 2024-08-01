@@ -252,7 +252,7 @@ export const AddData = ({ onUpdate, onClose }) => {
               </select>
             </div>
 
-            <div className="cursor-pointer w-fit mt-10 text-gray-500 hover:italic hover:font-medium text-sm font-light">
+            <div className="cursor-pointer w-fit mt-10 text-gray-500 hover:italic hover:font-medium text-sm font-light trasition ease-out duration-300">
               {passwordActive || profesional ? (
                 <div
                   className="flex gap-1 items-center"
@@ -305,7 +305,7 @@ export const AddData = ({ onUpdate, onClose }) => {
 
                 <button
                   onClick={verifyPassword}
-                  className="text-start text-sm rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300"
+                  className="text-start text-sm rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-300"
                 >
                   Verify
                 </button>
@@ -343,7 +343,7 @@ export const AddData = ({ onUpdate, onClose }) => {
                     id="ika_calculation_file"
                     name="ika_calculation_file"
                     required
-                    className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
+                    className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100 trasition ease-out duration-300"
                   />
                 </div>
               </div>
@@ -352,14 +352,14 @@ export const AddData = ({ onUpdate, onClose }) => {
               <div className="flex gap-5">
                 <button
                   type="submit"
-                  className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
+                  className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-300"
                 >
                   Report Update
                 </button>
 
                 <button
                   type="button"
-                  className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300"
+                  className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-300"
                   onClick={onClose}
                 >
                   Cancel Update

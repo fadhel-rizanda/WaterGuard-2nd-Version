@@ -32,6 +32,11 @@ DetailDisplay.propTypes = {
     description: PropTypes.string,
     reporter_name: PropTypes.string,
     email: PropTypes.string,
+    ika_file: PropTypes.shape({
+      type: PropTypes.string,
+      data: PropTypes.arrayOf(PropTypes.number),
+    }),
+    file_extension: PropTypes.string,
   }).isRequired,
   onClose: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,

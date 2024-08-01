@@ -30,7 +30,7 @@ export const UnverifiedDetail = ({ selectedData, onClose, onUpdate }) => {
         ) : (
           <div className="pt-5">
             <button
-              className="text-start rounded-xl text-white p-2 bg-slate-500 hover:bg-slate-400 active:bg-slate-300"
+              className="text-start rounded-xl text-white p-2 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-200"
               onClick={() => setShowReportUpdate(true)}
             >
               Report Update

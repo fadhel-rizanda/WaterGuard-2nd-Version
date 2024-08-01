@@ -39,7 +39,7 @@ export const QuestionDisplay = ({ onClose }) => {
               <div className="border-b-2 my-2 border-gray-300"></div>
               {/* 2 */}
               <div className="">
-                <div className="flex gap-1 items-center p-0.5 pr-2 rounded-xl hover:bg-gray-100 w-fit">
+                <div className="flex gap-1 items-center p-0.5 pr-2 rounded-xl hover:bg-gray-100 w-fit trasition ease-out duration-200">
                   <img
                     src={locationCheck}
                     alt=""
@@ -50,7 +50,7 @@ export const QuestionDisplay = ({ onClose }) => {
                     Profesionals
                   </div>
                 </div>
-                <div className="flex gap-1 items-center p-0.5 pr-2 rounded-xl hover:bg-gray-100 w-fit">
+                <div className="flex gap-1 items-center p-0.5 pr-2 rounded-xl hover:bg-gray-100 w-fit trasition ease-out duration-200">
                   <img
                     src={locationQuestion}
                     alt=""
@@ -69,23 +69,23 @@ export const QuestionDisplay = ({ onClose }) => {
           <div className="mt-5">
             <div className="text-xl font-bold mb-1.5">Water Index Quality</div>
             <ul className="text-sm md:text-lg font-light pl-5 md:pl-10 list-disc">
-              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl">
+              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl trasition ease-out duration-200">
                 <b className="font-semibold">IKA {">"} 70:</b> Water Quality{" "}
                 <b className="font-bold">Good</b>
               </li>
-              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl">
+              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl trasition ease-out duration-200">
                 <b className="font-semibold">60 ≤ IKA ≤ 70: </b>
                 Water Quality <b className="font-bold">Quite Good</b>
               </li>
-              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl">
+              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl trasition ease-out duration-200">
                 <b className="font-semibold">50 ≤ IKA ≤ 60:</b> Water Quality{" "}
                 <b className="font-bold">Lightly Polluted</b>
               </li>
-              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl">
+              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl trasition ease-out duration-200">
                 <b className="font-semibold">30 ≤ IKA ≤ 50:</b> Water Quality{" "}
                 <b className="font-bold">Moderately Polluted</b>
               </li>
-              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl">
+              <li className="hover:bg-gray-100 w-fit p-0.5 px-2 rounded-xl trasition ease-out duration-200">
                 <b className="font-semibold">IKA {"<"} 30:</b> Water Quality{" "}
                 <b className="font-bold">Heavily Polluted</b>
               </li>

@@ -1,11 +1,17 @@
+// https://chatgpt.com/c/935abce7-3485-4020-a030-fb73e3a6f71c lanjutin multer
+
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+
+const multer = require("multer");
+const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
+// database connection configuration
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -27,8 +33,21 @@ app.get("/user", (req, res) => {
   });
 });
 
+
+// file upload configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `${Date.now()}${ext}`);
+  },
+});
+
+const upload = multer({ storage });
 // Update data
-app.put("/user/:id", (req, res) => {
+app.put("/user/:id", upload.single("ika_file"), (req, res) => {
   const { id } = req.params;
   const {
     status,
@@ -62,9 +81,15 @@ app.put("/user/:id", (req, res) => {
     if (results.length === 0) {
       return res.status(404).json({ error: "Record not found" });
     }
+
+    const ika_file = req.file ? req.file.filename : null;
+    const file_extension = req.file
+      ? path.extname(req.file.originalname).substring(1)
+      : null;
+
     const sql = `
       UPDATE water_conditions
-      SET status = ?, ika_score = ?, reporter_name = ?, email = ?, description = ?, ikaCategories = ?, lastUpdate = ?
+      SET status = ?, ika_score = ?, reporter_name = ?, email = ?, description = ?, ikaCategories = ?, lastUpdate = ?, ika_file = ?, file_extension = ?
       WHERE id = ?`;
 
     db.query(
@@ -77,6 +102,8 @@ app.put("/user/:id", (req, res) => {
         description,
         ikaCategories,
         lastUpdate,
+        ika_file,
+        file_extension,
         id,
       ],
       (err) => {
@@ -91,7 +118,7 @@ app.put("/user/:id", (req, res) => {
 });
 
 // Insert data
-app.post("/", (req, res) => {
+app.post("/", upload.single("ika_file"), (req, res) => {
   const {
     name,
     lat,
@@ -117,9 +144,12 @@ app.post("/", (req, res) => {
   ) {
     return res.status(400).json({ error: "Missing required fields" });
   }
+
+  const ika_file = req.file ? req.file.filename : null;
+
   const sql = `
   INSERT INTO water_conditions (
-    name, lat, lng, status, ika_score, reporter_name, email, description, ikaCategories, lastUpdate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    name, lat, lng, status, ika_score, reporter_name, email, description, ikaCategories, lastUpdate, ika_file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
   db.query(
     sql,
@@ -134,6 +164,7 @@ app.post("/", (req, res) => {
       description,
       ikaCategories,
       lastUpdate,
+      ika_file,
     ],
     (err) => {
       if (err) {
