@@ -27,9 +27,9 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-100 shadow-custom px-4 py-2 flex items-center justify-between lg:text-xl h-16">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-100 shadow-custom px-5 py-2 flex items-center justify-between lg:text-xl h-16">
         <div className="w-1/3">
-          <div className="flex items-center cursor-pointer w-fit gap-3 hover:pl-0.5 transition-padding duration-200 ease-out hover:text-gray-400 active:text-gray-300">
+          <div className="flex items-center cursor-pointer w-fit gap-3 hover:pl-1 transition-padding duration-500 ease-out hover:text-gray-400 active:text-gray-300">
             <img
               src={appLogo}
               alt="WaterGuard Logo"
@@ -55,27 +55,31 @@ export const Navbar = () => {
           <img
             src={hamburgerLogo}
             alt="Hamburger Icon"
-            className="w-7 hover:px-0 px-1 active:px-0 h-5 flex md:hidden active:bg-gray-300 rounded-xl cursor-pointer transition-padding duration-200 ease-out" 
+            className="w-7 hover:px-0 px-1 active:px-0 h-5 flex md:hidden active:bg-gray-300 rounded-xl cursor-pointer transition-padding duration-200 ease-out"
             onClick={handleHamburger}
           />
-          <div className="flex items-center gap-1 w-16 px- hover:px-0.5 cursor-pointer hover:text-gray-400 active:text-gray-300 transition-padding duration-200 ease-out">
+          <div className="flex items-center gap-1 w-16 px- hover:pl-1 cursor-pointer hover:text-gray-400 active:text-gray-300 transition-padding duration-500 ease-out">
             <img src={loginLogo} alt="Login Icon" className="w-5 h-5" />
             <div>Login</div>
           </div>
         </div>
       </nav>
 
-      <div className={`fixed inset-0 bg-opacity-75 flex justify-center mt-14 w-full bg-gray-300 z-40 menu-transition ${hamburgerActive ? 'menu-transition-active' : ''}`}>
+      <div
+        className={`fixed inset-0 bg-opacity-75 flex justify-center mt-14 w-full bg-gray-300 z-40 menu-transition ${
+          hamburgerActive ? "menu-transition-active" : ""
+        }`}
+      >
         <div className="flex opacity-85 bg-white h-3/4 shadow-custom w-full flex-col gap-5 text-xl font-semibold p-10 rounded-b-3xl">
-          <div className="cursor-pointer hover:text-gray-400 hover:pl-1 transition ease-out duration-200 active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3">
+          <div className="cursor-pointer hover:text-gray-400 hover:pl-1 active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3 transition-padding duration-200 ease-out">
             <img src={homeLogo} alt="Home Icon" className="w-8" />
             <div className="mt-1">Home</div>
           </div>
-          <div className="cursor-pointer hover:text-gray-400 hover:pl-1 transition ease-out duration-200 active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3">
+          <div className="cursor-pointer hover:text-gray-400 hover:pl-1 active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3 transition-padding duration-200 ease-out">
             <img src={monitoringLogo} alt="Monitoring Icon" className="w-8" />
             <div className="">Monitoring</div>
           </div>
-          <div className="cursor-pointer hover:text-gray-400 hover:pl-1 transition ease-out duration-200 active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3">
+          <div className="cursor-pointer hover:text-gray-400 hover:pl-1 active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3 transition-padding duration-200 ease-out">
             <img src={aboutLogo} alt="About Icon" className="w-8" />
             <div className="">About</div>
           </div>
