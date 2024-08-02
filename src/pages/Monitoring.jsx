@@ -1,8 +1,8 @@
-import { MapContent } from "../components/MapContent";
+import { MapContent } from "../mapComponents/MapContent";
 
 const Monitoring = () => {
   return (
-    <div className="">        
+    <div className="pt-24">        
       <MapContent />
     </div>
   );

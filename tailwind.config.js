@@ -11,7 +11,8 @@ export default {
       },
       backgroundImage: {
         "no-data":
-          "url('/ASSET/image-background/woman-looking-through-binoculars.jpg')", // Ensure the path and file extension are correct
+          "url('/ASSET/image-background/woman-looking-through-binoculars.jpg')",
+        bgHomeFirst: "url('/ASSET/image-background/bgHomeFirst.jpg')",
       },
       height: {
         custom: "450px",
@@ -20,7 +21,7 @@ export default {
         padding: "padding",
       },
       padding: {
-        transition: "0.3s ease-out", // Define your padding transition duration here
+        transition: "0.3s ease-out",
       },
     },
   },

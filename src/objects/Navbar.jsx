@@ -29,25 +29,33 @@ export const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-100 shadow-custom px-5 py-2 flex items-center justify-between lg:text-xl h-16">
         <div className="w-1/3">
-          <div className="flex items-center cursor-pointer w-fit gap-3 hover:pl-1 transition-padding duration-500 ease-out hover:text-gray-400 active:text-gray-300">
+          <div className="flex items-center cursor-pointer w-fit hover:pl-1 transition-padding duration-500 ease-out">
             <img
               src={appLogo}
               alt="WaterGuard Logo"
               className="w-10 lg:w-12 h-auto"
             />
-            <div className="text-2xl lg:text-3xl font-light">WaterGuard</div>
+            <div className="text-2xl lg:text-3xl hover:text-gray-400 active:text-gray-300 font-light trasition ease-out duration-300">
+              WaterGuard
+            </div>
           </div>
         </div>
 
         <div className="hidden md:flex gap-10">
-          <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-200 active:text-gray-300">
-            <div className="">Home</div>
+          <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-100 active:text-gray-300">
+            <div className="hover:font-bold trasition ease-out duration-300">
+              Home
+            </div>
           </div>
-          <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-200 active:text-gray-300">
-            <div className="">Monitoring</div>
+          <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-100 active:text-gray-300">
+            <div className="hover:font-bold trasition ease-out duration-300">
+              Monitoring
+            </div>
           </div>
-          <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-200 active:text-gray-300">
-            <div className="">About</div>
+          <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-100 active:text-gray-300">
+            <div className="hover:font-bold trasition ease-out duration-300">
+              About
+            </div>
           </div>
         </div>
 
@@ -58,9 +66,11 @@ export const Navbar = () => {
             className="w-7 hover:px-0 px-1 active:px-0 h-5 flex md:hidden active:bg-gray-300 rounded-xl cursor-pointer transition-padding duration-200 ease-out"
             onClick={handleHamburger}
           />
-          <div className="flex items-center gap-1 w-16 px- hover:pl-1 cursor-pointer hover:text-gray-400 active:text-gray-300 transition-padding duration-500 ease-out">
+          <div className="flex items-center gap-1 w-20 hover:pl-1 cursor-pointer hover:text-gray-400 active:text-gray-300 transition-padding duration-500 ease-out">
             <img src={loginLogo} alt="Login Icon" className="w-5 h-5" />
-            <div>Login</div>
+            <div className="hover:text-gray-400 active:text-gray-300 font-light trasition ease-out duration-300">
+              Login
+            </div>
           </div>
         </div>
       </nav>
