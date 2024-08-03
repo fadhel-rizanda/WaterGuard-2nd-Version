@@ -29,13 +29,13 @@ export const Navbar = () => {
     <>
       <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-100 shadow-custom px-5 py-2 flex items-center justify-between lg:text-xl h-16">
         <div className="w-1/3">
-          <div className="flex items-center cursor-pointer w-fit hover:pl-1 transition-padding duration-500 ease-out">
+          <div className="flex items-center cursor-pointer w-fit hover:pl-2 transition-padding duration-500 ease-out">
             <img
               src={appLogo}
               alt="WaterGuard Logo"
               className="w-10 lg:w-12 h-auto"
             />
-            <div className="text-2xl lg:text-3xl hover:text-gray-400 active:text-gray-300 font-light trasition ease-out duration-300">
+            <div className="text-2xl lg:text-3xl hover:font-semibold hover:text-gray-400 active:text-gray-300 font-light trasition ease-out duration-500">
               WaterGuard
             </div>
           </div>
@@ -66,9 +66,9 @@ export const Navbar = () => {
             className="w-7 hover:px-0 px-1 active:px-0 h-5 flex md:hidden active:bg-gray-300 rounded-xl cursor-pointer transition-padding duration-200 ease-out"
             onClick={handleHamburger}
           />
-          <div className="flex items-center gap-1 w-20 hover:pl-1 cursor-pointer hover:text-gray-400 active:text-gray-300 transition-padding duration-500 ease-out">
+          <div className="flex items-center gap-1 justify-end w-20 hover:pr-2 cursor-pointer hover:text-gray-400 active:text-gray-300 transition-padding duration-500 ease-out">
             <img src={loginLogo} alt="Login Icon" className="w-5 h-5" />
-            <div className="hover:text-gray-400 active:text-gray-300 font-light trasition ease-out duration-300">
+            <div className="hover:font-semibold hover:text-gray-400 active:text-gray-300 font-light trasition ease-out duration-500">
               Login
             </div>
           </div>

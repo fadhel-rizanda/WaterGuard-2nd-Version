@@ -1,11 +1,12 @@
 import {FirstSection} from "../homeComponents/FirstSection";
+import { SecondSection } from "../homeComponents/SecondSection";
 export const Home = () => {
-  return <div className="pt-16">
+  return <div className="">
     {/* first section */}
     <FirstSection/>
 
     {/* second section */}
-    <div className=""></div>
+    <SecondSection/>
     
     {/* third section */}
     <div className=""></div>
