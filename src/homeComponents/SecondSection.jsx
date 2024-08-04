@@ -10,13 +10,50 @@ import graph_4_50 from "/ASSET/image-logo/image-graphic/graph6.png";
 import graph_4_30 from "/ASSET/image-logo/image-graphic/graph5.png";
 import graph_5_30 from "/ASSET/image-logo/image-graphic/graph3.png";
 
-import { IndicatorFile } from "../objects/IndicatorFile";
+import image1 from "/ASSET/image-background/realistic-drop-with-ecosystem.jpg";
+import image2 from "/ASSET/image-background/realistic-water-drop-with-ecosystem (1).jpg";
+
+import { FAQContent } from "./FAQContent";
+
+import { IndicatorFile } from "./IndicatorFile";
 
 export const SecondSection = () => {
+
+
   return (
     <div className="min-h-screen">
       <div className="h-full flex flex-col items-center">
-        <div className="py-16 pt-20 sm:pt-16 px-10 text-xs md:text-sm md:px-16 xl:px-28 text-center">
+        <div className="flex py-16 px-10 text-xs md:text-sm md:px-16 xl:px-28  gap-10 items-center">
+          <img src={image1} alt="" className="w-2/5 rounded-xl" />
+          <div className="">
+            <span className="font-semibold text-lg">
+              Protecting Our Water, Preserving Our Future
+            </span>{" "}
+            <br />
+            Understanding and maintaining water quality is essential for
+            safeguarding our health and the environment. Clean water is vital
+            for drinking, cooking, and sanitation, while also supporting
+            wildlife and natural ecosystems. By staying informed and proactive
+            about water quality, we can prevent pollution, minimize health
+            risks, and ensure a sustainable environment for future generations.
+            WaterGuard provides the tools you need to monitor and protect this
+            crucial resource in Jakarta. <br />
+            <br />
+            <span className="font-semibold text-lg">
+              Secure Water Quality, Strengthen Our Community
+            </span>{" "}
+            <br />
+            Prioritizing water quality is not just about health{"-"}it{"'"}s
+            also key to economic stability and community well-being.
+            Contaminated water can lead to expensive health issues and costly
+            environmental cleanups. By focusing on maintaining clean water, we
+            support sustainable agriculture, industry, and recreation.
+            WaterGuard empowers you with essential information to make informed
+            decisions and foster practices that contribute to a healthier, more
+            resilient community.
+          </div>
+        </div>
+        <div className="px-10 text-xs md:text-sm md:px-16 xl:px-28 text-center shadow-custom py-14">
           At WaterGuard, we provide a powerful solution for efficient water
           quality management through our application. Designed with a robust set
           of features, WaterGuard allows users to easily perform Create, Read,
@@ -32,14 +69,44 @@ export const SecondSection = () => {
           WaterGuard enhances water quality management, offering complete
           control and a user-friendly experience.
         </div>
-        <div className="flex items-center py-14 pl-28  border-y-2 w-full shadow-custom">
+        <div className="flex py-16 px-10 text-xs md:text-sm md:px-16 xl:px-28  gap-10 items-center">
+          <div className="">
+            <span className="font-semibold text-lg">
+              Empowering You with Essential Insights
+            </span>{" "}
+            <br />
+            At WaterGuard, we believe in empowering individuals and communities
+            with the knowledge they need to make impactful decisions. Our
+            advanced monitoring system offers real-time data and actionable
+            insights into water quality, enabling you to address issues before
+            they become major problems. With WaterGuard, you can easily track
+            and manage water quality parameters, ensuring that you stay ahead of
+            potential challenges and maintain the highest standards of water
+            safety. <br />
+            <br />
+            <span className="font-semibold text-lg">
+              Join Us in Making a Difference
+            </span>{" "}
+            <br />
+            By choosing WaterGuard, you{"'"}re not just investing in a tool{"-"}
+            you
+            {"'"}re joining a movement towards better water management and
+            environmental stewardship. Together, we can make a significant
+            impact on our communit{"'"}s health and the planet{"'"}s future.
+            Embrace the power of informed decision-making with WaterGuard, and
+            contribute to a cleaner, safer, and more sustainable world for
+            everyone.
+          </div>
+          <img src={image2} alt="" className="w-2/5 rounded-xl" />
+        </div>
+        <div className="flex items-center py-14 px-10 lg:px-20 border-y-2 w-full shadow-custom">
           <div className="flex flex-col gap-10">
-            <div className="text-xl font-light pr-28">
+            <div className="md:text-lg md:font-semibold">
               The IKA Score measures water quality based on contamination
               levels. Higher scores indicate cleaner water, while lower scores
               reflect increasing pollution. Here{"'"}s a brief overview:
             </div>
-            <div className="flex flex-col gap-5 pl-5">
+            <div className="flex lg:flex-col flex-wrap justify-center lg:justify-start gap-5 lg:pl-10">
               <IndicatorFile
                 value={"Good"}
                 right={graph_1_70}
@@ -81,13 +148,8 @@ export const SecondSection = () => {
             </div>
           </div>
         </div>
+       <FAQContent/>
       </div>
     </div>
   );
 };
-
-// <IndicatorFile value={"Good >"} right={graph_1_70} />
-// <IndicatorFile left={graph_2_60} value={"≤ Quite Good ≤ "} right={graph_2_70} />
-// <IndicatorFile left={graph_3_50} value={"≤ Lightly Polluted ≤ "} right={graph_3_60} />
-// <IndicatorFile left={graph_4_30} value={"≤ Moderately Polluted ≤ "} right={graph_4_50} />
-// <IndicatorFile left={graph_5_30} value={"< Heavily Polluted"} />
