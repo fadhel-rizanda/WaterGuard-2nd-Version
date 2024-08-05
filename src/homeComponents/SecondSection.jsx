@@ -1,30 +1,27 @@
 import graph_1_70 from "/ASSET/image-logo/image-graphic/graph4.png";
-
 import graph_2_70 from "/ASSET/image-logo/image-graphic/graph1.png";
 import graph_2_60 from "/ASSET/image-logo/image-graphic/graph8.png";
-
 import graph_3_60 from "/ASSET/image-logo/image-graphic/graph2.png";
 import graph_3_50 from "/ASSET/image-logo/image-graphic/graph7.png";
-
 import graph_4_50 from "/ASSET/image-logo/image-graphic/graph6.png";
 import graph_4_30 from "/ASSET/image-logo/image-graphic/graph5.png";
 import graph_5_30 from "/ASSET/image-logo/image-graphic/graph3.png";
 
+import { MapDisplay } from "../mapComponents/MapDisplay";
+import { FAQContent } from "./FAQContent";
+import { IndicatorFile } from "./IndicatorFile";
+
 import image1 from "/ASSET/image-background/realistic-drop-with-ecosystem.jpg";
 import image2 from "/ASSET/image-background/realistic-water-drop-with-ecosystem (1).jpg";
 
-import { FAQContent } from "./FAQContent";
+import PropTypes from "prop-types";
 
-import { IndicatorFile } from "./IndicatorFile";
-
-export const SecondSection = () => {
-
-
+export const SecondSection = ({ getData, onUpdate }) => {
   return (
     <div className="min-h-screen">
       <div className="h-full flex flex-col items-center">
-        <div className="flex py-16 px-10 text-xs md:text-sm md:px-16 xl:px-28  gap-10 items-center">
-          <img src={image1} alt="" className="w-2/5 rounded-xl" />
+        <div className="flex py-16 pr-10 text-sm md:px-16 xl:px-28  gap-10 items-center">
+          <img src={image1} alt="" className="md:w-2/5 rounded-xl flex w-0" />
           <div className="">
             <span className="font-semibold text-lg">
               Protecting Our Water, Preserving Our Future
@@ -53,7 +50,8 @@ export const SecondSection = () => {
             resilient community.
           </div>
         </div>
-        <div className="px-10 text-xs md:text-sm md:px-16 xl:px-28 text-center shadow-custom py-14">
+
+        <div className="px-10 text-sm md:px-16 xl:px-28 text-center shadow-custom py-14 lg:py-20">
           At WaterGuard, we provide a powerful solution for efficient water
           quality management through our application. Designed with a robust set
           of features, WaterGuard allows users to easily perform Create, Read,
@@ -69,7 +67,8 @@ export const SecondSection = () => {
           WaterGuard enhances water quality management, offering complete
           control and a user-friendly experience.
         </div>
-        <div className="flex py-16 px-10 text-xs md:text-sm md:px-16 xl:px-28  gap-10 items-center">
+
+        <div className="flex py-14 lg:py-20 pl-10 text-sm md:px-16 xl:px-28  gap-10 items-center">
           <div className="">
             <span className="font-semibold text-lg">
               Empowering You with Essential Insights
@@ -97,11 +96,24 @@ export const SecondSection = () => {
             contribute to a cleaner, safer, and more sustainable world for
             everyone.
           </div>
-          <img src={image2} alt="" className="w-2/5 rounded-xl" />
+          <img src={image2} alt="" className="md:w-2/5 rounded-xl flex w-0" />
         </div>
-        <div className="flex items-center py-14 px-10 lg:px-20 border-y-2 w-full shadow-custom">
-          <div className="flex flex-col gap-10">
-            <div className="md:text-lg md:font-semibold">
+
+        {/* display map */}
+        <div className="flex flex-col w-full justify-center items-center shadow-custom">
+          <div className="h-3"></div>
+          <div className="w-full flex h-80 sm:h-96 flex-col justify-center">
+            <MapDisplay
+              getData={getData}
+              onUpdate={onUpdate}
+              detailActive={false}
+            />
+          </div>
+          <div className="h-3"></div>
+        </div>
+        <div className="flex items-center py-14 lg:py-20 px-10 lg:px-20 border-y-2 w-full shadow-custom">
+          <div className="flex flex-col gap-5">
+            <div className="md:text-xl md:font-light">
               The IKA Score measures water quality based on contamination
               levels. Higher scores indicate cleaner water, while lower scores
               reflect increasing pollution. Here{"'"}s a brief overview:
@@ -119,7 +131,7 @@ export const SecondSection = () => {
                 value={"Quite Good"}
                 right={graph_2_70}
                 description={
-                  "60 ≤ IKA Score < 70, Generally acceptable quality with minor concerns. Still suitable for most purposes but requires regularmonitoring."
+                  "60 ≤ IKA Score < 70, Generally acceptable quality with minor concerns. Still suitable for most purposes but requires regular monitoring."
                 }
               />
               <IndicatorFile
@@ -148,8 +160,25 @@ export const SecondSection = () => {
             </div>
           </div>
         </div>
-       <FAQContent/>
+        <FAQContent />
       </div>
     </div>
   );
+};
+
+SecondSection.propTypes = {
+  getData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired,
+      ika_score: PropTypes.number,
+      ikaCategories: PropTypes.string.isRequired,
+      lastUpdate: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      reporter_name: PropTypes.string,
+      email: PropTypes.string,
+    })
+  ).isRequired,
+  onUpdate: PropTypes.func,
 };

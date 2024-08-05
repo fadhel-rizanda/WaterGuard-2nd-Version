@@ -1,40 +1,11 @@
 import monitoringLogo from "/ASSET/image-logo/monitoring.png";
 import loginLogo from "/ASSET/image-logo/login.png";
-import { NoData } from "../mapComponents/NoData";
-import { Loading } from "../mapComponents/Loading";
-import { useEffect, useState } from "react";
-export const FirstSection = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState(null);
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const userLat = -6.2197; // bikin jd props
-  const userLng = 107; // bikin jd props
 
-  useEffect(() => {
-    console.log("Fetching Data...");
-    setLoading(true);
-    fetch("http://localhost:8081/user")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setData(data);
-          const relevantData = data.find(
-            (item) => item.lat === userLat && item.lng === userLng
-          );
-          setUserData(relevantData || null);
-        } else {
-          console.error("Data is not an array:", data);
-          setData([]);
-          setUserData(null);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, [userLat, userLng]);
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+
+export const FirstSection = ({ getData }) => {
+  const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -44,13 +15,6 @@ export const FirstSection = () => {
     return () => clearInterval(timerId);
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
-
-  if (!data.length) {
-    return <NoData />;
-  }
   return (
     <div className="h-screen w-full bg-bgHomeFirst bg-cover bg-center bg-no-repeat ">
       <div className="flex text-white ">
@@ -67,9 +31,9 @@ export const FirstSection = () => {
               <div className="text-xl font-extralight">
                 Your Current location:
               </div>
-              <div className="font-bold">{userData.name}</div>
+              <div className="font-bold">{getData.name}</div>
               <div className="font-bold">
-                {userData.ikaCategories} - {userData.status}
+                {getData.ikaCategories} - {getData.status}
               </div>
             </div>
 
@@ -77,7 +41,7 @@ export const FirstSection = () => {
               <div className="cursor-default bg-black w-fit p-1.5 md:p-2 h-max bg-opacity-40 hover:bg-opacity-65 rounded-2xl border-2 border-white hover:border-opacity-100 border-opacity-50 trasition ease-out duration-1000 group">
                 <div className="bg-white opacity-80  group-hover:opacity-100 flex flex-col gap-0 text-black p-1 md:p-9 h-14 w-14 md:h-12 md:w-12 items-center justify-center rounded-full trasition ease-out duration-500">
                   <div className="font-bold text-xs">IKA</div>
-                  <div className="text-xl">{userData.ika_score}</div>
+                  <div className="text-xl">{getData.ika_score}</div>
                 </div>
               </div>
 
@@ -97,7 +61,7 @@ export const FirstSection = () => {
                   </li>
                   <li className="flex gap-0.5 items-end chart box-border h-fit">
                     <div className="flex justify-end text-3xl sm:text-4xl font-normal w-9">
-                      {currentTime.getSeconds()}                      
+                      {currentTime.getSeconds()}
                     </div>{" "}
                     Second
                   </li>
@@ -128,4 +92,8 @@ export const FirstSection = () => {
       </div>
     </div>
   );
+};
+
+FirstSection.propTypes = {
+  getData: PropTypes.object,
 };

@@ -55,12 +55,12 @@ const getIcon = (item) => {
   return new L.Icon({
     iconUrl: iconUrl,
     iconSize: [35, 35],
-    iconAnchor: [17, 31],
+    iconAnchor: [17, 35],
     popupAnchor: [1, -35],
   });
 };
 
-export const MapDisplay = ({ getData, onUpdate }) => {
+export const MapDisplay = ({ getData, onUpdate, detailActive }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedData, setSelectedData] = useState(null);
@@ -102,8 +102,8 @@ export const MapDisplay = ({ getData, onUpdate }) => {
   };
 
   return (
-    <>
-      <div className="h-custom shadow-custom overflow-hidden rounded-3xl">
+    <>    
+      <div className="h-custom shadow-custom overflow-hidden"> {/* rounded-3xl */}
         <MapContainer
           center={[data[0]?.lat ?? 0, data[0]?.lng ?? 0]}
           zoom={13}
@@ -163,10 +163,9 @@ export const MapDisplay = ({ getData, onUpdate }) => {
           ))}
         </MapContainer>
       </div>
-      <div className="flex flex-col justify-center items-center">
-        {/* Detail information */}
-        {selectedData && (
-          <div className="mt-10 w-fit rounded-3xl border-2 shadow-custom items-center p-7 pt-2 flex justify-center text-center sm:text-left">
+      {detailActive && selectedData && (
+        <div className="flex flex-col justify-center items-center mt-10">
+          <div className="w-fit rounded-3xl border-2 shadow-custom items-center p-7 pt-2 flex justify-center text-center sm:text-left">
             {selectedData.status === "verified" ? (
               <VerifiedDetail
                 selectedData={selectedData}
@@ -181,8 +180,8 @@ export const MapDisplay = ({ getData, onUpdate }) => {
               />
             )}
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };
@@ -203,5 +202,6 @@ MapDisplay.propTypes = {
       email: PropTypes.string,
     })
   ).isRequired,
-  onUpdate: PropTypes.func.isRequired, 
+  onUpdate: PropTypes.func,
+  detailActive: PropTypes.bool.isRequired, 
 };

@@ -13,6 +13,10 @@ export default {
         "no-data":
           "url('/ASSET/image-background/woman-looking-through-binoculars.jpg')",
         bgHomeFirst: "url('/ASSET/image-background/bgHomeFirst.jpg')",
+        bgFAQ:
+          "url('/ASSET/image-background/view-transparent-crystal-water.jpg')",
+        bgAbout:
+          "url('/ASSET/image-background/digital-art-with-planet-earth.jpg')",
       },
       height: {
         custom: "450px",
@@ -23,22 +27,36 @@ export default {
       padding: {
         transition: "0.3s ease-out",
       },
+      animation: {
+        "infinite-scroll": "infinite-scroll 25s linear infinite",
+      },
+      keyframes: {
+        "infinite-scroll": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-100%)" },
+        },
+      },
     },
   },
   plugins: [
     function ({ addUtilities }) {
       addUtilities(
         {
+          ".text-shadow": {
+            textShadow: "7px 7px 10px rgba(0, 0, 0, 0.5)",
+          },
           ".no-scrollbar": {
-            "-ms-overflow-style": "none" /* For Internet Explorer and Edge */,
-            "scrollbar-width": "none" /* For Firefox */,
+            "-ms-overflow-style": "none",
+            "scrollbar-width": "none",
           },
           ".no-scrollbar::-webkit-scrollbar": {
-            display: "none" /* For Chrome, Safari, and Opera */,
+            display: "none",
           },
         },
-        ["responsive", "hover"]
-      ); // Optionally add variants like responsive and hover
+        {
+          variants: ["responsive", "hover"],
+        }
+      );
     },
   ],
 };

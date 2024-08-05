@@ -118,7 +118,7 @@ export const MapContent = () => {
       {/* Map */}
       <div className="flex flex-col w-full justify-center items-center">
         <div className="w-full lg:w-4/5 flex flex-col justify-center">
-          <MapDisplay getData={filteredData} onUpdate={handleUpdate} />
+          <MapDisplay getData={filteredData} onUpdate={handleUpdate} detailActive={true} />
         </div>
       </div>
 
