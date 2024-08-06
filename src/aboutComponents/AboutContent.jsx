@@ -2,6 +2,7 @@ import image1 from "/ASSET/image-background/realistic-drop-with-ecosystem.jpg";
 import image2 from "/ASSET/image-background/realistic-water-drop-with-ecosystem (1).jpg";
 import image3 from "/ASSET/image-background/26760925_2112.i301.031.S.m004.c13.UI and UX designers concepts isometric composition.png";
 import { Scrolll } from "./Scrolll";
+import { PersonalInfo } from "./PersonalInfo";
 
 export const AboutContent = () => {
   return (
@@ -96,13 +97,15 @@ export const AboutContent = () => {
       </div>
 
       {/* 3 */}
-      <div className="flex flex-col h-fit gap-10 justify-center shadow-custom mx-10 md:mx-6 xl:mx-16 rounded-3xl pt-10 my-10">
+      <div className="flex flex-col h-fit gap-10 justify-center shadow-custom mx-10 md:mx-6 xl:mx-16 rounded-3xl pt-10 ">
         <div className="flex flex-col justify-center items-center gap-5">
           <div className="flex justify-center items-center px-10">
             <div className="text-5xl md:text-8xl lg:text-9xl font-bold">
               <div className="">Project </div>
               <div className="font-light">Goal</div>
-              <div className="text-4xl md:text-7xl lg:text-8xl font-extralight">WaterGuard 2.0</div>
+              <div className="text-4xl md:text-7xl lg:text-8xl font-extralight">
+                WaterGuard 2.0
+              </div>
             </div>
             <img src={image3} alt="" className="w-2/5" />
           </div>
@@ -140,6 +143,7 @@ export const AboutContent = () => {
           </div>
           <Scrolll />
         </div>
+        <PersonalInfo />
       </div>
     </div>
   );

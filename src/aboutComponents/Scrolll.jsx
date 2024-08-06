@@ -10,7 +10,7 @@ import software9 from "/ASSET/image-logo/image-logo-software/github.png";
 import software10 from "/ASSET/image-logo/image-logo-software/chrome.png";
 export const Scrolll = () => {
   return (
-    <div className="w-full  mt-10 py-10 overflow-hidden inline-flex flex-nowrap shadow-custom rounded-b-3xl">
+    <div className="w-full py-10 overflow-hidden flex flex-nowrap shadow-custom">
       <ul className="flex items-center justify-center md:justify-start [&_li]:mx-8 [&_img]:max-w-none animate-infinite-scroll">
         <li>
           <img src={software1} alt="react" className="h-20" />
