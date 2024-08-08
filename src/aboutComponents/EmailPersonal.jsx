@@ -45,6 +45,10 @@ export const EmailPersonal = () => {
       .catch((err) => console.error("Failed to copy email: ", err));
   };
 
+  const handleClearText = () => {
+    setEmailInput("");
+  };
+
   return (
     <>
       <div className="flex gap-5">
@@ -90,14 +94,26 @@ export const EmailPersonal = () => {
             required
           ></textarea>
           <div className="flex justify-between p-5 pl-0 text-white">
-            <div className="ml-7 flex gap-1 text-red-500 text-sm items-center h-fit">
+            <div className="ml-7 w-48 flex gap-2 text-red-500 text-sm h-fit">
               {wrongInput && (
                 <>
-                  <img src={alertLogo} alt="alert" className=" w-3.5 h-3.5" />
+                  <img
+                    src={alertLogo}
+                    alt="alert"
+                    className="mt-1 w-3.5 h-3.5"
+                  />
                   {errorMessage}
                 </>
               )}
             </div>
+
+            <button
+              className="border-2 border-opacity-20 border-gray-500 shadow-custom text-gray-400 p-2 rounded-xl hover:bg-gray-200 hover:text-gray-500 active:bg-gray-50 transition ease-out duration-300"
+              onClick={handleClearText}
+            >
+              Clear Text
+            </button>
+
             <div className="flex gap-0.5 rounded-xl shadow-custom group">
               <button
                 onClick={handleSendMail}

@@ -24,7 +24,38 @@ app.get("/", (req, res) => {
   return res.json("From Backend Side");
 });
 
-// Get data
+// Get data user account
+app.get("/userAccount", (req, res) => {
+  const sql = "SELECT * FROM user_accounts";
+  db.query(sql, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.json(data);
+  });
+});
+
+// Insert data user account
+app.post("/user-accounts", (req, res) => {
+  const { username, email, password } = req.body;
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const sql = `
+  INSERT INTO user_accounts (
+    username, password, email) VALUES (?, ?, ?);`;
+
+  db.query(sql, [username, email, password], (err) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Failed to insert record" });
+    }
+    res.json({ success: "Record inserted successfully" });
+  });
+});
+
+// =====================================================================================================
+
+// Get data water condition
 app.get("/user", (req, res) => {
   const sql = "SELECT * FROM water_conditions";
   db.query(sql, (err, data) => {
@@ -32,7 +63,6 @@ app.get("/user", (req, res) => {
     return res.json(data);
   });
 });
-
 
 // file upload configuration
 const storage = multer.diskStorage({
@@ -117,8 +147,8 @@ app.put("/user/:id", upload.single("ika_file"), (req, res) => {
   });
 });
 
-// Insert data
-app.post("/", upload.single("ika_file"), (req, res) => {
+// Insert data water condition
+app.post("/water-conditions", upload.single("ika_file"), (req, res) => {
   const {
     name,
     lat,

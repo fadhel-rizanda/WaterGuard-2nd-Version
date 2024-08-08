@@ -164,7 +164,7 @@ export const MapDisplay = ({ getData, onUpdate, detailActive }) => {
         </MapContainer>
       </div>
       {detailActive && selectedData && (
-        <div className="flex flex-col justify-center items-center mt-10">
+        <div className="flex flex-col justify-center items-center m-10">
           <div className="w-fit rounded-3xl border-2 shadow-custom items-center p-7 pt-2 flex justify-center text-center sm:text-left">
             {selectedData.status === "verified" ? (
               <VerifiedDetail

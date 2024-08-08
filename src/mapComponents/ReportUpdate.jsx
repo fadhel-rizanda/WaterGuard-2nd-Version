@@ -44,7 +44,8 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     }
   };
 
-  const handleClose = () => {
+  const handleClose = (e) => {
+    e.preventDefault();
     setDeleteData(null);
   };
 
@@ -311,18 +312,18 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
           <div className="flex flex-col sm:flex-row gap-5 items-center">
             <div className="flex gap-5">
               <button
-                type="submit"
-                className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-200"
-              >
-                Report Update
-              </button>
-
-              <button
                 type="button"
                 className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200"
                 onClick={onClose}
               >
                 Cancel Update
+              </button>
+
+              <button
+                type="submit"
+                className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-200"
+              >
+                Report Update
               </button>
             </div>
 

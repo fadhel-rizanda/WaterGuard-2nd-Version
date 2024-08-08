@@ -17,6 +17,7 @@ export default {
           "url('/ASSET/image-background/view-transparent-crystal-water.jpg')",
         bgAbout:
           "url('/ASSET/image-background/digital-art-with-planet-earth.jpg')",
+        bgLogin: "url('/ASSET/image-background/2151587958.jpg')",
       },
       height: {
         custom: "450px",

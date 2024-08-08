@@ -4,32 +4,25 @@ import { CloseDisplay } from "../objects/CloseDisplay";
 
 export const VerificationDisplay = ({ selectedData, onClose }) => {
   const handleDownload = () => {
-    if (selectedData.ika_file && selectedData.file_extension) {
-      // Convert buffer array to a Uint8Array
+    if (selectedData.ika_file && selectedData.file_extension) {      
       const byteArray = new Uint8Array(selectedData.ika_file.data);
-
-      // Create a Blob from the byteArray
+      
       const blob = new Blob([byteArray], {
         type: `application/${selectedData.file_extension}`,
       });
 
-      // Create a temporary URL for the Blob
       const url = URL.createObjectURL(blob);
 
-      // Create a temporary anchor element
       const link = document.createElement("a");
       link.href = url;
-      link.download = `file.${selectedData.file_extension}`; // Adjust filename as needed
+      link.download = `file.${selectedData.file_extension}`;
 
-      // Append the link to the body and trigger a click to start the download
       document.body.appendChild(link);
       link.click();
 
-      // Cleanup
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     } else {
-      // Handle the case where the file data or extension is missing
       console.error("File data or file extension is missing.");
     }
   };

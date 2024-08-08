@@ -5,9 +5,11 @@ import homeLogo from "/ASSET/image-logo/home.png";
 import monitoringLogo from "/ASSET/image-logo/monitoring.png";
 import aboutLogo from "/ASSET/image-logo/about.png";
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-export const Navbar = () => {
+export const Navbar = ({ loggedUser }) => {
   const [hamburgerActive, setHamburgerActive] = useState(false);
+  
   const handleHamburger = () => {
     setHamburgerActive(!hamburgerActive);
   };
@@ -35,7 +37,7 @@ export const Navbar = () => {
               alt="WaterGuard Logo"
               className="w-10 lg:w-12 h-auto"
             />
-            <div className="text-2xl lg:text-3xl hover:font-semibold hover:text-gray-400 active:text-gray-300 font-light trasition ease-out duration-500">
+            <div className="text-2xl lg:text-3xl hover:font-semibold hover:text-gray-400 active:text-gray-300 font-light transition ease-out duration-500">
               WaterGuard
             </div>
           </div>
@@ -43,35 +45,39 @@ export const Navbar = () => {
 
         <div className="hidden md:flex gap-10">
           <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-100 active:text-gray-300">
-            <div className="hover:font-bold trasition ease-out duration-300">
+            <div className="hover:font-bold transition ease-out duration-300">
               Home
             </div>
           </div>
           <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-100 active:text-gray-300">
-            <div className="hover:font-bold trasition ease-out duration-300">
+            <div className="hover:font-bold transition ease-out duration-300">
               Monitoring
             </div>
           </div>
           <div className="cursor-pointer hover:text-gray-400 transition ease-out duration-100 active:text-gray-300">
-            <div className="hover:font-bold trasition ease-out duration-300">
+            <div className="hover:font-bold transition ease-out duration-300">
               About
             </div>
           </div>
         </div>
 
         <div className="flex gap-5 items-center w-1/3 justify-end">
+          {loggedUser !== null ? (
+            <div className="flex items-center gap-1 justify-end w-20 hover:pr-2 cursor-pointer hover:text-gray-400 active:text-gray-300 transition-padding duration-500 ease-out">
+              <img src={loginLogo} alt="Login Icon" className="w-5 h-5" />
+              <div className="hover:font-semibold hover:text-gray-400 active:text-gray-300 font-light transition ease-out duration-500">
+                Login
+              </div>
+            </div>
+          ) : (
+            <div>{loggedUser?.name || "Guest"}</div>
+          )}
           <img
             src={hamburgerLogo}
             alt="Hamburger Icon"
             className="w-7 hover:px-0 px-1 active:px-0 h-5 flex md:hidden active:bg-gray-300 rounded-xl cursor-pointer transition-padding duration-200 ease-out"
             onClick={handleHamburger}
           />
-          <div className="flex items-center gap-1 justify-end w-20 hover:pr-2 cursor-pointer hover:text-gray-400 active:text-gray-300 transition-padding duration-500 ease-out">
-            <img src={loginLogo} alt="Login Icon" className="w-5 h-5" />
-            <div className="hover:font-semibold hover:text-gray-400 active:text-gray-300 font-light trasition ease-out duration-500">
-              Login
-            </div>
-          </div>
         </div>
       </nav>
 
@@ -87,14 +93,20 @@ export const Navbar = () => {
           </div>
           <div className="cursor-pointer hover:text-gray-400 hover:pl-1 active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3 transition-padding duration-200 ease-out">
             <img src={monitoringLogo} alt="Monitoring Icon" className="w-8" />
-            <div className="">Monitoring</div>
+            <div>Monitoring</div>
           </div>
           <div className="cursor-pointer hover:text-gray-400 hover:pl-1 active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3 transition-padding duration-200 ease-out">
             <img src={aboutLogo} alt="About Icon" className="w-8" />
-            <div className="">About</div>
+            <div>About</div>
           </div>
         </div>
       </div>
     </>
   );
+};
+
+Navbar.propTypes = {
+  loggedUser: PropTypes.shape({
+    name: PropTypes.string,
+  }),
 };

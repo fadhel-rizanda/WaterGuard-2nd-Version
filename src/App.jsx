@@ -1,8 +1,9 @@
 import { Navbar } from "./objects/Navbar";
 import { Footer } from "./objects/Footer";
-// import Monitoring from "./pages/Monitoring";
 // import { Home } from "./pages/Home";
-import { About } from "./pages/About";
+// import { About } from "./pages/About";
+// import { Monitoring } from "./pages/Monitoring";
+import { LoginSignin } from "./pages/LoginSignin";
 
 export default function App() {
   return (
@@ -10,8 +11,9 @@ export default function App() {
       <Navbar />
       <div className="">
         {/* <Home /> */}
-        <About />
+        {/* <About /> */}
         {/* <Monitoring /> */}
+        <LoginSignin />
       </div>
       <Footer />
     </>

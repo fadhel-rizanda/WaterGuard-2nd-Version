@@ -2,7 +2,7 @@ import { MapContent } from "../mapComponents/MapContent";
 
 const Monitoring = () => {
   return (
-    <div className="pt-24">        
+    <div className="">        
       <MapContent />
     </div>
   );

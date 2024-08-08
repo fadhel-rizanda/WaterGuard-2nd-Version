@@ -57,7 +57,7 @@ export const AddData = ({ onUpdate, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const url = `http://localhost:8081/`;
+    const url = `http://localhost:8081/water-conditions`;
     const status = profesional ? "verified" : "unverified";
     const ika_score = profesional ? formData.ika_score : null;
 
@@ -100,7 +100,7 @@ export const AddData = ({ onUpdate, onClose }) => {
           <CloseDisplay onClose={onClose} />
 
           <div className="flex flex-col sm:flex-row justify-between pb-5 sm:text-2xl">
-            <div>Report Updated Information</div>
+            <div>Add New Information</div>
             <div className="flex gap-2 justify-center sm:justify-start items-center">
               <div className="font-light">{formattedTime}</div>
               {!profesional ? (
@@ -350,20 +350,20 @@ export const AddData = ({ onUpdate, onClose }) => {
             )}
             <div className="flex flex-col sm:flex-row gap-5 items-center">
               <div className="flex gap-5">
-                <button
-                  type="submit"
-                  className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-300"
-                >
-                  Report Update
-                </button>
-
-                <button
+              <button
                   type="button"
                   className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-300"
                   onClick={onClose}
                 >
-                  Cancel Update
+                  Cancel Additon
                 </button>
+
+                <button
+                  type="submit"
+                  className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-300"
+                >
+                  Add Data
+                </button>                
               </div>
             </div>
           </form>

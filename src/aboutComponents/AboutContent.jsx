@@ -20,7 +20,18 @@ export const AboutContent = () => {
           environment and a sustainable future for our community.
         </div>
       </div>
-
+      <div className="px-10 text-sm md:text-base md:px-16 xl:px-28 text-center shadow-custom py-14">
+        In the face of environmental challenges and the need to ensure public
+        health, attention to water quality has become increasingly important.
+        Clean water is essential not only for daily needs such as drinking and
+        cooking but also for supporting natural ecosystems and wildlife. Often,
+        we get caught up in our daily routines without realizing the critical
+        role water quality plays in our lives. That’s why understanding and
+        maintaining water quality is crucial for safeguarding our health and the
+        environment. WaterGuard is here to provide an innovative solution
+        designed to simplify the monitoring and protection of our water
+        resources, especially in Jakarta.
+      </div>
       {/* 2 */}
       <div className="flex py-16 pr-10 text-xs md:text-sm md:px-16 xl:px-28  gap-10 items-center">
         <img src={image1} alt="" className="md:w-2/5 rounded-xl flex w-0" />
@@ -51,7 +62,7 @@ export const AboutContent = () => {
           that contribute to a healthier, more resilient community.
         </div>
       </div>
-      <div className="px-10 text-sm md:px-16 xl:px-28 text-center shadow-custom py-14">
+      <div className="px-10 text-sm md:text-base md:px-16 xl:px-28 text-center shadow-custom py-14">
         At WaterGuard, we provide a powerful solution for efficient water
         quality management through our application. Designed with a robust set
         of features, WaterGuard allows users to easily perform Create, Read,
@@ -97,7 +108,7 @@ export const AboutContent = () => {
       </div>
 
       {/* 3 */}
-      <div className="flex flex-col h-fit gap-10 justify-center shadow-custom mx-10 md:mx-6 xl:mx-16 rounded-3xl pt-10 ">
+      <div className="flex flex-col h-fit gap-10 justify-center shadow-custom mb-40 md:mx-6 xl:mx-16 rounded-3xl py-10  sm:pb-20">
         <div className="flex flex-col justify-center items-center gap-5">
           <div className="flex justify-center items-center px-10">
             <div className="text-5xl md:text-8xl lg:text-9xl font-bold">
