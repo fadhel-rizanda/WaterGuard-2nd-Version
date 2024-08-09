@@ -53,6 +53,69 @@ app.post("/user-accounts", (req, res) => {
   });
 });
 
+// Update data
+app.put("/user-accounts/:id", (req, res) => {
+  const { id } = req.params;
+  const {
+    username,
+    email,
+    password,
+    phone_number,
+    gender,
+    date_of_birth,
+    role,
+    location_name,
+    location_lat,
+    location_lng,
+  } = req.body;
+
+  if (!username || !password || !email) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const checkSql = `SELECT id FROM user_accounts WHERE id = ?`;
+  db.query(checkSql, [id], (checkErr, results) => {
+    if (checkErr) {
+      console.error("Database error:", checkErr);
+      return res
+        .status(500)
+        .json({ error: "Failed to check record existence" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Record not found" });
+    }
+
+    const sql = `
+      UPDATE user_accounts
+      SET username = ?, email = ?, password = ?, phone_number = ?, gender = ?, date_of_birth = ?, role = ?, location_name = ?, location_lat = ?, location_lng = ?
+      WHERE id = ?`;
+
+    db.query(
+      sql,
+      [
+        username,
+        email,
+        password,
+        phone_number,
+        gender,
+        date_of_birth,
+        role,
+        location_name,
+        location_lat,
+        location_lng,
+        id,
+      ],
+      (err) => {
+        if (err) {
+          console.error("Database error:", err);
+          return res.status(500).json({ error: "Failed to update record" });
+        }
+        res.json({ success: "Record updated successfully" });
+      }
+    );
+  });
+});
+
 // =====================================================================================================
 
 // Get data water condition
@@ -222,6 +285,8 @@ app.delete("/user/:id", (req, res) => {
     res.json({ success: "Record deleted successfully" });
   });
 });
+
+// =====================================================================================================
 
 app.listen(8081, () => {
   console.log("Listening on port 8081");

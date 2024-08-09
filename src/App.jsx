@@ -3,7 +3,8 @@ import { Footer } from "./objects/Footer";
 // import { Home } from "./pages/Home";
 // import { About } from "./pages/About";
 // import { Monitoring } from "./pages/Monitoring";
-import { LoginSignin } from "./pages/LoginSignin";
+// import { LoginSignin } from "./pages/LoginSignin";
+import { UserProfile } from "./pages/UserProfile";
 
 export default function App() {
   return (
@@ -13,7 +14,8 @@ export default function App() {
         {/* <Home /> */}
         {/* <About /> */}
         {/* <Monitoring /> */}
-        <LoginSignin />
+        {/* <LoginSignin /> */}
+        <UserProfile/>
       </div>
       <Footer />
     </>

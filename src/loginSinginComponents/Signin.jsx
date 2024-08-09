@@ -55,20 +55,16 @@ export const Signin = () => {
         setLoading(false);
       });
   }, []);
-
   if (loading) {
     return <Loading />;
   }
-
   if (data.length === 0) {
     return <NoData />;
   }
 
   const findAccount = (e) => {
     e.preventDefault();
-
     const account = data.find((item) => item.username === formData.username);
-
     if (account !== undefined) {
       setErrorMessage("Username Already Used");
       setNoDataFound(true);
@@ -89,7 +85,6 @@ export const Signin = () => {
 
   const handleSubmit = () => {
     const url = `http://localhost:8081/user-accounts`;
-
     const insertedData = {
       username: formData.username,
       email: formData.email,
