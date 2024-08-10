@@ -6,22 +6,27 @@ export const EmailPersonal = () => {
   const [sendMail, setSendMail] = useState(false);
   const [copyEmail, setCopyEmail] = useState(false);
   const [enableCopyEmail, setEnableCopyEmail] = useState(true);
-  const [emailInput, setEmailInput] = useState("");
+  const [emailBodyInput, setEmailBodyInput] = useState("");
+  const [emailSubjectInput, setEmailSubjectInput] = useState("Water Guard: ");
   const [wrongInput, setWrongInput] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleEmailInput = () => {
-    const trimmedEmailInput = emailInput.trim();
-    const words = trimmedEmailInput.split(/\s+/);
+  const handleEmailBodyInput = () => {
+    const trimmedEmailBodyInput = emailBodyInput.trim();
+    const words = trimmedEmailBodyInput.split(/\s+/);
 
-    if (trimmedEmailInput === "") {
+    if (trimmedEmailBodyInput === "") {
       setWrongInput(true);
-      setErrorMessage("Cannot be null");
+      setErrorMessage("Body cannot be null");
     } else if (words.length < 100) {
       setWrongInput(true);
       setErrorMessage("Must be 100 words minimum");
     } else {
-      console.log(emailInput);
+      const subject = encodeURIComponent(emailSubjectInput);
+      const body = encodeURIComponent(emailBodyInput);
+      window.open(
+        `mailto:fadhelbaihaqir25@gmail.com?subject=${subject}&body=${body}`
+      );
       setWrongInput(false);
       setErrorMessage("");
       setSendMail(false);
@@ -31,7 +36,7 @@ export const EmailPersonal = () => {
   const handleSendMail = () => {
     setSendMail(!sendMail);
     setCopyEmail(!sendMail);
-    setEmailInput("");
+    handleClearText();
     setWrongInput(false);
   };
 
@@ -46,7 +51,8 @@ export const EmailPersonal = () => {
   };
 
   const handleClearText = () => {
-    setEmailInput("");
+    setEmailBodyInput("");
+    setEmailSubjectInput("Water Guard: ");
   };
 
   return (
@@ -54,8 +60,8 @@ export const EmailPersonal = () => {
       <div className="flex gap-5">
         <div
           onClick={handleSendMail}
-          className={`flex cursor-pointer hover:font-semibold hover:bg-gray-200 p-1 px-1.5 w-fit rounded-lg hover:shadow-custom items-center hover:ml-3 sm:hover:ml-5 transition-all ease-out duration-1000 group text-lg sm:text-xl font-light  ${
-            sendMail && "ml-5 font-semibold bg-gray-200 shadow-custom"
+          className={`flex cursor-pointer hover:font-semibold hover:bg-gray-200 p-1 px-1.5 w-fit rounded-lg hover:shadow-custom items-center hover:ml-3 sm:hover:ml-5 transition-all ease-out duration-1000 group text-lg sm:text-xl font-light ${
+            sendMail ? "ml-5 font-semibold bg-gray-200 shadow-custom" : ""
           }`}
         >
           <div className="flex gap-5">
@@ -70,7 +76,7 @@ export const EmailPersonal = () => {
               className={`text-sm text-gray-500 h-fit p-1 rounded-lg bg-gray-200 border-2 ${
                 enableCopyEmail
                   ? "hover:bg-gray-100 active:bg-gray-100"
-                  : "cursor-not-allowed opacity-50 "
+                  : "cursor-not-allowed opacity-50"
               }`}
               onClick={enableCopyEmail ? handleCopyEmail : undefined}
               disabled={!enableCopyEmail}
@@ -82,15 +88,24 @@ export const EmailPersonal = () => {
       </div>
 
       {sendMail && (
-        <div className="flex flex-col">
-          <textarea
-            id="email"
-            name="email"
-            value={emailInput}
-            rows="10"
-            onChange={(e) => setEmailInput(e.target.value)}
+        <div className="flex flex-col gap-2">
+          <input
             className="resize-none sm:ml-5 px-3 py-2 border border-gray-200 rounded-md shadow-custom focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            placeholder="Enter Text"
+            id="emailSubject"
+            name="emailSubject"
+            type="text"
+            value={emailSubjectInput}
+            onChange={(e) => setEmailSubjectInput(e.target.value)}
+            placeholder="Enter Subject"
+          />
+          <textarea
+            id="emailBody"
+            name="emailBody"
+            value={emailBodyInput}
+            rows="10"
+            onChange={(e) => setEmailBodyInput(e.target.value)}
+            className="resize-none sm:ml-5 px-3 py-2 border border-gray-200 rounded-md shadow-custom focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Enter Body"
             required
           ></textarea>
           <div className="flex justify-between p-5 pl-0 text-white">
@@ -122,7 +137,7 @@ export const EmailPersonal = () => {
                 Cancel
               </button>
               <button
-                onClick={handleEmailInput}
+                onClick={handleEmailBodyInput}
                 className="border-2 border-opacity-20 border-green-500 shadow-custom bg-green-500 py-2 w-20 rounded-r-xl hover:bg-green-200 hover:text-green-500 active:bg-green-50 transition ease-out duration-300"
               >
                 Send

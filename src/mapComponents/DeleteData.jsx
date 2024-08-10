@@ -24,7 +24,7 @@ export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
   };
 
   const deleteData = (dataID) => {
-    const url = `http://localhost:8081/user/${dataID}`; // Hapus ':'
+    const url = `http://localhost:8081/user/${dataID}`;
     fetch(url, {
       method: "DELETE",
       headers: {

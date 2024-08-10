@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { DeleteUserAccount } from "./DeleteUserAccount";
 import PropTypes from "prop-types";
 import passwordLogo from "/ASSET/image-logo/mdi--password.png";
 import passwordDisableLogo from "/ASSET/image-logo/mdi--passwordwhite.png";
@@ -8,14 +9,19 @@ import showDisableLogo from "/ASSET/image-logo/mdi--show-outline23.png";
 import hideDisableLogo from "/ASSET/image-logo/mdi--hide-outline23.png";
 import alertLogo from "/ASSET/image-logo/alert.png";
 import successLogo from "/ASSET/image-logo/success.png";
-import { DeleteUserAccount } from "./DeleteUserAccount";
 
-export const UserProfileContent = ({ selectedUser }) => {
+import logoutLogo from "/ASSET/image-logo/logout.png";
+import updateLogo from "/ASSET/image-logo/update.png";
+import deleteLogo from "/ASSET/image-logo/delete.png";
+
+export const UserProfileContent = ({ selectedUser, onLogout }) => {
   const [updateButton, setUpdateButton] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const timeoutRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [deleteButton, setDeleteButton] = useState(false);
+  const [logoutButton, setLogoutButton] = useState(false);
   const [formData, setFormData] = useState({
     username: selectedUser.username || "",
     email: selectedUser.email || "",
@@ -101,8 +107,8 @@ export const UserProfileContent = ({ selectedUser }) => {
     if (passwordError) {
       setErrorMessage(passwordError);
     } else if (
-      formData.phone_number.length < 10 ||
-      formData.phone_number.length > 15
+      formData.phone_number !== "" &&
+      (formData.phone_number.length < 10 || formData.phone_number.length > 15)
     ) {
       setErrorMessage("Phone number must be between 10 - 15 numbers");
     } else {
@@ -184,16 +190,14 @@ export const UserProfileContent = ({ selectedUser }) => {
     setErrorMessage("");
   };
 
-  const [deleteButton, setDeleteButton] = useState(false);
   const handleDeleteAccount = (e) => {
     e.preventDefault();
     setDeleteButton(!deleteButton);
   };
-  const [logoutButton, setLogoutButton] = useState(false);
-  const handleLogoutAccount = (e) => {
-    e.preventDefault();
+  const handleLogoutAccount = () => {
     setLogoutButton(!logoutButton);
     console.log("logout account");
+    onLogout();
   };
 
   return (
@@ -203,11 +207,11 @@ export const UserProfileContent = ({ selectedUser }) => {
 
         <form
           action=""
-          className="flex justify-between"
+          className="flex flex-wrap gap-10 justify-between"
           onSubmit={handleSubmit}
         >
           {/* left */}
-          <div className="w-1/2 px-5 flex flex-col gap-2">
+          <div className="w-full lg:w-1/2 px-5 flex flex-col gap-2">
             <div className="text-2xl font-semibold">Your profile</div>
             <div className="flex flex-col ">
               <label htmlFor="username" className="w-fit">
@@ -376,7 +380,7 @@ export const UserProfileContent = ({ selectedUser }) => {
           </div>
 
           {/* right */}
-          <div className="w-2/5 px-5 flex flex-col justify-between">
+          <div className="w-full lg:w-2/5 px-5 flex flex-col justify-between gap-10 lg:gap-0">
             <div className=" flex flex-col gap-2">
               <div className="text-2xl font-semibold">
                 Your Address Location
@@ -470,28 +474,30 @@ export const UserProfileContent = ({ selectedUser }) => {
                 <div className="">{errorMessage}</div>
               </div>
             )}
-
             <div className="flex w-full justify-center">
-              <div className="flex flex-wrap gap-5 justify-center">
+              <div className="flex gap-4 justify-center">
                 {!updateButton ? (
                   <>
                     <button
-                      className="text-start text-lg rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200 shadow-custom"
+                      className="flex flex-wrap justify-center items-center gap-1 h-fit text-start text-base rounded-xl text-white px-1.5 py-2.5 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200 shadow-custom"
                       onClick={handleUpdateProfile}
                     >
-                      Update Profile
+                      <img src={updateLogo} alt="" className="w-5" />
+                      <div className="text-center">Update Account</div>
                     </button>
                     <button
-                      className="text-start text-lg rounded-xl text-white p-2 mt-2 bg-gray-500 hover:bg-gray-400 active:bg-gray-300 trasition ease-out duration-200 shadow-custom"
+                      className="flex flex-wrap justify-center items-center gap-1 h-fit text-start text-base rounded-xl text-white px-1.5 py-2.5 bg-gray-500 hover:bg-gray-400 active:bg-gray-300 trasition ease-out duration-200 shadow-custom"
                       onClick={handleLogoutAccount}
                     >
-                      Logout Account
+                      <img src={logoutLogo} alt="" className="w-5" />
+                      <div className="text-center">Logout Account</div>
                     </button>
                     <button
-                      className="text-start text-lg rounded-xl text-white p-2 mt-2 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200 shadow-custom"
+                      className="flex flex-wrap justify-center items-center gap-1 h-fit text-start text-base rounded-xl text-white px-1.5 py-2.5 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200 shadow-custom"
                       onClick={handleDeleteAccount}
                     >
-                      Delete Account
+                      <img src={deleteLogo} alt="" className="w-5" />
+                      <div className="text-center">Delete Account</div>
                     </button>
                   </>
                 ) : (
@@ -513,7 +519,13 @@ export const UserProfileContent = ({ selectedUser }) => {
           </div>
         </form>
       </div>
-      {deleteButton&&<DeleteUserAccount onClose={handleDeleteAccount} />}
+      {deleteButton && (
+        <DeleteUserAccount
+          selectedUser={selectedUser}
+          onClose={handleDeleteAccount}
+          onLogout={handleLogoutAccount}
+        />
+      )}
     </div>
   );
 };
@@ -533,4 +545,5 @@ UserProfileContent.propTypes = {
     location_lat: PropTypes.number,
     location_lng: PropTypes.number,
   }),
+  onLogout: PropTypes.func,
 };

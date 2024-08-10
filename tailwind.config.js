@@ -19,6 +19,7 @@ export default {
           "url('/ASSET/image-background/digital-art-with-planet-earth.jpg')",
         bgLogin: "url('/ASSET/image-background/2151587958.jpg')",
         bgUserProfile: "url('/ASSET/image-background/2151587988.jpg')",
+        bgUserLogoutDelete: "url('/ASSET/image-background/2151529702.jpg')",
       },
       height: {
         custom: "450px",

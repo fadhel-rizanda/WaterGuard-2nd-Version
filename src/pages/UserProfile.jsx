@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { UserProfileContent } from "../userProfileComponents/UserProfileContent";
 import { Loading } from "../mapComponents/Loading";
 import { NoData } from "../mapComponents/NoData";
+import { UserLogoutDelete } from "../userProfileComponents/UserLogoutDelete";
 
 export const UserProfile = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [logedout, setLogedout] = useState(false);
 
   useEffect(() => {
     console.log("Fetching Data...");
@@ -20,9 +22,10 @@ export const UserProfile = () => {
       .then((data) => {
         if (Array.isArray(data)) {
           setData(data);
+          setLogedout(false);
         } else {
           console.error("Data is not an array:", data);
-          setData([]);
+          setData([]);          
         }
         setLoading(false);
       })
@@ -36,16 +39,25 @@ export const UserProfile = () => {
     return <Loading />;
   }
 
-  if (data.length === 0) {
+  if (data.length === 0 && !logedout ) {
     return <NoData />;
   }
 
-  // Ensure data[1] exists
   const selectedUser = data.length > 1 ? data[1] : {};
+
+  const handleLogout = () => {
+    setData([]);
+    window.alert("Account logged out");
+    setLogedout(true);
+  };
+
+  if (logedout) {
+    return <UserLogoutDelete />;
+  }
 
   return (
     <div className="pt-20 min-h-screen w-full bg-bgUserProfile bg-cover bg-center bg-no-repeat">
-      <UserProfileContent selectedUser={selectedUser} />
+      <UserProfileContent selectedUser={selectedUser} onLogout={handleLogout} />
     </div>
   );
 };

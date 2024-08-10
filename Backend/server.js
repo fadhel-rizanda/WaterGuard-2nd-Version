@@ -53,7 +53,7 @@ app.post("/user-accounts", (req, res) => {
   });
 });
 
-// Update data
+// Update data user account
 app.put("/user-accounts/:id", (req, res) => {
   const { id } = req.params;
   const {
@@ -113,6 +113,23 @@ app.put("/user-accounts/:id", (req, res) => {
         res.json({ success: "Record updated successfully" });
       }
     );
+  });
+});
+
+// Delete data user account
+app.delete("/user-accounts/:id", (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  const sql = `DELETE FROM user_accounts WHERE id = ?`;
+
+  db.query(sql, [id], (err) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Failed to delete record" });
+    }
+    res.json({ success: "Record deleted successfully" });
   });
 });
 
