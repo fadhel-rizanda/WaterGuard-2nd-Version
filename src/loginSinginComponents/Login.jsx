@@ -6,8 +6,9 @@ import hideLogo from "/ASSET/image-logo/image-logo-loginSingin/clarity--email-li
 import alertLogo from "/ASSET/image-logo/alert.png";
 import { Loading } from "../mapComponents/Loading";
 import { NoData } from "../mapComponents/NoData";
+import PropTypes from "prop-types";
 
-export const Login = () => {
+export const Login = ({ onDirect }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -18,23 +19,26 @@ export const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    console.log("Fetching Data...");
-    setLoading(true);
-    fetch("http://localhost:8081/userAccount")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setData(data);
+    const fetchData = async () => {
+      try {
+        console.log("Fetching Data...");
+        const response = await fetch("http://localhost:8081/userAccount");
+        const result = await response.json();
+
+        if (Array.isArray(result)) {
+          setData(result);
         } else {
-          console.error("Data is not an array:", data);
+          console.error("Data is not an array:", result);
           setData([]);
         }
+      } catch (error) {
+        console.error(error);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
   }, []);
 
   if (loading) {
@@ -47,18 +51,21 @@ export const Login = () => {
 
   const findAccount = (e) => {
     e.preventDefault();
-    const account = data.find((e) => e.username === username);
-    if (account !== undefined) {
+    const account = data.find((item) => item.username === username);
+    if (account) {
       if (account.password !== password) {
+        console.log(account.password)
+        console.log(password)
         setErrorMessage("Wrong Password");
         setNoDataFound(true);
-      } else {        
+      } else {
         setNoDataFound(false);
+        // handleLogin(account);
       }
-    }else{
+    } else {
       setErrorMessage("Account Not Found");
       setNoDataFound(true);
-    }    
+    }
   };
 
   const handleShow = (e) => {
@@ -84,25 +91,28 @@ export const Login = () => {
   };
 
   return (
-    <div className="h-full w-full flex justify-center items-center">
-      <div className="w-1/3 p-10 pb-16 rounded-3xl bg-white bg-opacity-10 border-2 backdrop-blur-md flex flex-col gap-8">
-        <div className="text-6xl font-semibold flex justify-center text-white">
+    <div className="h-full w-full flex justify-center items-center py-20">
+      <div className="lg:w-1/3 p-10 pb-16 rounded-3xl bg-white bg-opacity-10 border-2 backdrop-blur-md flex flex-col gap-8">
+        <div className="text-6xl text-shadow font-semibold flex justify-center text-white">
           Login
         </div>
 
-        <form className="flex flex-col gap-8 w-full justify-center items-center" onSubmit={findAccount}>
+        <form
+          className="flex flex-col gap-8 w-full justify-center items-center"
+          onSubmit={findAccount}
+        >
           <div className="flex gap-1 border-2 w-full justify-center items-center rounded-full pr-3 bg-opacity-0 focus-within:shadow-custom">
             <input
               type="text"
               name="Username"
-              id="Username"              
+              id="Username"
               placeholder="Username"
               required
               onChange={(e) => setUsername(e.target.value)}
               className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
             />
             <label htmlFor="Username">
-              <img src={usernameLogo} alt="" className="w-5 h-5" />
+              <img src={usernameLogo} alt="Username Icon" className="w-5 h-5" />
             </label>
           </div>
 
@@ -114,7 +124,7 @@ export const Login = () => {
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              id="password"              
+              id="password"
               placeholder="Password"
               required
               onChange={(e) => setPassword(e.target.value)}
@@ -128,20 +138,24 @@ export const Login = () => {
               >
                 <img
                   src={showPassword ? hideLogo : showLogo}
-                  alt=""
+                  alt={showPassword ? "Hide Password" : "Show Password"}
                   className="w-5 h-5"
                 />
               </button>
             )}
             {password.trim() === "" && (
               <label htmlFor="password">
-                <img src={passwordLogo} alt="" className="w-5 h-5" />
+                <img
+                  src={passwordLogo}
+                  alt="Password Icon"
+                  className="w-5 h-5"
+                />
               </label>
             )}
           </div>
 
-          <div className="w-full flex justify-between items-center text-white">
-            <div className=" flex gap-2 items-center cursor-pointer font-light hover:font-semibold active:font-semibold hover:text-gray-300 active:text-gray-400 transition-all ease-out duration-300">
+          <div className="w-full flex flex-col xl:flex-row gap-2 justify-between items-center text-white">
+            <div className="flex gap-2 items-center cursor-pointer font-light hover:font-semibold active:font-semibold hover:text-gray-300 active:text-gray-400 transition-all ease-out duration-300">
               <input
                 type="checkbox"
                 name="rememberMe"
@@ -158,30 +172,34 @@ export const Login = () => {
           </div>
 
           <button
-            className="flex justify-center w-full bg-white p-2.5 rounded-full font-bold hover:bg-gray-300 active:bg-gray-400 transition-all ease-out duration-300" type="submit"
-            
+            className="flex justify-center w-full bg-white p-2.5 rounded-full font-bold hover:bg-gray-300 active:bg-gray-400 transition-all ease-out duration-300"
+            type="submit"
           >
             Login
           </button>
 
           {noDataFound && (
             <div className="flex items-center gap-2 text-red-500 text-xl font-black">
-              <img src={alertLogo} alt="" className="w-6 h-6" />
-              <div className="">{errorMessage}</div>
+              <img src={alertLogo} alt="Alert Icon" className="w-6 h-6" />
+              <div>{errorMessage}</div>
             </div>
           )}
 
           <div className="text-white">
             Don{"'"}t have an account?{" "}
-            <a
-              href=""
+            <button
+              onClick={onDirect}
               className="font-semibold hover:text-gray-300 active:text-gray-500 transition-all ease-out duration-500"
             >
               Register
-            </a>
+            </button>
           </div>
         </form>
       </div>
     </div>
   );
+};
+
+Login.propTypes = {
+  onDirect: PropTypes.func,
 };

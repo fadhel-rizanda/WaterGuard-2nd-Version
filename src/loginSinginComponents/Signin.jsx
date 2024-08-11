@@ -8,8 +8,9 @@ import hideLogo from "/ASSET/image-logo/image-logo-loginSingin/clarity--email-li
 import alertLogo from "/ASSET/image-logo/alert.png";
 import { Loading } from "../mapComponents/Loading";
 import { NoData } from "../mapComponents/NoData";
+import PropTypes from "prop-types";
 
-export const Signin = () => {
+export const Signin = ({ onDirect }) => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -55,6 +56,7 @@ export const Signin = () => {
         setLoading(false);
       });
   }, []);
+
   if (loading) {
     return <Loading />;
   }
@@ -199,9 +201,9 @@ export const Signin = () => {
 
   return (
     <div className="h-full w-full py-20 flex justify-center items-center">
-      <div className="w-1/3 p-10 pb-16 rounded-3xl bg-white bg-opacity-10 border-2 backdrop-blur-md flex flex-col gap-8">
+      <div className="lg:w-1/3 p-10 pb-16 rounded-3xl bg-white bg-opacity-10 border-2 backdrop-blur-md flex flex-col gap-8">
         <div className="flex flex-col justify-center items-center gap-2">
-          <div className="text-6xl font-semibold flex justify-center text-white">
+          <div className="text-6xl text-shadow font-semibold flex justify-center text-white">
             Signin
           </div>
           <div className="text-white">Create Your Own Account</div>
@@ -343,15 +345,19 @@ export const Signin = () => {
 
           <div className="text-white">
             Already have an account?{" "}
-            <a
-              href=""
+            <button
+              onClick={onDirect}
               className="font-semibold hover:text-gray-300 active:text-gray-500 transition-all ease-out duration-500"
             >
-              Register
-            </a>
+              Login
+            </button>
           </div>
         </form>
       </div>
     </div>
   );
+};
+
+Signin.propTypes = {
+  onDirect: PropTypes.func,
 };

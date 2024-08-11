@@ -1,11 +1,8 @@
 import { MapContent } from "../mapComponents/MapContent";
-
-const Monitoring = () => {
+export const Monitoring = () => {
   return (
-    <div className="">        
+    <>
       <MapContent />
-    </div>
+    </>
   );
 };
-
-export default Monitoring;

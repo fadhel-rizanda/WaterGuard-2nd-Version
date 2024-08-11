@@ -42,7 +42,7 @@ app.post("/user-accounts", (req, res) => {
 
   const sql = `
   INSERT INTO user_accounts (
-    username, password, email) VALUES (?, ?, ?);`;
+    username, email, password) VALUES (?, ?, ?);`;
 
   db.query(sql, [username, email, password], (err) => {
     if (err) {
