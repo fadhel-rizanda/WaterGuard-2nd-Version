@@ -3,10 +3,13 @@ import { FirstSection } from "../homeComponents/FirstSection";
 import { SecondSection } from "../homeComponents/SecondSection";
 import { NoData } from "../mapComponents/NoData";
 import { Loading } from "../mapComponents/Loading";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export const Home = () => {
-  const userLat = -6.2197; // bikin jd props
-  const userLng = 107; // bikin jd props
+  const { user } = useAuthContext();
+  const [userLat, setUserLat] = useState(user?.location_lat || -6.2197);
+  const [userLng, setUserLng] = useState(user?.location_lng || 107);
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
@@ -29,6 +32,10 @@ export const Home = () => {
             (item) => item.lat === userLat && item.lng === userLng
           );
           setUserData(relevantData || null);
+          if (data === null) {
+            setUserLat(-6.2197);
+            setUserLng(107);
+          }
         } else {
           console.error("Data is not an array:", data);
           setData([]);

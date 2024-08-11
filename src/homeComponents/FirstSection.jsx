@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export const FirstSection = ({ getData }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -72,7 +74,10 @@ export const FirstSection = ({ getData }) => {
           </div>
 
           <div className="flex gap-5 md:text-xl items-start">
-            <Link to={"/monitoring"} className="bg-white text-black hover:bg-opacity-80 active:bg-opacity-80 flex items-center font-light hover:font-semibold shadow-custom py-1 sm:py-2 pl-1 pr-2 rounded-xl trasition ease-out duration-500 group border-2 border-white">
+            <Link
+              to={"/monitoring"}
+              className="bg-white text-black hover:bg-opacity-80 active:bg-opacity-80 flex items-center font-light hover:font-semibold shadow-custom py-1 sm:py-2 pl-1 pr-2 rounded-xl trasition ease-out duration-500 group border-2 border-white"
+            >
               <img
                 src={monitoringLogo}
                 alt=""
@@ -80,14 +85,26 @@ export const FirstSection = ({ getData }) => {
               />
               Start Monitoring
             </Link>
-            <Link to={"/loginSignin"} className="bg-white text-black hover:bg-opacity-80 active:bg-opacity-80 flex items-center font-light hover:font-semibold shadow-custom py-1 sm:py-2 pl-1 pr-2 rounded-xl trasition ease-out duration-500 group border-2 border-white">
-              <img
-                src={loginLogo}
-                alt=""
-                className="group-hover:w-9 w-7 trasition ease-out duration-500"
-              />
-              Login
-            </Link>
+            {user ? (
+              <Link
+                to={"/userProfile"}
+                className="bg-blue-400 text-white hover:bg-opacity-80 active:bg-opacity-80 flex items-center font-light hover:font-semibold shadow-custom py-1 sm:py-2 pl-1 pr-2 rounded-xl trasition ease-out duration-500 group border-2 border-blue-400"
+              >
+                {user.username}
+              </Link>
+            ) : (
+              <Link
+                to={"/loginSignin"}
+                className="bg-white text-black hover:bg-opacity-80 active:bg-opacity-80 flex items-center font-light hover:font-semibold shadow-custom py-1 sm:py-2 pl-1 pr-2 rounded-xl trasition ease-out duration-500 group border-2 border-white"
+              >
+                <img
+                  src={loginLogo}
+                  alt=""
+                  className="group-hover:w-9 w-7 trasition ease-out duration-500"
+                />
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </div>

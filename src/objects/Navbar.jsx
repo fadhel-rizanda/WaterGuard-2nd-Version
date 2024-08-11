@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import appLogo from "/ASSET/image-logo/waterGuard.png";
 import loginLogo from "/ASSET/image-logo/login.png";
 import hamburgerLogo from "/ASSET/image-logo/hamburger.png";
@@ -7,9 +6,11 @@ import monitoringLogo from "/ASSET/image-logo/monitoring.png";
 import aboutLogo from "/ASSET/image-logo/about.png";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-export const Navbar = ({ loggedUser }) => {
+export const Navbar = () => {
   const [hamburgerActive, setHamburgerActive] = useState(false);
+  const { user } = useAuthContext();
 
   const handleHamburger = () => {
     setHamburgerActive(!hamburgerActive);
@@ -71,19 +72,19 @@ export const Navbar = ({ loggedUser }) => {
 
         <div className="flex gap-5 items-center w-1/3 justify-end">
           <div className="flex justify-end w-28 hover:pr-2 group transition-all duration-500 ease-out">
-            {loggedUser ? (
+            {user ? (
               <Link
-                to={"userProfile"}
+                to={"/userProfile"}
                 onClick={() => setHamburgerActive(false)}
                 className="flex items-center gap-1 hover:pr-2 cursor-pointer transition-all duration-500 ease-out"
               >
                 <div className="flex items-center gap-1 group-hover:font-semibold group-hover:text-gray-400 active:text-gray-300 font-light transition-all duration-500">
-                  <span>{loggedUser.username}</span>
+                  <span>{user.username}</span>
                 </div>
               </Link>
             ) : (
               <Link
-                to={"loginSignin"}
+                to={"/loginSignin"}
                 onClick={() => setHamburgerActive(false)}
                 className="flex items-center gap-1 hover:pr-2 cursor-pointer transition-all duration-500 ease-out"
               >
@@ -138,10 +139,4 @@ export const Navbar = ({ loggedUser }) => {
       </div>
     </>
   );
-};
-
-Navbar.propTypes = {
-  loggedUser: PropTypes.shape({
-    username: PropTypes.string,
-  }),
 };

@@ -9,8 +9,18 @@ import alertLogo from "/ASSET/image-logo/alert.png";
 import { Loading } from "../mapComponents/Loading";
 import { NoData } from "../mapComponents/NoData";
 import PropTypes from "prop-types";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const Signin = ({ onDirect }) => {
+  const navigate = useNavigate();
+  const { dispatch } = useAuthContext();
+
+  const handleLogin = () => {
+    dispatch({ type: "LOGIN", payload: formData });
+    navigate("/");
+  };
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -81,6 +91,7 @@ export const Signin = ({ onDirect }) => {
       } else {
         setNoDataFound(false);
         handleSubmit();
+        handleLogin();
       }
     }
   };

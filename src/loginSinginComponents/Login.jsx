@@ -7,8 +7,17 @@ import alertLogo from "/ASSET/image-logo/alert.png";
 import { Loading } from "../mapComponents/Loading";
 import { NoData } from "../mapComponents/NoData";
 import PropTypes from "prop-types";
-
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
 export const Login = ({ onDirect }) => {
+  const navigate = useNavigate();
+  const { dispatch } = useAuthContext();
+
+  const handleLogin = (formData) => {
+    dispatch({ type: "LOGIN", payload: formData });
+    navigate("/");
+  };
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -54,13 +63,14 @@ export const Login = ({ onDirect }) => {
     const account = data.find((item) => item.username === username);
     if (account) {
       if (account.password !== password) {
-        console.log(account.password)
-        console.log(password)
+        console.log(account.password);
+        console.log(password);
         setErrorMessage("Wrong Password");
         setNoDataFound(true);
       } else {
         setNoDataFound(false);
         // handleLogin(account);
+        handleLogin(account);
       }
     } else {
       setErrorMessage("Account Not Found");

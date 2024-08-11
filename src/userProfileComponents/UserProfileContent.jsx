@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { DeleteUserAccount } from "./DeleteUserAccount";
-import PropTypes from "prop-types";
 import passwordLogo from "/ASSET/image-logo/mdi--password.png";
 import passwordDisableLogo from "/ASSET/image-logo/mdi--passwordwhite.png";
 import showLogo from "/ASSET/image-logo/mdi--show-outline.png";
@@ -14,7 +13,23 @@ import logoutLogo from "/ASSET/image-logo/logout.png";
 import updateLogo from "/ASSET/image-logo/update.png";
 import deleteLogo from "/ASSET/image-logo/delete.png";
 
-export const UserProfileContent = ({ selectedUser, onLogout }) => {
+import { useNavigate } from "react-router-dom";
+
+import { useAuthContext } from "../hooks/useAuthContext";
+
+export const UserProfileContent = () => {
+  const navigate = useNavigate();
+  const { user, dispatch } = useAuthContext();
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/")
+  };
+  const handleLogin = () => {
+    dispatch({ type: "LOGIN", payload: formData });
+    navigate("/")
+  };
+
   const [updateButton, setUpdateButton] = useState(false);
   const [successUpdate, setSuccessUpdate] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -23,16 +38,16 @@ export const UserProfileContent = ({ selectedUser, onLogout }) => {
   const [deleteButton, setDeleteButton] = useState(false);
   const [logoutButton, setLogoutButton] = useState(false);
   const [formData, setFormData] = useState({
-    username: selectedUser.username || "",
-    email: selectedUser.email || "",
-    password: selectedUser.password || "",
-    phone_number: selectedUser.phone_number || "",
-    gender: selectedUser.gender || "",
-    date_of_birth: selectedUser.date_of_birth || "",
-    role: selectedUser.role || "",
-    location_name: selectedUser.location_name || "",
-    location_lat: selectedUser.location_lat || "",
-    location_lng: selectedUser.location_lng || "",
+    username: user.username || "",
+    email: user.email || "",
+    password: user.password || "",
+    phone_number: user.phone_number || "",
+    gender: user.gender || "",
+    date_of_birth: user.date_of_birth || "",
+    role: user.role || "",
+    location_name: user.location_name || "",
+    location_lat: user.location_lat || "",
+    location_lng: user.location_lng || "",
   });
 
   const handleChangeInput = (e) => {
@@ -118,7 +133,7 @@ export const UserProfileContent = ({ selectedUser, onLogout }) => {
   };
 
   const handleUpdate = () => {
-    const url = `http://localhost:8081/user-accounts/${selectedUser.id}`;
+    const url = `http://localhost:8081/user-accounts/${user.id}`;
     const phone_number = formData.phone_number || null;
     const gender = formData.gender || null;
     const date_of_birth = formData.date_of_birth || null;
@@ -158,6 +173,7 @@ export const UserProfileContent = ({ selectedUser, onLogout }) => {
         setErrorMessage("");
         handleSuccessActive();
         setUpdateButton(false);
+        handleLogin();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -175,16 +191,16 @@ export const UserProfileContent = ({ selectedUser, onLogout }) => {
   const handleCancelUpdate = (e) => {
     e.preventDefault();
     setFormData({
-      username: selectedUser.username || "",
-      email: selectedUser.email || "",
-      password: selectedUser.password || "",
-      phone_number: selectedUser.phone_number || "",
-      gender: selectedUser.gender || "",
-      date_of_birth: selectedUser.date_of_birth || "",
-      role: selectedUser.role || "",
-      location_name: selectedUser.location_name || "",
-      location_lat: selectedUser.location_lat || "",
-      location_lng: selectedUser.location_lng || "",
+      username: user.username || "",
+      email: user.email || "",
+      password: user.password || "",
+      phone_number: user.phone_number || "",
+      gender: user.gender || "",
+      date_of_birth: user.date_of_birth || "",
+      role: user.role || "",
+      location_name: user.location_name || "",
+      location_lat: user.location_lat || "",
+      location_lng: user.location_lng || "",
     });
     handleUpdateProfile();
     setErrorMessage("");
@@ -194,10 +210,10 @@ export const UserProfileContent = ({ selectedUser, onLogout }) => {
     e.preventDefault();
     setDeleteButton(!deleteButton);
   };
+
   const handleLogoutAccount = () => {
-    setLogoutButton(!logoutButton);
-    console.log("logout account");
-    onLogout();
+    setLogoutButton(!logoutButton);    
+    handleLogout();
   };
 
   return (
@@ -521,29 +537,11 @@ export const UserProfileContent = ({ selectedUser, onLogout }) => {
       </div>
       {deleteButton && (
         <DeleteUserAccount
-          selectedUser={selectedUser}
+          selectedUser={user}
           onClose={handleDeleteAccount}
           onLogout={handleLogoutAccount}
         />
       )}
     </div>
   );
-};
-
-UserProfileContent.propTypes = {
-  selectedUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-
-    username: PropTypes.string,
-    email: PropTypes.string,
-    password: PropTypes.string,
-    phone_number: PropTypes.string,
-    gender: PropTypes.string,
-    date_of_birth: PropTypes.string,
-    role: PropTypes.string,
-    location_name: PropTypes.string,
-    location_lat: PropTypes.number,
-    location_lng: PropTypes.number,
-  }),
-  onLogout: PropTypes.func,
 };

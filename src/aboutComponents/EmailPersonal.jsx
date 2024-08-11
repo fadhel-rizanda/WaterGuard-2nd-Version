@@ -1,8 +1,10 @@
 import { useState } from "react";
 import imageEmail from "/ASSET/image-logo/image-logo-software/gmailContact.png";
 import alertLogo from "/ASSET/image-logo/alert.png";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export const EmailPersonal = () => {
+  const { user } = useAuthContext();
   const [sendMail, setSendMail] = useState(false);
   const [copyEmail, setCopyEmail] = useState(false);
   const [enableCopyEmail, setEnableCopyEmail] = useState(true);
@@ -52,7 +54,7 @@ export const EmailPersonal = () => {
 
   const handleClearText = () => {
     setEmailBodyInput("");
-    setEmailSubjectInput("Water Guard: ");
+    setEmailSubjectInput(`Water Guard: ${user.username}`);
   };
 
   return (

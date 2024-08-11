@@ -5,19 +5,30 @@ import alertLogo from "/ASSET/image-logo/alert.png";
 import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
 import showLogo from "/ASSET/image-logo/mdi--show-outline.png";
 import hideLogo from "/ASSET/image-logo/mdi--hide-outline.png";
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
 
-export const DeleteUserAccount = ({ selectedUser, onClose, onLogout }) => {
+export const DeleteUserAccount = ({ onClose }) => {
+  const { user, dispatch } = useAuthContext();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/");
+  };
+
   const [passwordDelete, setPasswordDelete] = useState("");
   const [wrongPasswordDelete, setWrongPasswordDelete] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const timeoutRef = useRef(null);
 
   const verifyText = () => {
-    if (passwordDelete !== selectedUser.password) {
+    if (passwordDelete !== user.password) {
       setWrongPasswordDelete(true);
     } else {
       setWrongPasswordDelete(false);
-      deleteData(selectedUser.id);
+      handleLogout();
+      deleteData(user.id);
     }
   };
 
@@ -39,8 +50,6 @@ export const DeleteUserAccount = ({ selectedUser, onClose, onLogout }) => {
       })
       .then((data) => {
         console.log("Success:", data);
-        onClose();
-        onLogout();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -75,7 +84,7 @@ export const DeleteUserAccount = ({ selectedUser, onClose, onLogout }) => {
           Are you sure you want to delete this account?
           <div>
             &quot;
-            {selectedUser.username}
+            {user.username}
             &quot;
           </div>
           <span className="font-extralight text-sm sm:text-lg">
@@ -94,7 +103,7 @@ export const DeleteUserAccount = ({ selectedUser, onClose, onLogout }) => {
               placeholder="Enter Password"
               className="bg-white w-full focus:outline-none"
             />
-            {selectedUser.password.trim() !== "" && (
+            {user.password.trim() !== "" && (
               <button
                 onClick={showPassword ? handleHide : handleShow}
                 type="button"
@@ -140,11 +149,5 @@ export const DeleteUserAccount = ({ selectedUser, onClose, onLogout }) => {
 };
 
 DeleteUserAccount.propTypes = {
-  selectedUser: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    username: PropTypes.string.isRequired,
-    password: PropTypes.string.isRequired,
-  }).isRequired,
   onClose: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
 };
