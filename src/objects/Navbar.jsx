@@ -71,7 +71,7 @@ export const Navbar = () => {
         </div>
 
         <div className="flex gap-5 items-center w-1/3 justify-end">
-          <div className="flex justify-end w-28 hover:pr-2 group transition-all duration-500 ease-out">
+          <div className="flex justify-end hover:pr-2 group transition-all duration-500 ease-out">
             {user ? (
               <Link
                 to={"/userProfile"}

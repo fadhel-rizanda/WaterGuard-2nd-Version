@@ -354,11 +354,12 @@ export const Signin = ({ onDirect }) => {
             )}
           </div>
 
-          <div className="text-white">
+          <div className="text-white font-light">
             Already have an account?{" "}
             <button
+            type="button"
               onClick={onDirect}
-              className="font-semibold hover:text-gray-300 active:text-gray-500 transition-all ease-out duration-500"
+              className="font-semibold hover:font-black hover:text-gray-300 active:text-gray-500 transition-all ease-out duration-500"
             >
               Login
             </button>

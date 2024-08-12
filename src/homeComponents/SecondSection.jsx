@@ -13,6 +13,9 @@ import { IndicatorFile } from "./IndicatorFile";
 
 import image1 from "/ASSET/image-background/realistic-drop-with-ecosystem.jpg";
 import image2 from "/ASSET/image-background/realistic-water-drop-with-ecosystem (1).jpg";
+import image3 from "/ASSET/image-background/1579.jpg";
+import image4 from "/ASSET/image-background/7165.jpg";
+import image5 from "/ASSET/image-background/12980932_5113470.png";
 
 import PropTypes from "prop-types";
 
@@ -51,7 +54,7 @@ export const SecondSection = ({ getData, onUpdate }) => {
           </div>
         </div>
 
-        <div className="px-10 text-sm md:px-16 xl:px-28 text-center shadow-custom py-14 lg:py-20">
+        <div className="px-10 text-sm md:px-16 xl:px-28 text-center shadow-custom py-20">
           At WaterGuard, we provide a powerful solution for efficient water
           quality management through our application. Designed with a robust set
           of features, WaterGuard allows users to easily perform Create, Read,
@@ -100,9 +103,9 @@ export const SecondSection = ({ getData, onUpdate }) => {
         </div>
 
         {/* display map */}
-        <div className="flex flex-col w-full justify-center items-center shadow-custom">
+        <div className="flex flex-col w-full py-7 bg-gradient-to-r  from-teal-300 via-blue-300 to-teal-300 ">
           <div className="h-3"></div>
-          <div className="w-full flex h-80 sm:h-96 flex-col justify-center">
+          <div className="w-full flex h-96 flex-col justify-center">
             <MapDisplay
               getData={getData}
               onUpdate={onUpdate}
@@ -111,8 +114,8 @@ export const SecondSection = ({ getData, onUpdate }) => {
           </div>
           <div className="h-3"></div>
         </div>
-        <div className="flex items-center py-14 lg:py-20 px-10 lg:px-20 border-y-2 w-full shadow-custom">
-          <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-10 items-center py-14 lg:py-20  border-y-2 w-full shadow-custom">
+          <div className="flex flex-col gap-5 px-10 lg:px-20">
             <div className="md:text-xl md:font-light">
               The IKA Score measures water quality based on contamination
               levels. Higher scores indicate cleaner water, while lower scores
@@ -158,6 +161,84 @@ export const SecondSection = ({ getData, onUpdate }) => {
                 }
               />
             </div>
+          </div>
+          <div className="w-full flex flex-col gap-5 md:gap-10 xl:gap-16 lg:gap-20 lg:mt-10">
+            <div className="flex justify-start">
+              <div className="flex justify-between items-center">
+                <div className="lg:w-2/3 h-fit p-5 mr-10 pl-2 lg:p-10 lg:pr-20 shadow-custom rounded-r-3xl lg:rounded-r-full lg:text-center bg-gradient-to-r from-blue-400 to-teal-400 text-white">
+                  In Indonesia, the Indicator of Water Quality (IKA) is used to
+                  measure water pollution levels and assess water quality
+                  effectively. This system categorizes water quality based on
+                  the IKA score, where water with a score above 70 is considered
+                  very clean and meets safety standards, making it suitable for
+                  all uses. A score between 60 and 70 indicates generally
+                  acceptable quality, still usable with some caution, but
+                  requires regular monitoring to maintain good quality. Regular
+                  testing and maintenance of water sources are essential to
+                  ensure that water remains within these acceptable ranges.
+                  Meanwhile, a score between 50 and 60 signifies light
+                  pollution, meaning the water is usable but requires efforts to
+                  mitigate health risks. It is important to address sources of
+                  contamination to improve water quality and prevent further
+                  degradation.
+                </div>
+                <img
+                  src={image3}
+                  alt=""
+                  className="md:w-1/4 rounded-xl lg:flex hidden xl:mr-20 md:mr-10"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <div className="flex lg:justify-between justify-end items-center">
+                <img
+                  src={image4}
+                  alt=""
+                  className="md:w-1/4 rounded-xl lg:flex hidden xl:ml-20 md:ml-10"
+                />
+
+                <div className="lg:w-2/3 h-fit p-5 ml-10 pr-2 lg:p-10 lg:pl-20 shadow-custom rounded-l-3xl lg:rounded-l-full text-end lg:text-center bg-gradient-to-r from-teal-400 to-blue-400 text-white">
+                  An IKA score between 30 and 50 reflects moderate pollution,
+                  with a significant level of contamination that needs immediate
+                  action to reduce risks. Water with a score below 30 is heavily
+                  polluted, posing serious health risks and requiring urgent
+                  remediation. Prompt intervention is critical to protect public
+                  health and restore water quality. In water monitoring
+                  applications, IKA assessment is crucial for providing clear
+                  information about water quality, prompting corrective actions,
+                  and ensuring effective monitoring through technologies such as
+                  real-time quality sensors for accurate readings. Implementing
+                  these technologies helps in timely detection and management of
+                  water quality issues, ensuring safer water for communities.
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-center">
+              <div className="lg:w-4/5 text-center shadow-custom p-5 mx-5 lg:p-10 lg:px-20 rounded-3xl lg:rounded-full bg-gradient-to-r  from-blue-400 via-teal-400 to-blue-400 text-white">
+                Effective water quality management relies on combining accurate
+                IKA assessments with proactive measures to address pollution and
+                implement remediation strategies. Continuous monitoring
+                technologies are crucial, providing real-time data that enables
+                prompt detection of contamination and timely interventions to
+                prevent health risks and maintain safe water standards. Clear
+                protocols and action plans must be established to manage varying
+                IKA scores, ensuring swift responses to moderate and severe
+                pollution. Alongside technological advancements, community
+                awareness and engagement are vital. Educating the public on
+                water conservation and pollution prevention fosters responsible
+                behavior and supports local water protection initiatives. By
+                integrating real-time monitoring, prompt action, public
+                involvement, and sustainable practices, authorities and
+                organizations can enhance water quality management, leading to
+                cleaner, safer water and a healthier environment for all.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <div className="w-4/5 flex justify-between">
+            <img src={image5} alt="" className="w-2/5" />
+            <div className="w-3/5 flex justify-center">Contacts</div>
           </div>
         </div>
         <FAQContent />

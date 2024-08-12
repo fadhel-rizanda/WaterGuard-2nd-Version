@@ -60,7 +60,7 @@ export const Home = () => {
   return (
     <div className="">
       {/* first section */}
-      <FirstSection getData={userData} />
+      <FirstSection getData={userData} updateData={handleUpdate} />
 
       {/* second section */}
       <SecondSection getData={data} onUpdate={handleUpdate} />

@@ -73,6 +73,13 @@ export const UserProfileContent = () => {
       setShowPassword(false);
     }, 5000);
   };
+  const handleHide = (e) => {
+    e.preventDefault();
+    setShowPassword(false);
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
 
   const handleSuccessActive = () => {
     setSuccessUpdate(true);
@@ -84,14 +91,6 @@ export const UserProfileContent = () => {
       setSuccessUpdate(false);
       setErrorMessage("");
     }, 5000);
-  };
-
-  const handleHide = (e) => {
-    e.preventDefault();
-    setShowPassword(false);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
   };
 
   // ab!a1A12
