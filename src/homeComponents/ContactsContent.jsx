@@ -8,7 +8,7 @@ import image5 from "/ASSET/image-background/12980932_5113470.png";
 
 export const ContactsContent = () => {
   return (
-    <div className="flex justify-center px-20 py-10 lg:py-0 hover:pr-24 transition-all ease-out duration-500">
+    <div className="flex justify-center px-20 py-10 lg:py-0">
       <div className="flex justify-center gap-8">
         <div className="flex w-3/5 flex-col">
           <img src={image5} alt="" className="w-full" />
@@ -22,7 +22,7 @@ export const ContactsContent = () => {
             Contact Us
           </div>
           <div className="flex flex-col font-light md:text-xl xl:text-2xl 2xl:text-3xl gap-3">
-            <div className="w-fit hover:font-bold">
+            <div className="w-fit sm:w-16 xl:w-20 hover:font-bold">
               <FooterLogo logo={emailLogo} value={"WaterGuard@gmail.com"} />
             </div>
             <div className="w-fit hover:font-bold">

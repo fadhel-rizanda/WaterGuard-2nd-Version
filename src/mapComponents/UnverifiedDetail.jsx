@@ -23,7 +23,6 @@ export const UnverifiedDetail = ({ selectedData, onClose, onUpdate }) => {
             selectedData={selectedData}
             onClose={() => {
               setShowReportUpdate(false);
-              handleUpdate();
             }}
             onUpdate={handleUpdate}
           />

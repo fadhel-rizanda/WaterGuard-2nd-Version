@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DeleteUserAccount } from "./DeleteUserAccount";
 import passwordLogo from "/ASSET/image-logo/mdi--password.png";
 import passwordDisableLogo from "/ASSET/image-logo/mdi--passwordwhite.png";
@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 
 import { useAuthContext } from "../hooks/useAuthContext";
 
+import { UpdateRole } from "./UpdateRole";
+
 export const UserProfileContent = () => {
   const navigate = useNavigate();
   const { user, dispatch } = useAuthContext();
@@ -27,7 +29,6 @@ export const UserProfileContent = () => {
   };
   const handleUpdateUser = () => {
     dispatch({ type: "UPDATE_USER", payload: formData });
-    navigate("/");
   };
 
   const [updateButton, setUpdateButton] = useState(false);
@@ -115,8 +116,7 @@ export const UserProfileContent = () => {
     return "";
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     const passwordError = passwordDifficulty(formData.password);
     if (passwordError) {
       setErrorMessage(passwordError);
@@ -128,6 +128,9 @@ export const UserProfileContent = () => {
     } else {
       setErrorMessage("");
       handleUpdate();
+      if (formData.role !== "Affiliated Professional") {
+        setProfesional(false);
+      }
     }
   };
 
@@ -215,6 +218,27 @@ export const UserProfileContent = () => {
     handleLogout();
   };
 
+  const [profesional, setProfesional] = useState(false);
+  useEffect(() => {
+    if (user.role === "Affiliated Professional") {
+      setProfesional(true);
+    } else {
+      setProfesional(false);
+    }
+  }, [user.role]);
+
+  const handleProfesional = () => {
+    setProfesional(true);
+  };
+  const handleImNot = () => {
+    setProfesional(false);
+  };
+
+  const [updateRoleButton, setUpdateRoleButton] = useState(false);
+  const handleUpdateRoleButton = () => {
+    setUpdateRoleButton(!updateRoleButton);
+  };
+
   return (
     <div className="h-full w-full flex justify-center items-center p-10">
       <div className="w-full p-10 rounded-3xl bg-white bg-opacity-10 border-2 backdrop-blur-md flex flex-col gap-5 text-white">
@@ -223,7 +247,10 @@ export const UserProfileContent = () => {
         <form
           action=""
           className="flex flex-wrap gap-10 justify-between"
-          onSubmit={handleSubmit}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSubmit();
+          }}
         >
           {/* left */}
           <div className="w-full lg:w-1/2 px-5 flex flex-col gap-2">
@@ -458,21 +485,52 @@ export const UserProfileContent = () => {
                 <select
                   name="role"
                   id="role"
-                  disabled={!updateButton}
+                  disabled={!updateButton || !profesional}
                   onChange={handleChangeInput}
                   value={formData.role}
                   className={`text-black ${
                     !updateButton && "text-white bg-white bg-opacity-30"
                   } block w-full p-1 rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 >
-                  <option value="" disabled>
-                    Select a category
-                  </option>
                   <option value="Conventional User">Conventional User</option>
                   <option value="Affiliated Professional">
                     Affiliated Professional
                   </option>
                 </select>
+
+                {/*  */}
+                <div
+                  className={`cursor-pointer w-fit my-2 text-white ${
+                    updateButton && "hover:italic hover:font-medium"
+                  } text-sm font-light trasition ease-out duration-300`}
+                >
+                  {!profesional ? (
+                    <button
+                      type="button"
+                      disabled={!updateButton}
+                      className="flex gap-1 items-center"
+                      onClick={handleUpdateRoleButton}
+                    >
+                      You Are{" "}
+                      <span className="text-red-500 font-black">not</span> a
+                      Professional ?<span className="text-xs">(optional)</span>
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={!updateButton}
+                      className={`cursor-pointer w-fit mt-2 text-white ${
+                        updateButton && "hover:italic hover:font-medium"
+                      } text-sm font-light trasition ease-out duration-300`}
+                      onClick={handleUpdateRoleButton}
+                    >
+                      You Are{" "}
+                      <span className="text-green-500 font-black">a</span>{" "}
+                      Professional ?<span className="text-xs">(optional)</span>
+                    </button>
+                  )}
+                </div>
+                {/*  */}
               </div>
             </div>
 
@@ -519,7 +577,10 @@ export const UserProfileContent = () => {
                 ) : (
                   <>
                     {" "}
-                    <button className="text-start text-xl rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200">
+                    <button
+                      className="text-start text-xl rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200"
+                      type="submit"
+                    >
                       Confirm Update Profile
                     </button>
                     <button
@@ -535,6 +596,15 @@ export const UserProfileContent = () => {
           </div>
         </form>
       </div>
+
+      {updateRoleButton && (
+        <UpdateRole
+          verify={handleProfesional}
+          imNot={handleImNot}
+          onClose={handleUpdateRoleButton}
+        />
+      )}
+
       {deleteButton && (
         <DeleteUserAccount
           selectedUser={user}

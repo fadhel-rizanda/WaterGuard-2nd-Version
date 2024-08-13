@@ -20,6 +20,7 @@ export const AddData = ({ onUpdate, onClose }) => {
     description: "",
     ikaCategories: "",
     lastUpdate: "",
+    ika_file: null,
   });
 
   useEffect(() => {
@@ -31,11 +32,20 @@ export const AddData = ({ onUpdate, onClose }) => {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    const { name, value, files } = e.target;
+
+    if (name === "ika_file" && files.length > 0) {
+      console.log(files[0]);
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const formattedTime = `${
@@ -59,21 +69,28 @@ export const AddData = ({ onUpdate, onClose }) => {
     e.preventDefault();
     const url = `http://localhost:8081/water-conditions`;
     const status = profesional ? "verified" : "unverified";
-    const ika_score = profesional ? formData.ika_score : null;
+    const ika_score = profesional ? formData.ika_score : null;    
+    const ika_file = profesional ? formData.ika_file : null;
+    const file_extension = ika_file ? ika_file.name.split(".").pop() || "" : "";
+  
 
-    const insertedData = {
-      ...formData,
-      ika_score,
-      status,
-      lastUpdate: formattedTime,
-    };
+    const formatToSend = new FormData();
+    formatToSend.append("name", formData.name);
+    formatToSend.append("lat", formData.lat);
+    formatToSend.append("lng", formData.lng);
+    formatToSend.append("status", status);
+    formatToSend.append("ika_score", ika_score);
+    formatToSend.append("reporter_name", formData.reporter_name);
+    formatToSend.append("email", formData.email);
+    formatToSend.append("description", formData.description);
+    formatToSend.append("ikaCategories", formData.ikaCategories);
+    formatToSend.append("lastUpdate", formattedTime);
+    formatToSend.append("ika_file", ika_file);
+    formatToSend.append("file_extension", file_extension);
 
     fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(insertedData),
+      method: "POST",      
+      body: formatToSend,
     })
       .then((response) => {
         if (!response.ok) {
@@ -333,15 +350,16 @@ export const AddData = ({ onUpdate, onClose }) => {
                 </div>
                 <div className="w-56">
                   <label
-                    htmlFor="ika_calculation_file"
+                    htmlFor="ika_file"
                     className="block text-sm font-medium text-gray-700"
                   >
                     IKA Calculation File:
                   </label>
                   <input
                     type="file"
-                    id="ika_calculation_file"
-                    name="ika_calculation_file"
+                    id="ika_file"
+                    name="ika_file"
+                    onChange={handleInputChange}
                     required
                     className="w-full text-sm mt-1 text-gray-400 file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100 trasition ease-out duration-300"
                   />
@@ -350,7 +368,7 @@ export const AddData = ({ onUpdate, onClose }) => {
             )}
             <div className="flex flex-col sm:flex-row gap-5 items-center">
               <div className="flex gap-5">
-              <button
+                <button
                   type="button"
                   className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-300"
                   onClick={onClose}
@@ -363,7 +381,7 @@ export const AddData = ({ onUpdate, onClose }) => {
                   className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-300"
                 >
                   Add Data
-                </button>                
+                </button>
               </div>
             </div>
           </form>

@@ -23,7 +23,6 @@ export const VerifiedDetail = ({ selectedData, onClose, onUpdate }) => {
             selectedData={selectedData}
             onClose={() => {
               setShowReportUpdate(false);
-              handleUpdate();
             }}
             onUpdate={handleUpdate}
           />
@@ -50,10 +49,7 @@ VerifiedDetail.propTypes = {
     ikaCategories: PropTypes.string.isRequired,
     lastUpdate: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    ika_file: PropTypes.shape({
-      type: PropTypes.string,
-      data: PropTypes.arrayOf(PropTypes.number),
-    }),
+    ika_file: PropTypes.string,
     file_extension: PropTypes.string,
   }).isRequired,
   onClose: PropTypes.func.isRequired,

@@ -15,7 +15,7 @@ export const Home = () => {
   const [userData, setUserData] = useState(null);
 
   const handleUpdate = () => {
-    console.log("Handle Update Called...");    
+    console.log("Handle Update Called...");
   };
 
   useEffect(() => {

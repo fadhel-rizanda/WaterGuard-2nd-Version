@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import alertLogo from "/ASSET/image-logo/alert.png";
 import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
 import { DeleteData } from "./DeleteData";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -10,16 +11,19 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   const [passwordValue, setPasswordValue] = useState("");
   const [profesional, setProfesional] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+  const [errorMesssage, setErrorMessage] = useState("");
   const [deleteData, setDeleteData] = useState(null);
+  const { user } = useAuthContext();
   const [formData, setFormData] = useState({
     status: "",
     ika_score: "",
-    reporter_name: "",
-    email: "",
+    reporter_name: user?.username || "",
+    email: user?.email || "",
     description: "",
     ikaCategories: "",
     ika_file: null,
   });
+
   useEffect(() => {
     const timerId = setInterval(() => {
       setCurrentTime(new Date());
@@ -31,7 +35,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     const { name, value, files } = e.target;
 
     if (name === "ika_file" && files.length > 0) {
-      console.log(files[0]); // Check if the file object is correctly received
+      console.log(files[0]);
       setFormData({
         ...formData,
         [name]: files[0],
@@ -49,6 +53,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     setDeleteData(null);
   };
 
+  // untuk mengirim data dalam bentuk file harus menggunakan FormData, jika tidak maka dapat menggunakna json
   const handleSubmit = (e) => {
     e.preventDefault();
     const url = `http://localhost:8081/user/${selectedData.id}`;
@@ -57,7 +62,6 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     const ika_file = profesional ? formData.ika_file : null;
     const file_extension = ika_file ? ika_file.name.split(".").pop() || "" : "";
 
-    // untuk mengirim data dalam bentuk file harus menggunakan FormData, jika tidak maka dapat menggunakna json
     const formatToSend = new FormData();
     formatToSend.append("status", status);
     formatToSend.append("ika_score", ika_score);
@@ -92,12 +96,16 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   };
 
   const verifyPassword = () => {
-    if (passwordValue === "admin123") {
+    if (user.role !== "Affiliated Professional") {
+      setWrongPassword(true);
+      setErrorMessage(`Your role must be "Affiliated Proffesional"`);
+    } else if (passwordValue !== "admin123") {
+      setWrongPassword(true);
+      setErrorMessage("Wrong Password");
+    } else {
       setProfesional(!profesional);
       setWrongPassword(false);
       setPasswordActive(false);
-    } else {
-      setWrongPassword(true);
     }
   };
 
@@ -257,7 +265,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
               {wrongPassword && (
                 <div className="mt-2 flex gap-1 text-red-500  items-center text-sm">
                   <img src={alertLogo} alt="alert" className="w-3.5 h-3.5" />
-                  wrong password
+                  {errorMesssage}
                 </div>
               )}
 
@@ -312,18 +320,18 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
           <div className="flex flex-col sm:flex-row gap-5 items-center">
             <div className="flex gap-5">
               <button
+                type="submit"
+                className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-200"
+              >
+                Report Update
+              </button>
+
+              <button
                 type="button"
                 className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200"
                 onClick={onClose}
               >
                 Cancel Update
-              </button>
-
-              <button
-                type="submit"
-                className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-200"
-              >
-                Report Update
               </button>
             </div>
 
@@ -364,10 +372,7 @@ ReportUpdate.propTypes = {
     description: PropTypes.string,
     reporter_name: PropTypes.string,
     email: PropTypes.string,
-    ika_file: PropTypes.shape({
-      type: PropTypes.string,
-      data: PropTypes.arrayOf(PropTypes.number),
-    }),
+    ika_file: PropTypes.string,
     file_extension: PropTypes.string,
   }),
   onClose: PropTypes.func.isRequired,

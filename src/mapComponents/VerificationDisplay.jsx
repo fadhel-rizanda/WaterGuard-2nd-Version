@@ -4,24 +4,15 @@ import { CloseDisplay } from "../objects/CloseDisplay";
 
 export const VerificationDisplay = ({ selectedData, onClose }) => {
   const handleDownload = () => {
-    if (selectedData.ika_file && selectedData.file_extension) {      
-      const byteArray = new Uint8Array(selectedData.ika_file.data);
-      
-      const blob = new Blob([byteArray], {
-        type: `application/${selectedData.file_extension}`,
-      });
-
-      const url = URL.createObjectURL(blob);
+    if (selectedData.ika_file) {
+      const url = `http://localhost:8081/user/download/${selectedData.ika_file}`;
 
       const link = document.createElement("a");
       link.href = url;
       link.download = `file.${selectedData.file_extension}`;
-
       document.body.appendChild(link);
       link.click();
-
       document.body.removeChild(link);
-      URL.revokeObjectURL(url);
     } else {
       console.error("File data or file extension is missing.");
     }
@@ -125,10 +116,7 @@ VerificationDisplay.propTypes = {
     description: PropTypes.string,
     reporter_name: PropTypes.string,
     email: PropTypes.string,
-    ika_file: PropTypes.shape({
-      type: PropTypes.string,
-      data: PropTypes.arrayOf(PropTypes.number),
-    }),
+    ika_file: PropTypes.string,
     file_extension: PropTypes.string,
   }).isRequired,
   onClose: PropTypes.func.isRequired,

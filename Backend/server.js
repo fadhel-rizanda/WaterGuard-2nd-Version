@@ -4,9 +4,6 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 
-const multer = require("multer");
-const path = require("path");
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -33,18 +30,18 @@ app.get("/userAccount", (req, res) => {
   });
 });
 
-// Insert data user account
+// Sign inInsert data user account
 app.post("/user-accounts", (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role = "Conventional User" } = req.body;
   if (!username || !email || !password) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   const sql = `
   INSERT INTO user_accounts (
-    username, email, password) VALUES (?, ?, ?);`;
+    username, email, password, role) VALUES (?, ?, ?, ?);`;
 
-  db.query(sql, [username, email, password], (err) => {
+  db.query(sql, [username, email, password, role], (err) => {
     if (err) {
       console.error("Database error:", err);
       return res.status(500).json({ error: "Failed to insert record" });
@@ -171,6 +168,9 @@ app.delete("/user-accounts/:id", (req, res) => {
 
 // =====================================================================================================
 
+const multer = require("multer");
+const path = require("path");
+
 // Get data water condition
 app.get("/user", (req, res) => {
   const sql = "SELECT * FROM water_conditions";
@@ -180,18 +180,39 @@ app.get("/user", (req, res) => {
   });
 });
 
+// file download
+app.get("/user/download/:filename", (req, res) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, "../public/file-upload", filename);
+
+  res.download(filePath, (err) => {
+    if (err) {
+      if (err.status === 404) {
+        res.status(404).json({ error: "File not found" });
+      } else {
+        console.error("Error sending file:", err);
+        res.status(500).json({ error: "Failed to download file" });
+      }
+    }
+  });
+});
+
+
 // file upload configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    const uploadPath = path.join(__dirname, "../public/file-upload");
+    cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
     const ext = path.extname(file.originalname);
-    cb(null, `${Date.now()}${ext}`);
+    const filename = `${Date.now()}${ext}`;
+    cb(null, filename);
   },
 });
 
 const upload = multer({ storage });
+
 // Update data
 app.put("/user/:id", upload.single("ika_file"), (req, res) => {
   const { id } = req.params;
@@ -292,10 +313,13 @@ app.post("/water-conditions", upload.single("ika_file"), (req, res) => {
   }
 
   const ika_file = req.file ? req.file.filename : null;
+  const file_extension = req.file
+    ? path.extname(req.file.originalname).substring(1)
+    : null;
 
   const sql = `
   INSERT INTO water_conditions (
-    name, lat, lng, status, ika_score, reporter_name, email, description, ikaCategories, lastUpdate, ika_file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+    name, lat, lng, status, ika_score, reporter_name, email, description, ikaCategories, lastUpdate, ika_file, file_extension) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
 
   db.query(
     sql,
@@ -311,6 +335,7 @@ app.post("/water-conditions", upload.single("ika_file"), (req, res) => {
       ikaCategories,
       lastUpdate,
       ika_file,
+      file_extension,
     ],
     (err) => {
       if (err) {
