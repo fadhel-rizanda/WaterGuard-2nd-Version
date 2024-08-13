@@ -23,11 +23,11 @@ export const UserProfileContent = () => {
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
-    navigate("/")
+    navigate("/");
   };
-  const handleLogin = () => {
-    dispatch({ type: "LOGIN", payload: formData });
-    navigate("/")
+  const handleUpdateUser = () => {
+    dispatch({ type: "UPDATE_USER", payload: formData });
+    navigate("/");
   };
 
   const [updateButton, setUpdateButton] = useState(false);
@@ -172,7 +172,7 @@ export const UserProfileContent = () => {
         setErrorMessage("");
         handleSuccessActive();
         setUpdateButton(false);
-        handleLogin();
+        handleUpdateUser();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -211,7 +211,7 @@ export const UserProfileContent = () => {
   };
 
   const handleLogoutAccount = () => {
-    setLogoutButton(!logoutButton);    
+    setLogoutButton(!logoutButton);
     handleLogout();
   };
 
@@ -460,6 +460,7 @@ export const UserProfileContent = () => {
                   id="role"
                   disabled={!updateButton}
                   onChange={handleChangeInput}
+                  value={formData.role}
                   className={`text-black ${
                     !updateButton && "text-white bg-white bg-opacity-30"
                   } block w-full p-1 rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}

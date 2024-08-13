@@ -41,7 +41,7 @@ export const Footer = () => {
             </Link>
           </div>
 
-          <div className="flex flex-col gap-3 w-fit">
+          <div className="flex flex-col md:text-xl gap-3 w-fit">
             <FooterLogo logo={emailLogo} value={"WaterGuard@gmail.com"} />
             <FooterLogo logo={phoneLogo} value={"+62 821 176 14370"} />
             <FooterLogo logo={facebookLogo} value={"WaterGuard"} />

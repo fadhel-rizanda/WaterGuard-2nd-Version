@@ -15,9 +15,10 @@ import image1 from "/ASSET/image-background/realistic-drop-with-ecosystem.jpg";
 import image2 from "/ASSET/image-background/realistic-water-drop-with-ecosystem (1).jpg";
 import image3 from "/ASSET/image-background/1579.jpg";
 import image4 from "/ASSET/image-background/7165.jpg";
-import image5 from "/ASSET/image-background/12980932_5113470.png";
+
 
 import PropTypes from "prop-types";
+import { ContactsContent } from "./ContactsContent";
 
 export const SecondSection = ({ getData, onUpdate }) => {
   return (
@@ -235,12 +236,7 @@ export const SecondSection = ({ getData, onUpdate }) => {
             </div>
           </div>
         </div>
-        <div className="flex justify-center">
-          <div className="w-4/5 flex justify-between">
-            <img src={image5} alt="" className="w-2/5" />
-            <div className="w-3/5 flex justify-center">Contacts</div>
-          </div>
-        </div>
+        <ContactsContent/>
         <FAQContent />
       </div>
     </div>

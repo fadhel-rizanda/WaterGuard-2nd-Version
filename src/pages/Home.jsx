@@ -13,11 +13,9 @@ export const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
-  const [updateData, setUpdateData] = useState(false);
 
   const handleUpdate = () => {
-    console.log("Handle Update Called...");
-    setUpdateData(true);
+    console.log("Handle Update Called...");    
   };
 
   useEffect(() => {
@@ -47,7 +45,7 @@ export const Home = () => {
         console.error(err);
         setLoading(false);
       });
-  }, [userLat, userLng, updateData]);
+  }, []);
 
   if (loading) {
     return <Loading />;

@@ -17,7 +17,6 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [noDataFound, setNoDataFound] = useState(false);
   const timeoutRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -102,13 +101,14 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
   const findAccount = (e) => {
     e.preventDefault();
     const account = data.find((item) => item.username === username);
-    if (account) {
-      setNoDataFound(false);
+    if (account === undefined) {
+      console.log(username);
+      setErrorMessage("Account Not Found");
+    } else if (account.email !== email) {
+      setErrorMessage("Incorrect Email, email cannot be different");
+    } else {
       setUpdateAccount(account);
       handleSubmit();
-    } else {
-      setErrorMessage("Account Not Found");
-      setNoDataFound(true);
     }
   };
 
@@ -124,12 +124,10 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
   };
 
   const handleUpdate = () => {
-    const url = `http://localhost:8081/user-accounts/${updateAccount.id}`;
+    const url = `http://localhost:8081/user-accounts/forgot-password/${updateAccount.id}`;
 
     const updatedData = {
-      username,
       password,
-      email,
     };
 
     fetch(url, {
@@ -213,7 +211,7 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
               type={showPassword ? "text" : "password"}
               name="password"
               id="password"
-              placeholder="Password"
+              placeholder="New Password"
               required
               onChange={(e) => setPassword(e.target.value)}
               className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
@@ -259,20 +257,19 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
             Update Password
           </button>
 
-          {noDataFound ||
-            (errorMessage != "" && (
-              <div className="flex items-center gap-2 text-red-500 text-xl font-black">
-                <img src={alertLogo} alt="Alert Icon" className="w-6 h-6" />
-                <div>{errorMessage}</div>
-              </div>
-            ))}
+          {errorMessage != "" && (
+            <div className="flex items-center gap-2 text-red-500 text-xl font-black">
+              <img src={alertLogo} alt="Alert Icon" className="w-6 h-6" />
+              <div>{errorMessage}</div>
+            </div>
+          )}
 
           <div className="text-white font-light">
             Don{"'"}t have an account?{" "}
             <button
               type="button"
               onClick={onDirect}
-             className="font-semibold hover:font-black hover:text-gray-300 active:text-gray-500 transition-all ease-out duration-500"
+              className="font-semibold hover:font-black hover:text-gray-300 active:text-gray-500 transition-all ease-out duration-500"
             >
               Register
             </button>

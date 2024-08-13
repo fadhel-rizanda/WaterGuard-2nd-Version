@@ -53,6 +53,42 @@ app.post("/user-accounts", (req, res) => {
   });
 });
 
+// Forget Password Update data user account
+app.put("/user-accounts/forgot-password/:id", (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  if (!password) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const checkSql = `SELECT id FROM user_accounts WHERE id = ?`;
+  db.query(checkSql, [id], (checkErr, results) => {
+    if (checkErr) {
+      console.error("Database error:", checkErr);
+      return res
+        .status(500)
+        .json({ error: "Failed to check record existence" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ error: "Record not found" });
+    }
+
+    const sql = `
+      UPDATE user_accounts
+      SET password = ?
+      WHERE id = ?`;
+
+    db.query(sql, [password, id], (err) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: "Failed to update record" });
+      }
+      res.json({ success: "Record updated successfully" });
+    });
+  });
+});
+
 // Update data user account
 app.put("/user-accounts/:id", (req, res) => {
   const { id } = req.params;
