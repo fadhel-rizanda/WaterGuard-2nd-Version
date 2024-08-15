@@ -18,7 +18,15 @@ export const Signin = ({ onDirect }) => {
 
   const handleLogin = () => {
     dispatch({ type: "LOGIN", payload: formData });
+    if (rememberMe) {
+      window.localStorage.setItem("user", JSON.stringify(formData));
+    }
     navigate("/");
+  };
+
+  const [rememberMe, setRememberMe] = useState(false);
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
   };
 
   const [formData, setFormData] = useState({
@@ -27,6 +35,7 @@ export const Signin = ({ onDirect }) => {
     password: "",
     confirmPassword: "",
   });
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -80,7 +89,7 @@ export const Signin = ({ onDirect }) => {
     if (account !== undefined) {
       setErrorMessage("Username Already Used");
       setNoDataFound(true);
-    } else if (formData.password !== formData.confirmPassword) {
+    } else if (formData.password !== confirmPassword) {
       setErrorMessage("Password & confirm password have to be the same");
       setNoDataFound(true);
     } else {
@@ -308,12 +317,12 @@ export const Signin = ({ onDirect }) => {
               id="confirmPassword"
               placeholder="Confirm Password"
               required
-              value={formData.confirmPassword}
-              onChange={handleInputChange}
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
             />
 
-            {formData.confirmPassword.trim() !== "" && (
+            {confirmPassword.trim() !== "" && (
               <button
                 onClick={
                   passwordVisibility.showConfirmPassword
@@ -331,11 +340,26 @@ export const Signin = ({ onDirect }) => {
                 />
               </button>
             )}
-            {formData.confirmPassword.trim() === "" && (
+            {confirmPassword.trim() === "" && (
               <label htmlFor="password">
                 <img src={confirmPasswordLogo} alt="" className="w-5 h-5" />
               </label>
             )}
+          </div>
+
+          <div className="w-full flex flex-col xl:flex-row gap-2 justify-between items-center text-white">
+            <div className="flex gap-2 items-center cursor-pointer font-light hover:font-semibold active:font-semibold hover:text-gray-300 active:text-gray-400 transition-all ease-out duration-300">
+              <input
+                type="checkbox"
+                name="rememberMe"
+                id="rememberMe"
+                className="h-3 w-3 cursor-pointer"
+                onChange={handleRememberMe}
+              />
+              <label htmlFor="rememberMe" className="cursor-pointer">
+                Remember me
+              </label>
+            </div>
           </div>
 
           <div className="flex flex-col w-full gap-2">

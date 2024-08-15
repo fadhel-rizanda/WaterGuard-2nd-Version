@@ -11,10 +11,16 @@ export const UpdateRole = ({ verify, onClose, imNot }) => {
   const [passwordDelete, setPasswordDelete] = useState("");
   const [wrongPasswordDelete, setWrongPasswordDelete] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  let [errorCounter, setErrorCounter] = useState(1);
   const timeoutRef = useRef(null);
   const verifyText = () => {
     if (passwordDelete !== "Admin!23") {
       setWrongPasswordDelete(true);
+      setErrorCounter((e) => e + 1);
+      console.log(errorCounter);
+      if (errorCounter === 3) {
+        onClose();
+      }
     } else {
       setWrongPasswordDelete(false);
       verify();
@@ -53,7 +59,7 @@ export const UpdateRole = ({ verify, onClose, imNot }) => {
             &quot;
           </div>
           <span className="font-extralight text-sm sm:text-lg text-center">
-            To verify, input proffessional password <br />{" "}
+            To verify, input Professional password <br />{" "}
             <span className="text-base">into the input box below</span>
           </span>
         </div>

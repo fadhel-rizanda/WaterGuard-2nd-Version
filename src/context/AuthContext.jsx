@@ -44,12 +44,31 @@ export const AuthProvider = ({ children }) => {
   }, [state.user?.username]);
 
   const updateUser = (updatedUser) => {
-    fetch(`http://localhost:8081/userAccount/${updatedUser.username}`, {
+    const url = `http://localhost:8081/userAccount/${updatedUser.username}`;
+
+    const formData = new FormData();
+    formData.append("username", updatedUser.username);
+    formData.append("email", updatedUser.email);
+    formData.append("phone_number", updatedUser.phone_number);
+    formData.append("gender", updatedUser.gender);
+    formData.append("date_of_birth", updatedUser.date_of_birth);
+    formData.append("role", updatedUser.role);
+    formData.append("location_name", updatedUser.location_name);
+    formData.append("location_lat", updatedUser.location_lat);
+    formData.append("location_lng", updatedUser.location_lng);
+
+    // Check if profile_picture is a file, append it to formData
+    if (updatedUser.profile_picture) {
+      formData.append("profile_picture", updatedUser.profile_picture);
+      formData.append(
+        "profile_picture_extension",
+        updatedUser.profile_picture_extension
+      );
+    }
+
+    fetch(url, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedUser),
+      body: formData,
     })
       .then((res) => res.json())
       .then((data) => {

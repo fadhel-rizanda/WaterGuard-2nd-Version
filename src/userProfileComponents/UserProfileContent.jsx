@@ -13,6 +13,8 @@ import logoutLogo from "/ASSET/image-logo/logout.png";
 import updateLogo from "/ASSET/image-logo/update.png";
 import deleteLogo from "/ASSET/image-logo/delete.png";
 
+import guestPicture from "/ASSET/image-background/guestPicture.png";
+
 import { useNavigate } from "react-router-dom";
 
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -25,10 +27,12 @@ export const UserProfileContent = () => {
 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
+    window.localStorage.removeItem("user");
     navigate("/");
   };
   const handleUpdateUser = () => {
     dispatch({ type: "UPDATE_USER", payload: formData });
+    window.localStorage.setItem("user", JSON.stringify(formData));
   };
 
   const [updateButton, setUpdateButton] = useState(false);
@@ -38,6 +42,7 @@ export const UserProfileContent = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [deleteButton, setDeleteButton] = useState(false);
   const [logoutButton, setLogoutButton] = useState(false);
+
   const [formData, setFormData] = useState({
     username: user.username || "",
     email: user.email || "",
@@ -49,14 +54,25 @@ export const UserProfileContent = () => {
     location_name: user.location_name || "",
     location_lat: user.location_lat || "",
     location_lng: user.location_lng || "",
+    profile_picture: user.profile_picture || null,
+    profile_picture_extension: user.profile_picture_extension || "",
   });
 
-  const handleChangeInput = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  const handleInputChange = (e) => {
+    const { name, value, files } = e.target;
+
+    if (name === "profile_picture" && files.length > 0) {
+      console.log("File selected:", files[0]);
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   const handleUpdateProfile = () => {
@@ -116,7 +132,11 @@ export const UserProfileContent = () => {
     return "";
   };
 
+  const [onUpdate, setOnUpdate] = useState(false);
+
   const handleSubmit = () => {
+    console.log("Submit handler called");
+    setOnUpdate(!onUpdate);
     const passwordError = passwordDifficulty(formData.password);
     if (passwordError) {
       setErrorMessage(passwordError);
@@ -131,6 +151,8 @@ export const UserProfileContent = () => {
       if (formData.role !== "Affiliated Professional") {
         setProfesional(false);
       }
+      setChangePP(false);
+      console.log("onUpdate set to true");
     }
   };
 
@@ -143,24 +165,30 @@ export const UserProfileContent = () => {
     const location_name = formData.location_name || null;
     const location_lat = formData.location_lat || null;
     const location_lng = formData.location_lng || null;
+    const profile_picture = formData.profile_picture || null;
+    const profile_picture_extension = profile_picture
+      ? profile_picture.name
+        ? profile_picture.name.split(".").pop()
+        : ""
+      : null;
 
-    const updatedData = {
-      ...formData,
-      phone_number,
-      gender,
-      date_of_birth,
-      role,
-      location_name,
-      location_lat,
-      location_lng,
-    };
+    const formatToSend = new FormData();
+    formatToSend.append("username", formData.username);
+    formatToSend.append("email", formData.email);
+    formatToSend.append("password", formData.password);
+    formatToSend.append("phone_number", phone_number);
+    formatToSend.append("gender", gender);
+    formatToSend.append("date_of_birth", date_of_birth);
+    formatToSend.append("role", role);
+    formatToSend.append("location_name", location_name);
+    formatToSend.append("location_lat", location_lat);
+    formatToSend.append("location_lng", location_lng);
+    formatToSend.append("profile_picture", profile_picture);
+    formatToSend.append("profile_picture_extension", profile_picture_extension);
 
     fetch(url, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
+      body: formatToSend,
     })
       .then((response) => {
         if (!response.ok) {
@@ -203,12 +231,19 @@ export const UserProfileContent = () => {
       location_name: user.location_name || "",
       location_lat: user.location_lat || "",
       location_lng: user.location_lng || "",
+      profile_picture: user.profile_picture || null,
+      profile_picture_extension: user.profile_picture_extension || "",
     });
     handleUpdateProfile();
     setErrorMessage("");
+    if (formData.role !== "Affiliated Professional") {
+      setProfesional(false);
+    }
+    setChangePP(false);
   };
 
   const handleDeleteAccount = (e) => {
+    window.localStorage.removeItem("user");
     e.preventDefault();
     setDeleteButton(!deleteButton);
   };
@@ -219,6 +254,8 @@ export const UserProfileContent = () => {
   };
 
   const [profesional, setProfesional] = useState(false);
+  const [updateRoleButton, setUpdateRoleButton] = useState(false);
+
   useEffect(() => {
     if (user.role === "Affiliated Professional") {
       setProfesional(true);
@@ -226,24 +263,60 @@ export const UserProfileContent = () => {
       setProfesional(false);
     }
   }, [user.role]);
-
   const handleProfesional = () => {
     setProfesional(true);
   };
   const handleImNot = () => {
-    setProfesional(false);
+    if (formData.role !== "Affiliated Professional") {
+      setProfesional(false);
+    }
+  };
+  const handleUpdateRoleButton = () => {
+    if (formData.role !== "Affiliated Professional") {
+      setUpdateRoleButton(!updateRoleButton);
+    }
   };
 
-  const [updateRoleButton, setUpdateRoleButton] = useState(false);
-  const handleUpdateRoleButton = () => {
-    setUpdateRoleButton(!updateRoleButton);
+  const [changePP, setChangePP] = useState(false);
+  const handleChangePP = () => {
+    setChangePP((prev) => !prev);
   };
+
+  const [ppUrl, setPpUrl] = useState("");
+
+  // Ensure you're handling both file objects and string URLs correctly
+  useEffect(() => {
+    if (user?.profile_picture) {
+      if (typeof user.profile_picture === "string") {
+        // If it's a URL or filename, use it directly
+        setPpUrl(`/profile-picture/${user.profile_picture}`);
+      } else if (user.profile_picture instanceof File) {
+        // If it's a File object, create a temporary URL for it
+        const fileUrl = URL.createObjectURL(user.profile_picture);
+        setPpUrl(fileUrl);
+
+        // Clean up the object URL after the component unmounts
+        return () => URL.revokeObjectURL(fileUrl);
+      }
+    }
+  }, [user.profile_picture, updateButton]);
+
+  useEffect(() => {
+    if (formData?.profile_picture) {
+      if (typeof formData.profile_picture === "string") {
+        setPpUrl(`/profile-picture/${formData.profile_picture}`);
+      } else if (formData.profile_picture instanceof File) {
+        const fileUrl = URL.createObjectURL(formData.profile_picture);
+        setPpUrl(fileUrl);
+        return () => URL.revokeObjectURL(fileUrl);
+      }
+    }
+  }, [formData.profile_picture]);
 
   return (
     <div className="h-full w-full flex justify-center items-center p-10">
       <div className="w-full p-10 rounded-3xl bg-white bg-opacity-10 border-2 backdrop-blur-md flex flex-col gap-5 text-white">
         <div className="text-4xl font-bold">User Profile </div>
-
         <form
           action=""
           className="flex flex-wrap gap-10 justify-between"
@@ -273,9 +346,9 @@ export const UserProfileContent = () => {
                 value={formData.username}
                 disabled={!updateButton}
                 required
-                onChange={handleChangeInput}
+                onChange={handleInputChange}
                 className={`p-1 text-black ${
-                  !updateButton && "text-white"
+                  !updateButton && "text-white  opacity-70"
                 } rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
               />
             </div>
@@ -293,7 +366,7 @@ export const UserProfileContent = () => {
               </label>
               <div
                 className={`flex justify-between p-1 bg-white ${
-                  !updateButton && "bg-opacity-25 text-white"
+                  !updateButton && "bg-opacity-25 opacity-70 text-white"
                 } text-black rounded-md shadow-sm  border-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 sm:text-sm`}
               >
                 <input
@@ -303,7 +376,7 @@ export const UserProfileContent = () => {
                   value={formData.password}
                   disabled={!updateButton}
                   required
-                  onChange={handleChangeInput}
+                  onChange={handleInputChange}
                   className={`bg-white w-full focus:outline-none ${
                     !updateButton && "bg-opacity-0"
                   }`}
@@ -358,10 +431,10 @@ export const UserProfileContent = () => {
                 id="email"
                 value={formData.email}
                 disabled={!updateButton}
-                onChange={handleChangeInput}
+                onChange={handleInputChange}
                 required
                 className={`p-1 text-black ${
-                  !updateButton && "text-white"
+                  !updateButton && "text-white opacity-70"
                 } rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
               />
             </div>
@@ -376,9 +449,9 @@ export const UserProfileContent = () => {
                 id="phone_number"
                 value={formData.phone_number}
                 disabled={!updateButton}
-                onChange={handleChangeInput}
+                onChange={handleInputChange}
                 className={`p-1 text-black ${
-                  !updateButton && "text-white"
+                  !updateButton && "text-white  opacity-70"
                 } rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
               />
             </div>
@@ -391,9 +464,10 @@ export const UserProfileContent = () => {
                 id="gender"
                 value={formData.gender}
                 disabled={!updateButton}
-                onChange={handleChangeInput}
+                onChange={handleInputChange}
                 className={`text-black ${
-                  !updateButton && "text-white bg-white bg-opacity-30"
+                  !updateButton &&
+                  "text-white bg-white bg-opacity-30 opacity-70"
                 } block w-full p-1 rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
               >
                 <option value="" disabled>
@@ -413,7 +487,7 @@ export const UserProfileContent = () => {
                 id="date_of_birth"
                 value={formatDate(formData.date_of_birth)}
                 disabled={!updateButton}
-                onChange={handleChangeInput}
+                onChange={handleInputChange}
                 className={`p-1 text-black ${!updateButton && "text-white"} ${
                   !updateButton && "opacity-70"
                 } rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
@@ -437,9 +511,9 @@ export const UserProfileContent = () => {
                   id="location_name"
                   value={formData.location_name}
                   disabled={!updateButton}
-                  onChange={handleChangeInput}
+                  onChange={handleInputChange}
                   className={`p-1 text-black ${
-                    !updateButton && "text-white"
+                    !updateButton && "text-white opacity-70"
                   } rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 />
               </div>
@@ -454,9 +528,9 @@ export const UserProfileContent = () => {
                   id="location_lat"
                   value={formData.location_lat}
                   disabled={!updateButton}
-                  onChange={handleChangeInput}
+                  onChange={handleInputChange}
                   className={`p-1 text-black ${
-                    !updateButton && "text-white"
+                    !updateButton && "text-white opacity-70"
                   } rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 />
               </div>
@@ -471,9 +545,9 @@ export const UserProfileContent = () => {
                   id="location_lng"
                   value={formData.location_lng}
                   disabled={!updateButton}
-                  onChange={handleChangeInput}
+                  onChange={handleInputChange}
                   className={`p-1 text-black ${
-                    !updateButton && "text-white"
+                    !updateButton && "text-white opacity-70"
                   } rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 />
               </div>
@@ -486,10 +560,11 @@ export const UserProfileContent = () => {
                   name="role"
                   id="role"
                   disabled={!updateButton || !profesional}
-                  onChange={handleChangeInput}
+                  onChange={handleInputChange}
                   value={formData.role}
                   className={`text-black ${
-                    !updateButton && "text-white bg-white bg-opacity-30"
+                    !updateButton &&
+                    "text-white bg-white bg-opacity-30 opacity-70"
                   } block w-full p-1 rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 >
                   <option value="Conventional User">Conventional User</option>
@@ -500,33 +575,37 @@ export const UserProfileContent = () => {
 
                 {/*  */}
                 <div
-                  className={`cursor-pointer w-fit my-2 text-white ${
-                    updateButton && "hover:italic hover:font-medium"
+                  className={`cursor-default h-fit w-fit my-2 text-white opacity-70 ${
+                    updateButton &&
+                    "cursor-pointer hover:italic hover:font-medium opacity-100"
                   } text-sm font-light trasition ease-out duration-300`}
                 >
                   {!profesional ? (
                     <button
                       type="button"
                       disabled={!updateButton}
-                      className="flex gap-1 items-center"
+                      className="flex flex-wrap gap-1 items-center"
                       onClick={handleUpdateRoleButton}
                     >
                       You Are{" "}
                       <span className="text-red-500 font-black">not</span> a
-                      Professional ?<span className="text-xs">(optional)</span>
+                      Professional
+                      <span className="text-xs">(click to change role)</span>
                     </button>
                   ) : (
                     <button
                       type="button"
                       disabled={!updateButton}
-                      className={`cursor-pointer w-fit mt-2 text-white ${
-                        updateButton && "hover:italic hover:font-medium"
+                      className={`cursor-default w-fit my-2 text-white ${
+                        updateButton &&
+                        !profesional &&
+                        "cursor-pointer hover:italic hover:font-medium"
                       } text-sm font-light trasition ease-out duration-300`}
                       onClick={handleUpdateRoleButton}
                     >
                       You Are{" "}
                       <span className="text-green-500 font-black">a</span>{" "}
-                      Professional ?<span className="text-xs">(optional)</span>
+                      Professional
                     </button>
                   )}
                 </div>
@@ -578,13 +657,13 @@ export const UserProfileContent = () => {
                   <>
                     {" "}
                     <button
-                      className="text-start text-xl rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200"
+                      className="text-center text-xl rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200"
                       type="submit"
                     >
                       Confirm Update Profile
                     </button>
                     <button
-                      className="text-start text-xl rounded-xl text-white p-2 mt-2 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200"
+                      className="text-center text-xl rounded-xl text-white p-2 mt-2 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200"
                       onClick={handleCancelUpdate}
                     >
                       Cancel Update Profile
@@ -593,7 +672,66 @@ export const UserProfileContent = () => {
                 )}
               </div>
             </div>
+            {/*  */}
           </div>
+          {/* change pp */}
+          <div className="px-5 flex flex-col gap-5 ">
+            {!changePP ? (
+              <button
+                type="button"
+                onClick={handleChangePP}
+                disabled={!updateButton}
+                className={`flex flex-wrap gap-1 font-light opacity-70 ${
+                  updateButton && "hover:font-bold opacity-100"
+                } text-sm transition-all ease-out duration-500`}
+              >
+                Do you want to{" "}
+                <span className="font-black text-green-500">Change</span> your
+                profile picture?
+              </button>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={handleChangePP}
+                  className="flex flex-wrap gap-1 font-light hover:font-bold text-sm transition-all ease-out duration-500"
+                >
+                  Do you want to{" "}
+                  <span className="font-black text-red-500">Cancel</span> your
+                  profile picture change?
+                </button>
+
+                {/* <ProfilePicture onUpdate={onUpdate} /> */}
+                <div className="flex w-full h-fit ml-5">
+                  <div className="p-5 w-fit gap-3 flex-col h-full rounded-3xl border-2 border-white flex justify-center items-center bg-white bg-opacity-25">
+                    <div className="flex gap-3 w-fit p-5 rounded-3xl flex-col bg-black bg-opacity-30 justify-center items-center">
+                      <img
+                        src={ppUrl || guestPicture}
+                        alt="Profile Picture"
+                        className="w-52 h-52 object-cover rounded-xl"
+                      />
+
+                      <div className="text-xl">{user.username}</div>
+                    </div>
+
+                    <div className="flex">
+                      <input
+                        type="file"
+                        id="profile_picture"
+                        name="profile_picture"
+                        onChange={handleInputChange}
+                        accept="image/png, image/jpeg, image/jpg, image/gif"
+                        required
+                        className="w-52 text-sm mt-1 font-semibold file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100 transition ease-out duration-300"
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* <ProfilePicture onUpdate={onUpdate} /> */}
+              </>
+            )}
+          </div>
+          {/*  */}
         </form>
       </div>
 

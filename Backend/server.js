@@ -4,11 +4,14 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 
+const multer = require("multer");
+const path = require("path");
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// database connection configuration
+// Database connection configuration
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -86,69 +89,6 @@ app.put("/user-accounts/forgot-password/:id", (req, res) => {
   });
 });
 
-// Update data user account
-app.put("/user-accounts/:id", (req, res) => {
-  const { id } = req.params;
-  const {
-    username,
-    email,
-    password,
-    phone_number,
-    gender,
-    date_of_birth,
-    role,
-    location_name,
-    location_lat,
-    location_lng,
-  } = req.body;
-
-  if (!username || !password || !email) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
-
-  const checkSql = `SELECT id FROM user_accounts WHERE id = ?`;
-  db.query(checkSql, [id], (checkErr, results) => {
-    if (checkErr) {
-      console.error("Database error:", checkErr);
-      return res
-        .status(500)
-        .json({ error: "Failed to check record existence" });
-    }
-    if (results.length === 0) {
-      return res.status(404).json({ error: "Record not found" });
-    }
-
-    const sql = `
-      UPDATE user_accounts
-      SET username = ?, email = ?, password = ?, phone_number = ?, gender = ?, date_of_birth = ?, role = ?, location_name = ?, location_lat = ?, location_lng = ?
-      WHERE id = ?`;
-
-    db.query(
-      sql,
-      [
-        username,
-        email,
-        password,
-        phone_number,
-        gender,
-        date_of_birth,
-        role,
-        location_name,
-        location_lat,
-        location_lng,
-        id,
-      ],
-      (err) => {
-        if (err) {
-          console.error("Database error:", err);
-          return res.status(500).json({ error: "Failed to update record" });
-        }
-        res.json({ success: "Record updated successfully" });
-      }
-    );
-  });
-});
-
 // Delete data user account
 app.delete("/user-accounts/:id", (req, res) => {
   const { id } = req.params;
@@ -166,10 +106,96 @@ app.delete("/user-accounts/:id", (req, res) => {
   });
 });
 
-// =====================================================================================================
+// File upload configuration
+const storagePP = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadPath = path.join(__dirname, "../public/profile-picture");
+    cb(null, uploadPath);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    const filename = `${Date.now()}${ext}`;
+    cb(null, filename);
+  },
+});
 
-const multer = require("multer");
-const path = require("path");
+const uploadPP = multer({ storage: storagePP });
+
+// Update data user account
+app.put(
+  "/user-accounts/:id",
+  uploadPP.single("profile_picture"),
+  (req, res) => {
+    const { id } = req.params;
+    const {
+      username,
+      email,
+      password,
+      phone_number,
+      gender,
+      date_of_birth,
+      role,
+      location_name,
+      location_lat,
+      location_lng,
+    } = req.body;
+
+    if (!username || !password || !email) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const checkSql = `SELECT id FROM user_accounts WHERE id = ?`;
+    db.query(checkSql, [id], (checkErr, results) => {
+      if (checkErr) {
+        console.error("Database error:", checkErr);
+        return res
+          .status(500)
+          .json({ error: "Failed to check record existence" });
+      }
+      if (results.length === 0) {
+        return res.status(404).json({ error: "Record not found" });
+      }
+
+      const profile_picture = req.file ? req.file.filename : null;
+      const profile_picture_extension = req.file
+        ? path.extname(req.file.originalname).substring(1)
+        : null;
+
+      const sql = `
+      UPDATE user_accounts
+      SET username = ?, email = ?, password = ?, phone_number = ?, gender = ?, date_of_birth = ?, role = ?, location_name = ?, location_lat = ?, location_lng = ?, profile_picture = ?, profile_picture_extension = ?
+      WHERE id = ?`;
+
+      db.query(
+        sql,
+        [
+          username,
+          email,
+          password,
+          phone_number,
+          gender,
+          date_of_birth,
+          role,
+          location_name,
+          location_lat,
+          location_lng,
+          profile_picture,
+          profile_picture_extension,
+          id,
+        ],
+        (err) => {
+          if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Failed to update record" });
+          }
+          res.json({ success: "Record updated successfully" });
+        }
+      );
+    });
+  }
+);
+
+// =====================================================================================================
 
 // Get data water condition
 app.get("/user", (req, res) => {
@@ -180,7 +206,7 @@ app.get("/user", (req, res) => {
   });
 });
 
-// file download
+// File download
 app.get("/user/download/:filename", (req, res) => {
   const { filename } = req.params;
   const filePath = path.join(__dirname, "../public/file-upload", filename);
@@ -197,8 +223,7 @@ app.get("/user/download/:filename", (req, res) => {
   });
 });
 
-
-// file upload configuration
+// File upload configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadPath = path.join(__dirname, "../public/file-upload");
@@ -210,9 +235,7 @@ const storage = multer.diskStorage({
     cb(null, filename);
   },
 });
-
 const upload = multer({ storage });
-
 // Update data
 app.put("/user/:id", upload.single("ika_file"), (req, res) => {
   const { id } = req.params;

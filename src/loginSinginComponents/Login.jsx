@@ -16,7 +16,15 @@ export const Login = ({ onDirect, onForget }) => {
 
   const handleLogin = (formData) => {
     dispatch({ type: "LOGIN", payload: formData });
+    if (rememberMe) {
+      window.localStorage.setItem("user", JSON.stringify(formData));
+    }
     navigate("/");
+  };
+
+  const [rememberMe, setRememberMe] = useState(false);
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
   };
 
   const [username, setUsername] = useState("");
@@ -171,6 +179,7 @@ export const Login = ({ onDirect, onForget }) => {
                 name="rememberMe"
                 id="rememberMe"
                 className="h-3 w-3 cursor-pointer"
+                onChange={handleRememberMe}
               />
               <label htmlFor="rememberMe" className="cursor-pointer">
                 Remember me

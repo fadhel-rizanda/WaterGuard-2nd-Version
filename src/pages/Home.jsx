@@ -13,9 +13,11 @@ export const Home = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [isFetched, setIsFetched] = useState(false);
 
   const handleUpdate = () => {
     console.log("Handle Update Called...");
+    setIsFetched((prev) => !prev);
   };
 
   useEffect(() => {
@@ -45,7 +47,22 @@ export const Home = () => {
         console.error(err);
         setLoading(false);
       });
-  }, []);
+  }, [userLat, userLng, isFetched]);
+
+  useEffect(() => {
+    let intervalId;
+
+    if (!data.length) {
+      intervalId = setInterval(() => {
+        setIsFetched((prev) => !prev);
+      }, 5000);
+    }
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [data.length]);
 
   if (loading) {
     return <Loading />;

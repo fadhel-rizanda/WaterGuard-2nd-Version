@@ -13,9 +13,21 @@ import { useNavigate } from "react-router-dom";
 
 export const ForgotPassword = ({ onDirect, onForget }) => {
   const [data, setData] = useState([]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
   const [showPassword, setShowPassword] = useState(false);
   const timeoutRef = useRef(null);
   const [loading, setLoading] = useState(true);
@@ -24,6 +36,17 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
 
   const { dispatch } = useAuthContext();
   const navigate = useNavigate();
+  const handleLogin = () => {
+    dispatch({ type: "LOGIN", payload: formData });
+    if (rememberMe) {
+      window.localStorage.setItem("user", JSON.stringify(formData));
+    }
+    navigate("/");
+  };
+  const [rememberMe, setRememberMe] = useState(false);
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
+  };
 
   const handleShow = (e) => {
     e.preventDefault();
@@ -100,11 +123,11 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
 
   const findAccount = (e) => {
     e.preventDefault();
-    const account = data.find((item) => item.username === username);
+    const account = data.find((item) => item.username === formData.username);
     if (account === undefined) {
-      console.log(username);
+      console.log(formData.username);
       setErrorMessage("Account Not Found");
-    } else if (account.email !== email) {
+    } else if (account.email !== formData.email) {
       setErrorMessage("Incorrect Email, email cannot be different");
     } else {
       setUpdateAccount(account);
@@ -114,7 +137,7 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
 
   const handleSubmit = () => {
     setErrorMessage("handle submit");
-    const passwordError = passwordDifficulty(password);
+    const passwordError = passwordDifficulty(formData.password);
     if (passwordError) {
       setErrorMessage(passwordError);
     } else {
@@ -127,7 +150,7 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
     const url = `http://localhost:8081/user-accounts/forgot-password/${updateAccount.id}`;
 
     const updatedData = {
-      password,
+      password: formData.password,
     };
 
     fetch(url, {
@@ -153,11 +176,6 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
       .catch((error) => {
         console.error("Error:", error);
       });
-
-    const handleLogin = () => {
-      dispatch({ type: "LOGIN", payload: updateAccount });
-      navigate("/");
-    };
   };
 
   return (
@@ -175,11 +193,11 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
           <div className="flex gap-1 border-2 w-full justify-center items-center rounded-full pr-3 bg-opacity-0 focus-within:shadow-custom">
             <input
               type="text"
-              name="Username"
-              id="Username"
-              placeholder="Username"
+              name="username"
+              id="username"
+              placeholder="username"
               required
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleInputChange}
               className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
             />
             <label htmlFor="Username">
@@ -190,11 +208,11 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
           <div className="flex gap-1 border-2 w-full justify-center items-center rounded-full pr-3 bg-opacity-0 focus-within:shadow-custom">
             <input
               type="email"
-              name="Email"
-              id="Email"
+              name="email"
+              id="email"
               placeholder="Email"
               required
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleInputChange}
               className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
             />
             <label htmlFor="Username">
@@ -204,7 +222,7 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
 
           <div
             className={`flex gap-1 border-2 w-full justify-center items-center rounded-full pr-3 bg-opacity-0 focus-within:shadow-custom 
-                ${password.trim() !== "" ? "bg-white" : ""}
+                ${formData.password.trim() !== "" ? "bg-white" : ""}
             `}
           >
             <input
@@ -213,11 +231,11 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
               id="password"
               placeholder="New Password"
               required
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleInputChange}
               className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
             />
 
-            {password.trim() !== "" && (
+            {formData.password.trim() !== "" && (
               <button
                 onClick={showPassword ? handleHide : handleShow}
                 type="button"
@@ -229,7 +247,7 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
                 />
               </button>
             )}
-            {password.trim() === "" && (
+            {formData.password.trim() === "" && (
               <label htmlFor="password">
                 <img
                   src={passwordLogo}
@@ -240,7 +258,19 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
             )}
           </div>
 
-          <div className="w-full flex flex-col xl:flex-row gap-2 justify-center items-center text-white">
+          <div className="w-full flex flex-col xl:flex-row gap-2 justify-between items-center text-white">
+            <div className="flex gap-2 items-center cursor-pointer font-light hover:font-semibold active:font-semibold hover:text-gray-300 active:text-gray-400 transition-all ease-out duration-300">
+              <input
+                type="checkbox"
+                name="rememberMe"
+                id="rememberMe"
+                className="h-3 w-3 cursor-pointer"
+                onChange={handleRememberMe}
+              />
+              <label htmlFor="rememberMe" className="cursor-pointer">
+                Remember me
+              </label>
+            </div>
             <button
               onClick={onForget}
               type="button"

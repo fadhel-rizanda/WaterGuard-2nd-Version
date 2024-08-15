@@ -8,8 +8,19 @@ import { UserProfile } from "./pages/UserProfile";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { NoData } from "./mapComponents/NoData";
 import { ScrollToTop } from "./objects/ScrollToTop";
+import { useAuthContext } from "./hooks/useAuthContext";
+import { useEffect } from "react";
 
 export default function App() {
+  const { dispatch } = useAuthContext();
+  useEffect(() => {
+    const loggedData = window.localStorage.getItem("user");
+    if (loggedData) {
+      const parsedData = JSON.parse(loggedData);
+      dispatch({ type: "LOGIN", payload: parsedData });
+    }
+  }, [dispatch]);
+
   return (
     <>
       <Router>
