@@ -389,6 +389,33 @@ app.delete("/user/:id", (req, res) => {
 
 // =====================================================================================================
 
+// Handle water conditions database activity
+app.post("/water-conditions-activity", (req, res) => {
+  const { admin_id, location_id, activity_type, activity_description } =
+    req.body;
+  if (!admin_id || !location_id || !activity_type || !activity_description) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const sql = `
+    INSERT INTO water_conditions_activity (
+      admin_id, location_id, activity_type, activity_description) VALUES (?, ?, ?, ?);`;
+
+  db.query(
+    sql,
+    [admin_id, location_id, activity_type, activity_description],
+    (err) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: "Failed to insert record" });
+      }
+      res.json({ success: "Record inserted successfully" });
+    }
+  );
+});
+
+// =====================================================================================================
+
 app.listen(8081, () => {
   console.log("Listening on port 8081");
 });
