@@ -55,7 +55,7 @@ export const Home = () => {
     if (!data.length) {
       intervalId = setInterval(() => {
         setIsFetched((prev) => !prev);
-      }, 5000);
+      }, 10000);
     }
     return () => {
       if (intervalId) {

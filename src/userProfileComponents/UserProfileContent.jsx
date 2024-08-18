@@ -44,23 +44,43 @@ export const UserProfileContent = () => {
   const [logoutButton, setLogoutButton] = useState(false);
 
   const [formData, setFormData] = useState({
-    username: user.username || "",
-    email: user.email || "",
-    password: user.password || "",
-    phone_number: user.phone_number || "",
-    gender: user.gender || "",
-    date_of_birth: user.date_of_birth || "",
-    role: user.role || "",
-    location_name: user.location_name || "",
-    location_lat: user.location_lat || "",
-    location_lng: user.location_lng || "",
-    profile_picture: user.profile_picture || null,
-    profile_picture_extension: user.profile_picture_extension || "",
+    id: "",
+    username: "",
+    email: "",
+    password: "",
+    phone_number: "",
+    gender: "",
+    date_of_birth: "",
+    role: "",
+    location_name: "",
+    location_lat: "",
+    location_lng: "",
+    profile_picture: null,
+    profile_picture_extension: "",
   });
+
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        id: user.id || "",
+        username: user.username || "",
+        email: user.email || "",
+        password: user.password || "",
+        phone_number: user.phone_number || "",
+        gender: user.gender || "",
+        date_of_birth: user.date_of_birth || "",
+        role: user.role || "",
+        location_name: user.location_name || "",
+        location_lat: user.location_lat || "",
+        location_lng: user.location_lng || "",
+        profile_picture: user.profile_picture || null,
+        profile_picture_extension: user.profile_picture_extension || "",
+      });
+    }
+  }, [user, successUpdate]);
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-
     if (name === "profile_picture" && files.length > 0) {
       console.log("File selected:", files[0]);
       setFormData({
@@ -157,7 +177,14 @@ export const UserProfileContent = () => {
   };
 
   const handleUpdate = () => {
-    const url = `http://localhost:8081/user-accounts/${user.id}`;
+    if (!user || !user.id) {
+      console.error("User ID is missing");
+      return;
+    } else {
+      console.log(user.id);
+    }
+
+    const url = `http://localhost:8081/user-accounts/${formData.id}`;
     const phone_number = formData.phone_number || null;
     const gender = formData.gender || null;
     const date_of_birth = formData.date_of_birth || null;
@@ -207,6 +234,7 @@ export const UserProfileContent = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
+        console.error(formData);
       });
   };
 
@@ -257,12 +285,12 @@ export const UserProfileContent = () => {
   const [updateRoleButton, setUpdateRoleButton] = useState(false);
 
   useEffect(() => {
-    if (user.role === "Affiliated Professional") {
+    if (formData.role === "Affiliated Professional") {
       setProfesional(true);
     } else {
       setProfesional(false);
     }
-  }, [user.role]);
+  }, [formData.role]);
   const handleProfesional = () => {
     setProfesional(true);
   };
@@ -284,23 +312,6 @@ export const UserProfileContent = () => {
 
   const [ppUrl, setPpUrl] = useState("");
 
-  // Ensure you're handling both file objects and string URLs correctly
-  useEffect(() => {
-    if (user?.profile_picture) {
-      if (typeof user.profile_picture === "string") {
-        // If it's a URL or filename, use it directly
-        setPpUrl(`/profile-picture/${user.profile_picture}`);
-      } else if (user.profile_picture instanceof File) {
-        // If it's a File object, create a temporary URL for it
-        const fileUrl = URL.createObjectURL(user.profile_picture);
-        setPpUrl(fileUrl);
-
-        // Clean up the object URL after the component unmounts
-        return () => URL.revokeObjectURL(fileUrl);
-      }
-    }
-  }, [user.profile_picture, updateButton]);
-
   useEffect(() => {
     if (formData?.profile_picture) {
       if (typeof formData.profile_picture === "string") {
@@ -308,10 +319,14 @@ export const UserProfileContent = () => {
       } else if (formData.profile_picture instanceof File) {
         const fileUrl = URL.createObjectURL(formData.profile_picture);
         setPpUrl(fileUrl);
-        return () => URL.revokeObjectURL(fileUrl);
+        return () => {
+          URL.revokeObjectURL(fileUrl);
+        };
       }
+    } else {
+      setPpUrl(guestPicture);
     }
-  }, [formData.profile_picture]);
+  }, [formData.profile_picture, successUpdate]);
 
   return (
     <div className="h-full w-full flex justify-center items-center p-10">
@@ -563,8 +578,7 @@ export const UserProfileContent = () => {
                   onChange={handleInputChange}
                   value={formData.role}
                   className={`text-black ${
-                    !updateButton &&
-                    "text-white bg-white bg-opacity-30 opacity-70"
+                    !updateButton && "text-white bg-white bg-opacity-30"
                   } block w-full p-1 rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                 >
                   <option value="Conventional User">Conventional User</option>
@@ -575,9 +589,10 @@ export const UserProfileContent = () => {
 
                 {/*  */}
                 <div
-                  className={`cursor-default h-fit w-fit my-2 text-white opacity-70 ${
-                    updateButton &&
-                    "cursor-pointer hover:italic hover:font-medium opacity-100"
+                  className={`cursor-default h-fit w-fit my-2 text-white ${
+                    updateButton
+                      ? "cursor-pointer hover:italic hover:font-medium opacity-100"
+                      : " opacity-70 "
                   } text-sm font-light trasition ease-out duration-300`}
                 >
                   {!profesional ? (
@@ -587,9 +602,9 @@ export const UserProfileContent = () => {
                       className="flex flex-wrap gap-1 items-center"
                       onClick={handleUpdateRoleButton}
                     >
-                      You Are{" "}
+                      You are{" "}
                       <span className="text-red-500 font-black">not</span> a
-                      Professional
+                      professional
                       <span className="text-xs">(click to change role)</span>
                     </button>
                   ) : (
@@ -603,9 +618,9 @@ export const UserProfileContent = () => {
                       } text-sm font-light trasition ease-out duration-300`}
                       onClick={handleUpdateRoleButton}
                     >
-                      You Are{" "}
+                      You are{" "}
                       <span className="text-green-500 font-black">a</span>{" "}
-                      Professional
+                      professional
                     </button>
                   )}
                 </div>
@@ -681,8 +696,8 @@ export const UserProfileContent = () => {
                 type="button"
                 onClick={handleChangePP}
                 disabled={!updateButton}
-                className={`flex flex-wrap gap-1 font-light opacity-70 ${
-                  updateButton && "hover:font-bold opacity-100"
+                className={`flex flex-wrap gap-1 font-light ${
+                  updateButton ? "hover:font-bold opacity-100" : "opacity-70"
                 } text-sm transition-all ease-out duration-500`}
               >
                 Do you want to{" "}
@@ -722,7 +737,7 @@ export const UserProfileContent = () => {
                         onChange={handleInputChange}
                         accept="image/png, image/jpeg, image/jpg, image/gif"
                         required
-                        className="w-52 text-sm mt-1 font-semibold file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100 transition ease-out duration-300"
+                        className="w-52 text-sm mt-1 font-semibold file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100 transition ease-out duration-300"
                       />
                     </div>
                   </div>

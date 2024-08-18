@@ -5,7 +5,6 @@ import alertLogo from "/ASSET/image-logo/alert.png";
 
 export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
   const [textDelete, setTextDelete] = useState("");
-  const [wrongTextDelete, setWrongTextDelete] = useState(false);
 
   const getFirstWord = (str) => {
     const firstWord = str.split(" ")[0];
@@ -14,11 +13,14 @@ export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
     );
   };
 
+  const [adminPassword, setAdminPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const verifyText = () => {
     if (textDelete !== getFirstWord(selectedData.name)) {
-      setWrongTextDelete(true);
+      setErrorMessage("Wrong Text");
+    } else if (adminPassword !== "Admin!23DELETE") {
+      setErrorMessage("Wrong Delete Password");
     } else {
-      setWrongTextDelete(false);
       deleteData(selectedData.id);
     }
   };
@@ -75,13 +77,26 @@ export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             placeholder="Enter Text"
           />
-          {wrongTextDelete && (
-            <div className="mt-2 flex gap-1 text-red-500 items-center text-sm">
-              <img src={alertLogo} alt="alert" className="w-3.5 h-3.5" />
-              Wrong text
-            </div>
-          )}
         </div>
+
+        <div className="">
+          <input
+            type="password"
+            id="adminPassword"
+            name="adminPassword"
+            onChange={(e) => setAdminPassword(e.target.value)}
+            required
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            placeholder="Enter Delete Password"
+          />
+        </div>
+
+        {errorMessage && (
+          <div className="mt-2 flex gap-1 text-red-500 items-center text-sm">
+            <img src={alertLogo} alt="alert" className="w-3.5 h-3.5" />
+            {errorMessage}
+          </div>
+        )}
 
         <div className="flex gap-5 text-xs sm:text-base">
           <button

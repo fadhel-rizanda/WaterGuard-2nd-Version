@@ -22,7 +22,7 @@ export default {
         bgUserLogoutDelete: "url('/ASSET/image-background/2151529702.jpg')",
       },
       height: {
-        custom: "450px",
+        custom: "470px",
       },
       transitionProperty: {
         padding: "padding",

@@ -7,6 +7,7 @@ import aboutLogo from "/ASSET/image-logo/about.png";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import guestPicture from "/ASSET/image-background/guestPicture.png";
 
 export const Navbar = () => {
   const [hamburgerActive, setHamburgerActive] = useState(false);
@@ -28,6 +29,21 @@ export const Navbar = () => {
 
     return () => window.removeEventListener("resize", handleWindowSize);
   }, []);
+
+  const [ppUrl, setPpUrl] = useState("");
+  useEffect(() => {
+    if (user?.profile_picture) {
+      if (typeof user.profile_picture === "string") {
+        setPpUrl(`/profile-picture/${user.profile_picture}`);
+      } else if (user.profile_picture instanceof File) {
+        const fileUrl = URL.createObjectURL(user.profile_picture);
+        setPpUrl(fileUrl);
+        return () => URL.revokeObjectURL(fileUrl);
+      }
+    } else {
+      setPpUrl(guestPicture);
+    }
+  }, [user?.profile_picture]);
 
   return (
     <>
@@ -70,7 +86,7 @@ export const Navbar = () => {
           </Link>
         </div>
 
-        <div className="flex gap-5 items-center w-1/3 justify-end">
+        <div className="flex gap-10 items-center w-1/3 justify-end">
           <div className="flex justify-end hover:pr-2 group transition-all duration-500 ease-out">
             {user ? (
               <Link
@@ -78,7 +94,14 @@ export const Navbar = () => {
                 onClick={() => setHamburgerActive(false)}
                 className="flex items-center gap-1 hover:pr-2 cursor-pointer transition-all duration-500 ease-out"
               >
-                <div className="flex items-center gap-1 group-hover:font-semibold group-hover:text-gray-400 active:text-gray-300 font-light transition-all duration-500">
+                <div className="flex gap-2 items-center group-hover:font-semibold group-hover:text-gray-400 active:text-gray-300 font-light transition-all duration-500">
+                  <img
+                    src={ppUrl}
+                    alt="profile picture"
+                    className={`object-cover w-8 h-8 group-hover:w-9 group-hover:h-9  sm:w-9 sm:h-9 group-hover:sm:w-10 group-hover:sm:h-10  rounded-full transition-all ease-out duration-500 ${
+                      !ppUrl && "border-2 border-black  "
+                    }`}
+                  />
                   <span>{user.username}</span>
                 </div>
               </Link>
@@ -99,7 +122,7 @@ export const Navbar = () => {
           <img
             src={hamburgerLogo}
             alt="Hamburger Icon"
-            className="w-7 h-5 flex md:hidden px-1 rounded-xl cursor-pointer transition-all duration-200 ease-out active:bg-gray-300"
+            className="w-7 h-5 hover:shadow-custom hover:h-7 flex md:hidden px-1 rounded-md cursor-pointer transition-all duration-300 ease-out active:bg-gray-300"
             onClick={handleHamburger}
           />
         </div>

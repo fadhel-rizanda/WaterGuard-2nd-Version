@@ -13,13 +13,13 @@ import { useEffect } from "react";
 
 export default function App() {
   const { dispatch } = useAuthContext();
+  const loggedData = window.localStorage.getItem("user");
   useEffect(() => {
-    const loggedData = window.localStorage.getItem("user");
     if (loggedData) {
       const parsedData = JSON.parse(loggedData);
       dispatch({ type: "LOGIN", payload: parsedData });
     }
-  }, [dispatch]);
+  }, [dispatch, loggedData]);
 
   return (
     <>

@@ -33,7 +33,6 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-
     if (name === "ika_file" && files.length > 0) {
       console.log(files[0]);
       setFormData({
@@ -95,11 +94,12 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
       });
   };
 
-  const verifyPassword = () => {
+  const verifyPassword = (e) => {
+    e.preventDefault();
     if (user.role !== "Affiliated Professional") {
       setWrongPassword(true);
       setErrorMessage(`Your role must be "Affiliated Proffesional"`);
-    } else if (passwordValue !== "admin123") {
+    } else if (passwordValue !== "Admin!23") {
       setWrongPassword(true);
       setErrorMessage("Wrong Password");
     } else {
@@ -227,7 +227,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
                   setProfesional(false);
                 }}
               >
-                Are You not a Professional ?
+                Are you not a Professional ?
                 <span className="text-xs">(optional)</span>
               </div>
             ) : (
@@ -237,7 +237,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
                   setPasswordActive(true);
                 }}
               >
-                Are You a Professional ?
+                Are you a Professional ?
                 <span className="text-xs">(optional)</span>
               </div>
             )}{" "}
@@ -270,6 +270,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
               )}
 
               <button
+                type="button"
                 onClick={verifyPassword}
                 className="text-start text-sm rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200"
               >
