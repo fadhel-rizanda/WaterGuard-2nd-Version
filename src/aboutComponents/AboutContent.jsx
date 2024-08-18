@@ -3,6 +3,9 @@ import image2 from "/ASSET/image-background/realistic-water-drop-with-ecosystem 
 import image3 from "/ASSET/image-background/26760925_2112.i301.031.S.m004.c13.UI and UX designers concepts isometric composition.png";
 import { Scrolll } from "./Scrolll";
 import { PersonalInfo } from "./PersonalInfo";
+import { ContactsContent } from "../homeComponents/ContactsContent";
+import { FAQContent } from "../homeComponents/FAQContent";
+import { DescriptionApp } from "./DescriptionApp";
 
 export const AboutContent = () => {
   return (
@@ -12,7 +15,7 @@ export const AboutContent = () => {
         <div className="text-white xl:mt-16 text-9xl font-bold text-shadow">
           About Us
         </div>
-        <div className="text-white w-3/4 bg-black bg-opacity-20 p-1 rounded-xl h-fit shadow-custom">
+        <div className="text-white text-2xl w-3/4 bg-black bg-opacity-20 p-1 rounded-xl h-fit shadow-custom">
           Welcome to WaterGuard! We provide real-time, accurate water quality
           data to help you monitor and improve water resources in Jakarta. Our
           advanced tools and user-friendly platform empower you to manage water
@@ -105,6 +108,15 @@ export const AboutContent = () => {
           cleaner, safer, and more sustainable world for everyone.
         </div>
         <img src={image2} alt="" className="md:w-2/5 rounded-xl flex w-0" />
+      </div>
+
+      <DescriptionApp />
+
+      <div className="shadow-custom mt-28">
+        <ContactsContent />
+      </div>
+      <div className="mb-20">
+        <FAQContent />
       </div>
 
       {/* 3 */}

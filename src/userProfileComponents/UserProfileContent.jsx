@@ -726,7 +726,7 @@ export const UserProfileContent = () => {
                         className="w-52 h-52 object-cover rounded-xl"
                       />
 
-                      <div className="text-xl">{user.username}</div>
+                      <div className="text-xl">{formData.username}</div>
                     </div>
 
                     <div className="flex">

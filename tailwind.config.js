@@ -20,6 +20,7 @@ export default {
         bgLogin: "url('/ASSET/image-background/2151587958.jpg')",
         bgUserProfile: "url('/ASSET/image-background/2151587988.jpg')",
         bgUserLogoutDelete: "url('/ASSET/image-background/2151529702.jpg')",
+        bgUserAboutDescription: "url('/ASSET/image-logo/waterGuard.png')",
       },
       height: {
         custom: "470px",
