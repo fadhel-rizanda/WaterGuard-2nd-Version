@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { CloseDisplay } from "../objects/CloseDisplay";
 import alertLogo from "/ASSET/image-logo/alert.png";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export const AddData = ({ onUpdate, onClose }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -22,6 +23,7 @@ export const AddData = ({ onUpdate, onClose }) => {
     lastUpdate: "",
     ika_file: null,
   });
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -65,14 +67,13 @@ export const AddData = ({ onUpdate, onClose }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `http://localhost:8081/water-conditions`;
     const status = profesional ? "verified" : "unverified";
-    const ika_score = profesional ? formData.ika_score : null;    
+    const ika_score = profesional ? formData.ika_score : null;
     const ika_file = profesional ? formData.ika_file : null;
     const file_extension = ika_file ? ika_file.name.split(".").pop() || "" : "";
-  
 
     const formatToSend = new FormData();
     formatToSend.append("name", formData.name);
@@ -88,9 +89,80 @@ export const AddData = ({ onUpdate, onClose }) => {
     formatToSend.append("ika_file", ika_file);
     formatToSend.append("file_extension", file_extension);
 
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: formatToSend,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error posting water conditions: ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log("Water conditions posted successfully:", data);
+
+      if (onUpdate) onUpdate();
+      onClose();
+
+      await postUserActivity();
+    } catch (error) {
+      console.error("Error in handleSubmit:", error);
+    }
+  };
+
+  const getLocationId = async (location_name, location_time) => {
+    try {
+      const response = await fetch("http://localhost:8081/user");
+      if (!response.ok)
+        throw new Error(`Error fetching user data: ${response.statusText}`);
+
+      const data = await response.json();
+      console.log("Fetched user data:", data);
+
+      if (Array.isArray(data)) {
+        const location = data.find(
+          (loc) =>
+            loc.name === location_name && loc.lastUpdate === location_time
+        );
+        if (location) {
+          console.log(location.id);
+          return location.id;
+        } else {
+          throw new Error(
+            `Location with name '${location_name}' and time '${location_time}' not found`
+          );
+        }
+      } else {
+        throw new Error("Server response is not an array");
+      }
+    } catch (error) {
+      console.error("Error in getLocationId:", error);
+      throw error;
+    }
+  };
+
+  const postUserActivity = async () => {
+    const url = `http://localhost:8081/user-monitoring-activity/post`;
+    const location_id = await getLocationId(formData.name, formattedTime);
+    const user_activity = "ADD";
+    const verify =
+      user.role === "Affiliated Professional" ? "verified" : "unverified";
+    const user_activity_description = `${user_activity}_${user.id}_${formData.name}_${formattedTime}_${verify}`;
+    const insertedData = {
+      user_id: user.id,
+      location_id: location_id,
+      user_activity: user_activity,
+      user_activity_description: user_activity_description,
+    };
+
     fetch(url, {
-      method: "POST",      
-      body: formatToSend,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(insertedData),
     })
       .then((response) => {
         if (!response.ok) {
@@ -102,8 +174,6 @@ export const AddData = ({ onUpdate, onClose }) => {
       })
       .then((data) => {
         console.log("Success:", data);
-        if (onUpdate) onUpdate();
-        onClose();
       })
       .catch((error) => {
         console.error("Error:", error);

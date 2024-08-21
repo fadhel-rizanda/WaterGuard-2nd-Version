@@ -389,21 +389,29 @@ app.delete("/user/:id", (req, res) => {
 
 // =====================================================================================================
 
-// Handle water conditions database activity
-app.post("/water-conditions-activity", (req, res) => {
-  const { admin_id, location_id, activity_type, activity_description } =
-    req.body;
-  if (!admin_id || !location_id || !activity_type || !activity_description) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
+// user_monitoring_activity
+// get data
+app.get("/user-monitoring-activity/get", (req, res) => {
+  const sql = "SELECT * FROM user_monitoring_activity";
+  db.query(sql, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.json(data);
+  });
+});
 
-  const sql = `
-    INSERT INTO water_conditions_activity (
-      admin_id, location_id, activity_type, activity_description) VALUES (?, ?, ?, ?);`;
+// post activity
+app.post("/user-monitoring-activity/post", (req, res) => {
+  const { user_id, location_id, user_activity, user_activity_description } =
+    req.body;
+  // if (!user_id || !location_id || !user_activity || !user_activity_description)
+  //   return res.status(400).json({ error: "Missing required fields" });
+
+  const sql =
+    "INSERT INTO user_monitoring_activity (user_id, location_id, user_activity, user_activity_description) VALUES (?, ?, ?, ?)";
 
   db.query(
     sql,
-    [admin_id, location_id, activity_type, activity_description],
+    [user_id, location_id, user_activity, user_activity_description],
     (err) => {
       if (err) {
         console.error("Database error:", err);
@@ -413,6 +421,53 @@ app.post("/water-conditions-activity", (req, res) => {
     }
   );
 });
+
+// update role user_accounts
+app.put("/user-accounts/update-role/:id", (res, req) => {
+  const { id } = req.params;
+  const { role } = req.body;
+
+  if (!role) return res.status(400).json({ error: "Missing required fields" });
+
+  const checkSql = "SELECT id FROM user_accounts WHERE id = ?";
+  db.query(checkSql, [id], (checkErr, data) => {
+    if (checkErr) {
+      console.error("Database error:", checkErr);
+      return res
+        .status(500)
+        .json({ error: "Failed to check record existence" });
+    }
+
+    if (data.length === 0)
+      return res.status(404).json({ error: "Record not found" });
+
+    const sql = "UPDATE user_accounts SET role = ? WHERE id = ?";
+    db.query(sql, [id, role], (err) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: "Failed to update record" });
+      }
+      res.json({ success: "Record updated successfully" });
+    });
+  });
+});
+
+// Delete data user account
+// app.delete("/user-accounts/:id", (req, res) => {
+//   const { id } = req.params;
+//   if (!id) {
+//     return res.status(400).json({ error: "Missing required fields" });
+//   }
+//   const sql = `DELETE FROM user_accounts WHERE id = ?`;
+
+//   db.query(sql, [id], (err) => {
+//     if (err) {
+//       console.error("Database error:", err);
+//       return res.status(500).json({ error: "Failed to delete record" });
+//     }
+//     res.json({ success: "Record deleted successfully" });
+//   });
+// });
 
 // =====================================================================================================
 

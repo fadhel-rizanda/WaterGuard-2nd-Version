@@ -10,6 +10,7 @@ import { NoData } from "./mapComponents/NoData";
 import { ScrollToTop } from "./objects/ScrollToTop";
 import { useAuthContext } from "./hooks/useAuthContext";
 import { useEffect } from "react";
+import { UserActivity } from "./pages/UserActivity";
 
 export default function App() {
   const { dispatch } = useAuthContext();
@@ -33,6 +34,7 @@ export default function App() {
             <Route path="/monitoring" element={<Monitoring />} />
             <Route path="/loginSignin" element={<LoginSignin />} />
             <Route path="/userProfile" element={<UserProfile />} />
+            <Route path="/userMonitoring" element={<UserActivity />} />
             <Route path="/*" element={<NoData />} />
           </Routes>
         </div>
