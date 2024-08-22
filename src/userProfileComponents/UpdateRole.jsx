@@ -6,25 +6,28 @@ import showLogo from "/ASSET/image-logo/mdi--show-outline.png";
 import hideLogo from "/ASSET/image-logo/mdi--hide-outline.png";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-export const UpdateRole = ({ verify, onClose, imNot }) => {
+export const UpdateRole = ({ verify, onClose, imNot, handleAdmin }) => {
   const { user } = useAuthContext();
-  const [passwordDelete, setPasswordDelete] = useState("");
-  const [wrongPasswordDelete, setWrongPasswordDelete] = useState(false);
+  const [passwordRole, setPasswordRole] = useState("");
+  const [wrongPasswordRole, setWrongPasswordRole] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   let [errorCounter, setErrorCounter] = useState(1);
   const timeoutRef = useRef(null);
   const verifyText = () => {
-    if (passwordDelete !== "Admin!23") {
-      setWrongPasswordDelete(true);
+    if (passwordRole === "Admin!23" || passwordRole === "Professional!23") {
+      setWrongPasswordRole(false);
+      if (passwordRole === "Admin!23") {
+        handleAdmin();
+      }
+      verify();
+      onClose();
+    } else {
+      setWrongPasswordRole(true);
       setErrorCounter((e) => e + 1);
       console.log(errorCounter);
       if (errorCounter === 3) {
         onClose();
       }
-    } else {
-      setWrongPasswordDelete(false);
-      verify();
-      onClose();
     }
   };
   const handleShow = () => {
@@ -68,9 +71,9 @@ export const UpdateRole = ({ verify, onClose, imNot }) => {
           <div className="flex justify-between p-1 bg-white text-black rounded-md shadow-sm border-2 focus-within:ring-indigo-500 focus-within:border-indigo-500 sm:text-sm">
             <input
               type={showPassword ? "text" : "password"}
-              id="passwordDelete"
-              name="passwordDelete"
-              onChange={(e) => setPasswordDelete(e.target.value)}
+              id="passwordRole"
+              name="passwordRole"
+              onChange={(e) => setPasswordRole(e.target.value)}
               required
               placeholder="Enter Password"
               className="bg-white w-full focus:outline-none"
@@ -90,7 +93,7 @@ export const UpdateRole = ({ verify, onClose, imNot }) => {
           </div>
         </div>
 
-        {wrongPasswordDelete && (
+        {wrongPasswordRole && (
           <div className="mt-2 flex gap-1 text-red-500 items-center text-sm">
             <img src={alertLogo} alt="alert" className="w-3.5 h-3.5" />
             Wrong Password
@@ -126,4 +129,5 @@ UpdateRole.propTypes = {
   onClose: PropTypes.func,
   verify: PropTypes.func,
   imNot: PropTypes.func,
+  handleAdmin: PropTypes.func,
 };

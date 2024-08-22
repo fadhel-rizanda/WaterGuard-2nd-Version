@@ -2,9 +2,16 @@ import PropTypes from "prop-types";
 import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
 import { useState } from "react";
 import alertLogo from "/ASSET/image-logo/alert.png";
+import { useAuthContext } from "../hooks/useAuthContext";
 
-export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
+export const DeleteData = ({
+  selectedData,
+  formattedTime,
+  onUpdate,
+  onClose,
+}) => {
   const [textDelete, setTextDelete] = useState("");
+  const { user } = useAuthContext();
 
   const getFirstWord = (str) => {
     const firstWord = str.split(" ")[0];
@@ -25,13 +32,53 @@ export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
     }
   };
 
-  const deleteData = (dataID) => {
+  const deleteData = async (dataID) => {
     const url = `http://localhost:8081/user/${dataID}`;
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error deleting water conditions: ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log("Water conditions deleted successfully:", data);
+      await postUserActivity();
+      if (onUpdate) onUpdate();
+      onClose();
+    } catch (error) {
+      console.log("Error in deleteData:", error);
+    }
+  };
+  const postUserActivity = async () => {
+    const url = `http://localhost:8081/user-monitoring-activity/post`;
+    const location_id = selectedData.id;
+    const location_name = selectedData.name;
+    const user_activity = "DELETE";
+    const verify =
+      user.role === "Affiliated Professional" ? "verified" : "unverified";
+    const location_category = selectedData.ikaCategories;
+    const user_activity_description = `${user_activity}_${user.id}_${user.username}_${location_id}_${location_name}_${location_category}_${formattedTime}_${verify}`;
+
+    const insertedData = {
+      user_id: user.id,
+      location_id: location_id,
+      user_activity: user_activity,
+      user_activity_description: user_activity_description,
+    };
+
     fetch(url, {
-      method: "DELETE",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(insertedData),
     })
       .then((response) => {
         if (!response.ok) {
@@ -43,8 +90,6 @@ export const DeleteData = ({ selectedData, onUpdate, onClose }) => {
       })
       .then((data) => {
         console.log("Success:", data);
-        if (onUpdate) onUpdate();
-        onClose();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -125,7 +170,10 @@ DeleteData.propTypes = {
   selectedData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
+    ikaCategories: PropTypes.string.isRequired,
   }),
+
+  formattedTime: PropTypes.string,
   onClose: PropTypes.func.isRequired,
   onUpdate: PropTypes.func,
 };

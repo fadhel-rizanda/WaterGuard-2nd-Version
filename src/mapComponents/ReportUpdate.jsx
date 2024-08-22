@@ -53,7 +53,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   };
 
   // untuk mengirim data dalam bentuk file harus menggunakan FormData, jika tidak maka dapat menggunakna json
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `http://localhost:8081/user/${selectedData.id}`;
     const status = profesional ? "verified" : "unverified";
@@ -72,9 +72,51 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     formatToSend.append("ikaCategories", formData.ikaCategories);
     formatToSend.append("lastUpdate", formattedTime);
 
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        body: formatToSend,
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Error posting water conditions: ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log("Water conditions posted successfully:", data);
+
+      if (onUpdate) onUpdate();
+      onClose();
+
+      await postUserActivity();
+    } catch (error) {
+      console.log("Error in handleSubmit:", error);
+    }
+  };
+  const postUserActivity = async () => {
+    const url = `http://localhost:8081/user-monitoring-activity/post`;
+    const location_id = selectedData.id;
+    const location_name = selectedData.name;
+    const user_activity = "UPDATE";
+    const verify =
+      user.role === "Affiliated Professional" ? "verified" : "unverified";
+    const location_category = selectedData.ikaCategories;
+    const user_activity_description = `${user_activity}_${user.id}_${user.username}_${location_id}_${location_name}_${location_category}_${formattedTime}_${verify}`;
+
+    const insertedData = {
+      user_id: user.id,
+      location_id: location_id,
+      user_activity: user_activity,
+      user_activity_description: user_activity_description,
+    };
+
     fetch(url, {
-      method: "PUT",
-      body: formatToSend,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(insertedData),
     })
       .then((response) => {
         if (!response.ok) {
@@ -86,8 +128,6 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
       })
       .then((data) => {
         console.log("Success:", data);
-        if (onUpdate) onUpdate();
-        onClose();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -318,7 +358,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row gap-5 items-center">
+          <div className="flex flex-co pb-10 sm:flex-row gap-5 items-center">
             <div className="flex gap-5">
               <button
                 type="submit"
@@ -352,6 +392,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
               selectedData={deleteData}
               onUpdate={onUpdate}
               onClose={handleClose}
+              formattedTime={formattedTime}
             />
           )}
         </form>

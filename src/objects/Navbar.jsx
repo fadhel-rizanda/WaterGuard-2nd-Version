@@ -3,6 +3,7 @@ import loginLogo from "/ASSET/image-logo/login.png";
 import hamburgerLogo from "/ASSET/image-logo/hamburger.png";
 import homeLogo from "/ASSET/image-logo/home.png";
 import monitoringLogo from "/ASSET/image-logo/monitoring.png";
+import adminLogo from "/ASSET/image-logo/admin.png";
 import aboutLogo from "/ASSET/image-logo/about.png";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -84,6 +85,15 @@ export const Navbar = () => {
           >
             About
           </Link>
+
+          {user && user.role === "Admin Operator" && (
+            <Link
+              to={"/userMonitoring"}
+              className="cursor-pointer hover:font-semibold hover:text-gray-400 transition-all ease-out duration-500 active:text-gray-300"
+            >
+              Admin
+            </Link>
+          )}
         </div>
 
         <div className="flex gap-10 items-center w-1/3 justify-end">
@@ -158,6 +168,16 @@ export const Navbar = () => {
             <img src={aboutLogo} alt="About Icon" className="w-8" />
             <div>About</div>
           </Link>
+          {user && user.role === "Admin Operator" && (
+            <Link
+              to={"/userMonitoring"}
+              onClick={() => setHamburgerActive(false)}
+              className="cursor-pointer hover:text-gray-400 hover:pl-1 hover:font-bold active:text-gray-300 flex gap-1 items-center border-b-2 border-black pb-3 transition-all duration-500 ease-out"
+            >
+              <img src={adminLogo} alt="About Icon" className="w-8" />
+              Admin
+            </Link>
+          )}
         </div>
       </div>
     </>

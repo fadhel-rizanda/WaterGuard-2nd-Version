@@ -98,7 +98,7 @@ export const FirstSection = ({ getData, updateData }) => {
                 <img
                   src={refreshLogo}
                   alt=""
-                  className="w-4 h-4 hover:rotate-45 active:rotate-180 transition-all ease-out duration-200"
+                  className="cursor-pointer w-4 h-4 hover:rotate-45 active:rotate-180 transition-all ease-out duration-200"
                   onClick={updateData}
                 />
               </div>

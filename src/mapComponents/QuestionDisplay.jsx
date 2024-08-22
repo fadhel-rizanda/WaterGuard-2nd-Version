@@ -8,12 +8,29 @@ import location5 from "/ASSET/image-logo/image-logo-location/location-5.png";
 import locationCheck from "/ASSET/image-logo/image-logo-location/location-check.png";
 import locationQuestion from "/ASSET/image-logo/image-logo-location/location-question.png";
 import { IndicatorInformation } from "../objects/IndicatorInformation";
+import { useEffect, useRef } from "react";
 
 export const QuestionDisplay = ({ onClose }) => {
+  const modalRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
     <>
       <div className="fixed inset-0 bg-white bg-opacity-75 flex justify-center items-center z-50">
-        <div className="overflow-auto max-h-[80vh] no-scrollbar bg-white mx-20 sm:max-w-3xl rounded-xl border-2 shadow-custom  flex flex-col p-10 pt-5">
+        <div
+          ref={modalRef}
+          className="overflow-auto max-h-[80vh] no-scrollbar bg-white mx-20 sm:max-w-3xl rounded-xl border-2 shadow-custom  flex flex-col p-10 pt-5"
+        >
           <CloseDisplay onClose={onClose} />
           {/* 1 */}
           <div className="">

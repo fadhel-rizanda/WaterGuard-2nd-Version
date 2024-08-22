@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CloseDisplay } from "../objects/CloseDisplay";
 import alertLogo from "/ASSET/image-logo/alert.png";
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -10,20 +10,20 @@ export const AddData = ({ onUpdate, onClose }) => {
   const [passwordValue, setPasswordValue] = useState("");
   const [profesional, setProfesional] = useState(false);
   const [wrongPassword, setWrongPassword] = useState(false);
+  const { user } = useAuthContext();
   const [formData, setFormData] = useState({
     name: "",
     lat: "",
     lng: "",
     status: "",
     ika_score: "",
-    reporter_name: "",
-    email: "",
+    reporter_name: user?.username || "",
+    email: user?.email || "",
     description: "",
     ikaCategories: "",
     lastUpdate: "",
     ika_file: null,
   });
-  const { user } = useAuthContext();
 
   useEffect(() => {
     const timerId = setInterval(() => {
@@ -142,14 +142,16 @@ export const AddData = ({ onUpdate, onClose }) => {
       throw error;
     }
   };
-
   const postUserActivity = async () => {
     const url = `http://localhost:8081/user-monitoring-activity/post`;
     const location_id = await getLocationId(formData.name, formattedTime);
+    const location_name = formData.name;
     const user_activity = "ADD";
     const verify =
       user.role === "Affiliated Professional" ? "verified" : "unverified";
-    const user_activity_description = `${user_activity}_${user.id}_${formData.name}_${formattedTime}_${verify}`;
+    const location_category = formData.ikaCategories;
+    const user_activity_description = `${user_activity}_${user.id}_${user.username}_${location_id}_${location_name}_${location_category}_${formattedTime}_${verify}`;
+
     const insertedData = {
       user_id: user.id,
       location_id: location_id,
@@ -180,9 +182,22 @@ export const AddData = ({ onUpdate, onClose }) => {
       });
   };
 
+  const modalRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose(); 
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+  
   return (
     <div className="fixed inset-0 bg-white bg-opacity-75 flex justify-center items-center z-50">
-      <div className="bg-white  w-4/5  sm:max-w-3xl rounded-xl border-2 shadow-custom p-7 pt-2 flex flex-col text-center sm:text-left">
+      <div ref={modalRef} className="bg-white w-4/5  sm:max-w-3xl rounded-xl border-2 shadow-custom p-7 pt-2 flex flex-col text-center sm:text-left">
         <div className="flex flex-col lg:gap-2 overflow-auto max-h-[80vh] no-scrollbar">
           <CloseDisplay onClose={onClose} />
 
@@ -391,6 +406,7 @@ export const AddData = ({ onUpdate, onClose }) => {
                 )}
 
                 <button
+                type="button"
                   onClick={verifyPassword}
                   className="text-start text-sm rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-300"
                 >

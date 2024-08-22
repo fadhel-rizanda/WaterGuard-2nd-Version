@@ -161,15 +161,19 @@ export const UserProfileContent = () => {
     if (passwordError) {
       setErrorMessage(passwordError);
     } else if (
-      formData.phone_number !== "" &&
+      !formData.phone_number.length &&
       (formData.phone_number.length < 10 || formData.phone_number.length > 15)
     ) {
       setErrorMessage("Phone number must be between 10 - 15 numbers");
     } else {
       setErrorMessage("");
       handleUpdate();
-      if (formData.role !== "Affiliated Professional") {
+      if (
+        formData.role !== "Affiliated Professional" &&
+        formData.role !== "Admin Operator"
+      ) {
         setProfesional(false);
+        setAdmin(false);
       }
       setChangePP(false);
       console.log("onUpdate set to true");
@@ -264,8 +268,12 @@ export const UserProfileContent = () => {
     });
     handleUpdateProfile();
     setErrorMessage("");
-    if (formData.role !== "Affiliated Professional") {
+    if (
+      formData.role !== "Affiliated Professional" &&
+      formData.role !== "Admin Operator"
+    ) {
       setProfesional(false);
+      setAdmin(false);
     }
     setChangePP(false);
   };
@@ -285,22 +293,45 @@ export const UserProfileContent = () => {
   const [updateRoleButton, setUpdateRoleButton] = useState(false);
 
   useEffect(() => {
-    if (formData.role === "Affiliated Professional") {
+    if (
+      formData.role === "Affiliated Professional" ||
+      formData.role === "Admin Operator"
+    ) {
       setProfesional(true);
+      if (formData.role === "Admin Operator") {
+        setAdmin(true);
+      }
     } else {
       setProfesional(false);
+      setAdmin(false);
     }
   }, [formData.role]);
   const handleProfesional = () => {
     setProfesional(true);
+    if (formData.role === "Affiliated Professional") {
+      setAdmin(false);
+    }
   };
+  const [admin, setAdmin] = useState(false);
+  const handleAdmin = () => {
+    setAdmin(true);
+    setProfesional(true);
+  };
+
   const handleImNot = () => {
-    if (formData.role !== "Affiliated Professional") {
+    if (
+      formData.role !== "Affiliated Professional" &&
+      formData.role !== "Admin Operator"
+    ) {
       setProfesional(false);
+      setAdmin(false);
     }
   };
   const handleUpdateRoleButton = () => {
-    if (formData.role !== "Affiliated Professional") {
+    if (
+      formData.role !== "Affiliated Professional" &&
+      formData.role !== "Admin Operator"
+    ) {
       setUpdateRoleButton(!updateRoleButton);
     }
   };
@@ -585,6 +616,9 @@ export const UserProfileContent = () => {
                   <option value="Affiliated Professional">
                     Affiliated Professional
                   </option>
+                  {admin && formData.role !== "Affiliated Professional" && (
+                    <option value="Admin Operator">Admin Operator</option>
+                  )}
                 </select>
 
                 {/*  */}
@@ -755,6 +789,7 @@ export const UserProfileContent = () => {
           verify={handleProfesional}
           imNot={handleImNot}
           onClose={handleUpdateRoleButton}
+          handleAdmin={handleAdmin}
         />
       )}
 

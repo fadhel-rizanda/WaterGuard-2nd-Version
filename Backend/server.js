@@ -403,8 +403,8 @@ app.get("/user-monitoring-activity/get", (req, res) => {
 app.post("/user-monitoring-activity/post", (req, res) => {
   const { user_id, location_id, user_activity, user_activity_description } =
     req.body;
-  // if (!user_id || !location_id || !user_activity || !user_activity_description)
-  //   return res.status(400).json({ error: "Missing required fields" });
+  if (!user_id || !location_id || !user_activity || !user_activity_description)
+    return res.status(400).json({ error: "Missing required fields" });
 
   const sql =
     "INSERT INTO user_monitoring_activity (user_id, location_id, user_activity, user_activity_description) VALUES (?, ?, ?, ?)";
