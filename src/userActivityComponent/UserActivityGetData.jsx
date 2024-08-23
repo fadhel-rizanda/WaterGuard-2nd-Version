@@ -181,7 +181,7 @@ export const UserActivityGetData = () => {
                 <option value="">
                   {categoryFilter === ""
                     ? "Select a category"
-                    : "Remove by Category"}
+                    : "Remove Category"}
                 </option>
                 <option value="UPDATE">Update</option>
                 <option value="ADD">Add</option>

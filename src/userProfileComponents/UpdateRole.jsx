@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CloseDisplay } from "../objects/CloseDisplay";
 import PropTypes from "prop-types";
 import alertLogo from "/ASSET/image-logo/alert.png";
@@ -47,9 +47,25 @@ export const UpdateRole = ({ verify, onClose, imNot, handleAdmin }) => {
     }
   };
 
+  const modalRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [onClose]);
+
   return (
     <div className="fixed inset-0 bg-white bg-opacity-75 flex justify-center items-center z-50">
-      <div className="bg-white mx-20 sm:max-w-3xl rounded-xl border-2 shadow-custom items-center p-5 pb-8 pt-1 flex flex-col text-center sm:text-left gap-1">
+      <div
+        ref={modalRef}
+        className="bg-white mx-20 sm:max-w-3xl rounded-xl border-2 shadow-custom items-center p-5 pb-8 pt-1 flex flex-col text-center sm:text-left gap-1"
+      >
         <div className="flex justify-end w-full">
           <CloseDisplay onClose={onClose} />
         </div>

@@ -139,7 +139,7 @@ export const UserAccountGetData = () => {
                 <option value="">
                   {categoryFilter === ""
                     ? "Select a category"
-                    : "Remove by Category"}
+                    : "Remove Category"}
                 </option>
                 <option value="Conventional User">Conventional User</option>
                 <option value="Affiliated Professional">

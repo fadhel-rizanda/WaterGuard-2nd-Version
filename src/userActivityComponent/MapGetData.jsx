@@ -137,7 +137,7 @@ export const MapGetData = () => {
                 <option value="">
                   {categoryFilter === ""
                     ? "Select a category"
-                    : "Remove by Category"}
+                    : "Remove Category"}
                 </option>
                 <option value="Good">Good</option>
                 <option value="Quite Good">Quite Good</option>

@@ -161,7 +161,7 @@ export const UserProfileContent = () => {
     if (passwordError) {
       setErrorMessage(passwordError);
     } else if (
-      !formData.phone_number.length &&
+      formData.phone_number === null &&
       (formData.phone_number.length < 10 || formData.phone_number.length > 15)
     ) {
       setErrorMessage("Phone number must be between 10 - 15 numbers");
@@ -253,6 +253,7 @@ export const UserProfileContent = () => {
   const handleCancelUpdate = (e) => {
     e.preventDefault();
     setFormData({
+      id: user.id || "",
       username: user.username || "",
       email: user.email || "",
       password: user.password || "",
@@ -336,7 +337,7 @@ export const UserProfileContent = () => {
 
   const [changePP, setChangePP] = useState(false);
   const handleChangePP = () => {
-    setChangePP((prev) => !prev);
+    setChangePP(!changePP);
   };
 
   const [ppUrl, setPpUrl] = useState("");
@@ -679,6 +680,7 @@ export const UserProfileContent = () => {
                 {!updateButton ? (
                   <>
                     <button
+                      type="button"
                       className="flex flex-wrap justify-center items-center gap-1 h-fit text-start text-base rounded-xl text-white px-1.5 py-2.5 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-200 shadow-custom"
                       onClick={handleUpdateProfile}
                     >
@@ -686,6 +688,7 @@ export const UserProfileContent = () => {
                       <div className="text-center">Update Account</div>
                     </button>
                     <button
+                      type="button"
                       className="flex flex-wrap justify-center items-center gap-1 h-fit text-start text-base rounded-xl text-white px-1.5 py-2.5 bg-gray-500 hover:bg-gray-400 active:bg-gray-300 trasition ease-out duration-200 shadow-custom"
                       onClick={handleLogoutAccount}
                     >
@@ -693,6 +696,7 @@ export const UserProfileContent = () => {
                       <div className="text-center">Logout Account</div>
                     </button>
                     <button
+                      type="button"
                       className="flex flex-wrap justify-center items-center gap-1 h-fit text-start text-base rounded-xl text-white px-1.5 py-2.5 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200 shadow-custom"
                       onClick={handleDeleteAccount}
                     >
@@ -710,6 +714,7 @@ export const UserProfileContent = () => {
                       Confirm Update Profile
                     </button>
                     <button
+                      type="button"
                       className="text-center text-xl rounded-xl text-white p-2 mt-2 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-200"
                       onClick={handleCancelUpdate}
                     >

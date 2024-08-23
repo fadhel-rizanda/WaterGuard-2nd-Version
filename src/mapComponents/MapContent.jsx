@@ -21,6 +21,7 @@ export const MapContent = () => {
     unverified: false,
   });
   const [updateData, setUpdateData] = useState(false);
+  const [isRecent, setIsRecent] = useState("");
 
   const handleClose = () => {
     setSelectedData(null);
@@ -68,21 +69,30 @@ export const MapContent = () => {
   }
 
   const filteredData = Array.isArray(data)
-    ? data.filter((item) => {
-        const matchesFilter = item.name
-          .toLowerCase()
-          .includes(filter.toLowerCase());
+    ? data
+        .filter((item) => {
+          const matchesFilter = item.name
+            .toLowerCase()
+            .includes(filter.toLowerCase());
 
-        const matchesStatus =
-          (statusFilter.verified && item.status === "verified") ||
-          (statusFilter.unverified && item.status === "unverified") ||
-          (!statusFilter.verified && !statusFilter.unverified);
+          const matchesStatus =
+            (statusFilter.verified && item.status === "verified") ||
+            (statusFilter.unverified && item.status === "unverified") ||
+            (!statusFilter.verified && !statusFilter.unverified);
 
-        const matchesCategory =
-          categoryFilter === "" || item.ikaCategories === categoryFilter;
+          const matchesCategory =
+            categoryFilter === "" || item.ikaCategories === categoryFilter;
 
-        return matchesFilter && matchesStatus && matchesCategory;
-      })
+          return matchesFilter && matchesStatus && matchesCategory;
+        })
+        .sort((a, b) => {
+          if (isRecent === "recent") {
+            return new Date(b.lastUpdate) - new Date(a.lastUpdate);
+          } else if (isRecent === "oldest") {
+            return new Date(a.lastUpdate) - new Date(b.lastUpdate);
+          }
+          return 0;
+        })
     : [];
 
   const handleStatusFilterChange = (event) => {
@@ -160,13 +170,17 @@ export const MapContent = () => {
                 </label>
               </div>
 
-              <div>
+              <div className="flex flex-wrap gap-5 gap-y-2 justify-center">
                 <select
                   value={categoryFilter}
                   onChange={handleCategoryFilterChange}
                   className="rounded-lg  cursor-pointer focus:outline-none border-2 border-gray-200 focus:border-gray-300"
                 >
-                  <option value="">Select a category</option>
+                  <option value="">
+                    {categoryFilter === ""
+                      ? "Select a category"
+                      : "Remove Category"}
+                  </option>
                   <option value="Good">Good</option>
                   <option value="Quite Good">Quite Good</option>
                   <option value="Lightly Polluted">Lightly Polluted</option>
@@ -174,6 +188,16 @@ export const MapContent = () => {
                     Moderately Polluted
                   </option>
                   <option value="Heavily Polluted">Heavily Polluted</option>
+                </select>
+                <select
+                  onChange={(e) => setIsRecent(e.target.value)}
+                  className="rounded-lg cursor-pointer focus:outline-none border-2 border-gray-200 focus:border-blue-500"
+                >
+                  <option value="">
+                    {isRecent === "" ? "Sort by time" : "Remove by time"}
+                  </option>
+                  <option value="recent">Recent</option>
+                  <option value="oldest">Oldest</option>
                 </select>
               </div>
             </form>
