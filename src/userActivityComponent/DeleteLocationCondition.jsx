@@ -5,35 +5,29 @@ import alertLogo from "/ASSET/image-logo/alert.png";
 import deleteActiveIcon from "/ASSET/image-logo/deleteActive.png";
 import showLogo from "/ASSET/image-logo/mdi--show-outline.png";
 import hideLogo from "/ASSET/image-logo/mdi--hide-outline.png";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
 
-export const DeleteUserAccount = ({ onClose }) => {
-  const { user, dispatch } = useAuthContext();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT" });
-    navigate("/");
-  };
-
+export const DeleteLocationCondition = ({
+  selectedData,
+  onClose,
+  handleSuccess,
+}) => {
   const [passwordDelete, setPasswordDelete] = useState("");
   const [wrongPasswordDelete, setWrongPasswordDelete] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const timeoutRef = useRef(null);
 
   const verifyText = () => {
-    if (passwordDelete !== user.password) {
+    // password admin
+    if (passwordDelete !== "Admin!23_DELETE_RECORD") {
       setWrongPasswordDelete(true);
     } else {
       setWrongPasswordDelete(false);
-      handleLogout();
-      deleteData(user.id);
+      deleteData(selectedData.id);
     }
   };
 
   const deleteData = (dataID) => {
-    const url = `http://localhost:8081/user-accounts/${dataID}`;
+    const url = `http://localhost:8081/user/${dataID}`;
     fetch(url, {
       method: "DELETE",
       headers: {
@@ -50,7 +44,8 @@ export const DeleteUserAccount = ({ onClose }) => {
       })
       .then((data) => {
         console.log("Success:", data);
-        window.localStorage.removeItem("user");
+        handleSuccess();
+        onClose();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -98,10 +93,10 @@ export const DeleteUserAccount = ({ onClose }) => {
         </div>
 
         <div className="flex gap-1 justify-center items-center flex-col font-bold text-base sm:text-xl">
-          Are you sure you want to delete this account?
-          <div>
+          Are you sure you want to delete this record?
+          <div className="font-light">
             &quot;
-            {user.username}
+            {selectedData.id} - {selectedData.name}
             &quot;
           </div>
           <span className="font-extralight text-sm sm:text-lg">
@@ -120,18 +115,16 @@ export const DeleteUserAccount = ({ onClose }) => {
               placeholder="Enter Password"
               className="bg-white w-full focus:outline-none"
             />
-            {user.password.trim() !== "" && (
-              <button
-                onClick={showPassword ? handleHide : handleShow}
-                type="button"
-              >
-                <img
-                  src={showPassword ? hideLogo : showLogo}
-                  alt="toggle password visibility"
-                  className="w-5 h-5"
-                />
-              </button>
-            )}
+            <button
+              onClick={showPassword ? handleHide : handleShow}
+              type="button"
+            >
+              <img
+                src={showPassword ? hideLogo : showLogo}
+                alt="toggle password visibility"
+                className="w-5 h-5"
+              />
+            </button>
           </div>
         </div>
 
@@ -149,7 +142,7 @@ export const DeleteUserAccount = ({ onClose }) => {
             onClick={verifyText}
           >
             <img src={deleteActiveIcon} className="w-5 h-5" alt="delete" />
-            Delete Data
+            Delete Record
           </button>
 
           <button
@@ -165,6 +158,19 @@ export const DeleteUserAccount = ({ onClose }) => {
   );
 };
 
-DeleteUserAccount.propTypes = {
+DeleteLocationCondition.propTypes = {
   onClose: PropTypes.func.isRequired,
+  handleSuccess: PropTypes.func.isRequired,
+  selectedData: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    lat: PropTypes.number,
+    lng: PropTypes.number,
+    status: PropTypes.string,
+    ika_score: PropTypes.number,
+    ikaCategories: PropTypes.string,
+    lastUpdate: PropTypes.string,
+    reporter_name: PropTypes.string,
+    email: PropTypes.string,
+  }).isRequired,
 };

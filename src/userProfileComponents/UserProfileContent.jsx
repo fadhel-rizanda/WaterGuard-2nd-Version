@@ -278,9 +278,7 @@ export const UserProfileContent = () => {
     setChangePP(false);
   };
 
-  const handleDeleteAccount = (e) => {
-    window.localStorage.removeItem("user");
-    e.preventDefault();
+  const handleDeleteAccount = () => {
     setDeleteButton(!deleteButton);
   };
 
@@ -751,7 +749,7 @@ export const UserProfileContent = () => {
                 </button>
 
                 {/* <ProfilePicture onUpdate={onUpdate} /> */}
-                <div className="flex w-full h-fit ml-5">
+                <div className="flex w-full h-fit sm:ml-5">
                   <div className="p-5 w-fit gap-3 flex-col h-full rounded-3xl border-2 border-white flex justify-center items-center bg-white bg-opacity-25">
                     <div className="flex gap-3 w-fit p-5 rounded-3xl flex-col bg-black bg-opacity-30 justify-center items-center">
                       <img

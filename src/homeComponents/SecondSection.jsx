@@ -103,7 +103,7 @@ export const SecondSection = ({ getData, onUpdate }) => {
         </div>
 
         {/* display map */}
-        <div className="flex flex-col w-full py-5 bg-gradient-to-r  from-teal-500 via-blue-600 to-teal-500 ">
+        <div className="flex flex-col w-full py-5 bg-gradient-to-r  from-sky-500 via-blue-700 to-sky-500 ">
           <div className="h-3"></div>
           <div className="w-full flex h-96 flex-col justify-center">
             <MapDisplay
@@ -165,7 +165,7 @@ export const SecondSection = ({ getData, onUpdate }) => {
           <div className="w-full flex flex-col gap-5 md:gap-10 xl:gap-16 lg:gap-20 lg:mt-10">
             <div className="flex justify-start">
               <div className="flex justify-between items-center">
-                <div className="lg:w-2/3 h-fit p-5 mr-10 pl-2 lg:p-10 lg:pr-20 shadow-custom rounded-r-3xl lg:rounded-r-full lg:text-center bg-gradient-to-r from-blue-600 to-teal-500 text-white">
+                <div className="lg:w-2/3 h-fit p-5 mr-10 pl-2 lg:p-10 lg:pr-20 shadow-custom rounded-r-3xl lg:rounded-r-full lg:text-center bg-gradient-to-r from-blue-700 to-sky-500 text-white">
                   In Indonesia, the Indicator of Water Quality (IKA) is used to
                   measure water pollution levels and assess water quality
                   effectively. This system categorizes water quality based on
@@ -197,7 +197,7 @@ export const SecondSection = ({ getData, onUpdate }) => {
                   className="md:w-1/4 rounded-xl lg:flex hidden xl:ml-20 md:ml-10"
                 />
 
-                <div className="lg:w-2/3 h-fit p-5 ml-10 pr-2 lg:p-10 lg:pl-20 shadow-custom rounded-l-3xl lg:rounded-l-full text-end lg:text-center bg-gradient-to-r from-teal-500 to-blue-600 text-white">
+                <div className="lg:w-2/3 h-fit p-5 ml-10 pr-2 lg:p-10 lg:pl-20 shadow-custom rounded-l-3xl lg:rounded-l-full text-end lg:text-center bg-gradient-to-r from-sky-500 to-blue-700 text-white">
                   An IKA score between 30 and 50 reflects moderate pollution,
                   with a significant level of contamination that needs immediate
                   action to reduce risks. Water with a score below 30 is heavily
@@ -214,7 +214,7 @@ export const SecondSection = ({ getData, onUpdate }) => {
               </div>
             </div>
             <div className="flex justify-center">
-              <div className="lg:w-4/5 text-center shadow-custom p-5 mx-5 lg:p-10 lg:px-20 rounded-3xl lg:rounded-full bg-gradient-to-r  from-blue-700 via-teal-600 to-blue-700 text-white">
+              <div className="lg:w-4/5 text-center shadow-custom p-5 mx-5 lg:p-10 lg:px-20 rounded-3xl lg:rounded-full bg-gradient-to-r  from-blue-700 via-sky-500 to-blue-700 text-white">
                 Effective water quality management relies on combining accurate
                 IKA assessments with proactive measures to address pollution and
                 implement remediation strategies. Continuous monitoring

@@ -59,7 +59,7 @@ export const EmailPersonal = () => {
 
   return (
     <>
-      <div className="flex gap-5">
+      <div className="flex flex-wrap gap-5">
         <div
           onClick={handleSendMail}
           className={`flex cursor-pointer hover:font-semibold hover:bg-gray-200 p-1 px-1.5 w-fit rounded-lg hover:shadow-custom items-center hover:ml-3 sm:hover:ml-5 transition-all ease-out duration-1000 group text-lg sm:text-xl font-light ${
@@ -72,7 +72,7 @@ export const EmailPersonal = () => {
           </div>
         </div>
 
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center ml-5 sm:ml-0">
           {copyEmail && (
             <button
               className={`text-sm text-gray-500 h-fit p-1 rounded-lg bg-gray-200 border-2 ${
@@ -110,7 +110,7 @@ export const EmailPersonal = () => {
             placeholder="Enter Body"
             required
           ></textarea>
-          <div className="flex justify-between p-5 pl-0 text-white">
+          <div className="flex flex-wrap justify-between p-5 pl-0 text-white">
             <div className="ml-7 w-48 flex gap-2 text-red-500 text-sm h-fit">
               {wrongInput && (
                 <>

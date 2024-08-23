@@ -12,10 +12,10 @@ export const AboutContent = () => {
     <div className="">
       {/* 1 */}
       <div className=" flex text-center flex-col justify-center items-center w-full h-screen bg-bgAbout bg-cover bg-center bg-no-repeat shadow-custom">
-        <div className="text-white xl:mt-16 text-9xl font-bold text-shadow">
+        <div className="text-white xl:mt-16 text-8xl xl:text-9xl font-bold text-shadow">
           About Us
         </div>
-        <div className="text-white text-2xl w-3/4 bg-black bg-opacity-20 p-1 rounded-xl h-fit shadow-custom">
+        <div className="text-white text-sm md:text-lg xl:text-2xl w-3/4 bg-black bg-opacity-20 p-1 rounded-xl h-fit shadow-custom">
           Welcome to WaterGuard! We provide real-time, accurate water quality
           data to help you monitor and improve water resources in Jakarta. Our
           advanced tools and user-friendly platform empower you to manage water
@@ -120,7 +120,7 @@ export const AboutContent = () => {
       </div>
 
       {/* 3 */}
-      <div className="flex flex-col h-fit gap-10 justify-center shadow-custom mb-40 md:mx-6 xl:mx-16 rounded-3xl py-10  sm:pb-20">
+      <div className="flex flex-col h-fit gap-10 justify-center shadow-custom mb-40 mx-5 xl:mx-16 rounded-3xl py-10  sm:pb-20">
         <div className="flex flex-col justify-center items-center gap-5">
           <div className="flex justify-center items-center px-10">
             <div className="text-5xl md:text-8xl lg:text-9xl font-bold">
@@ -132,7 +132,7 @@ export const AboutContent = () => {
             </div>
             <img src={image3} alt="" className="w-2/5" />
           </div>
-          <div className="flex xl:flex-row flex-col gap-5 md:gap-10 text-sm px-10">
+          <div className="flex xl:flex-row flex-col gap-5 text-sm xl:text-base md:gap-10 px-10 mb-5">
             <div className="">
               The development of this application represents a significant
               advancement from the original class assignment for Human and

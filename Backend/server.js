@@ -422,8 +422,25 @@ app.post("/user-monitoring-activity/post", (req, res) => {
   );
 });
 
+// Delete activity
+app.delete("/user-monitoring-activity/delete/:id", (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+  const sql = `DELETE FROM user_monitoring_activity WHERE id = ?`;
+
+  db.query(sql, [id], (err) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json({ error: "Failed to delete record" });
+    }
+    res.json({ success: "Record deleted successfully" });
+  });
+});
+
 // update role user_accounts
-app.put("/user-accounts/update-role/:id", (res, req) => {
+app.put("/user-accounts/update-role/:id", (req, res) => {
   const { id } = req.params;
   const { role } = req.body;
 
@@ -442,7 +459,8 @@ app.put("/user-accounts/update-role/:id", (res, req) => {
       return res.status(404).json({ error: "Record not found" });
 
     const sql = "UPDATE user_accounts SET role = ? WHERE id = ?";
-    db.query(sql, [id, role], (err) => {
+    db.query(sql, [role, id], (err) => {
+      // Place role first, then id
       if (err) {
         console.error("Database error:", err);
         return res.status(500).json({ error: "Failed to update record" });
@@ -451,23 +469,6 @@ app.put("/user-accounts/update-role/:id", (res, req) => {
     });
   });
 });
-
-// Delete data user account
-// app.delete("/user-accounts/:id", (req, res) => {
-//   const { id } = req.params;
-//   if (!id) {
-//     return res.status(400).json({ error: "Missing required fields" });
-//   }
-//   const sql = `DELETE FROM user_accounts WHERE id = ?`;
-
-//   db.query(sql, [id], (err) => {
-//     if (err) {
-//       console.error("Database error:", err);
-//       return res.status(500).json({ error: "Failed to delete record" });
-//     }
-//     res.json({ success: "Record deleted successfully" });
-//   });
-// });
 
 // =====================================================================================================
 
