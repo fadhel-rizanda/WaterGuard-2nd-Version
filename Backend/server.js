@@ -33,24 +33,51 @@ app.get("/userAccount", (req, res) => {
   });
 });
 
-// Sign inInsert data user account
+// Sign Insert data user account
 app.post("/user-accounts", (req, res) => {
-  const { username, email, password, role = "Conventional User" } = req.body;
-  if (!username || !email || !password) {
+  const {
+    username,
+    email,
+    password,
+    role = "Conventional User",
+    location_name,
+    location_lat,
+    location_lng,
+  } = req.body;
+  if (
+    !username ||
+    !email ||
+    !password ||
+    !location_name ||
+    !location_lat ||
+    !location_lng
+  ) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
   const sql = `
   INSERT INTO user_accounts (
-    username, email, password, role) VALUES (?, ?, ?, ?);`;
+    username, email, password, role, location_name, location_lat, location_lng) VALUES (?, ?, ?, ?, ?, ?, ?);`;
 
-  db.query(sql, [username, email, password, role], (err) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ error: "Failed to insert record" });
+  db.query(
+    sql,
+    [
+      username,
+      email,
+      password,
+      role,
+      location_name,
+      location_lat,
+      location_lng,
+    ],
+    (err) => {
+      if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: "Failed to insert record" });
+      }
+      res.json({ success: "Record inserted successfully" });
     }
-    res.json({ success: "Record inserted successfully" });
-  });
+  );
 });
 
 // Forget Password Update data user account

@@ -11,10 +11,12 @@ import { NoData } from "../mapComponents/NoData";
 import PropTypes from "prop-types";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
+import { GetUserLocation } from "../userLocation/GetUserLocation";
 
 export const Signin = ({ onDirect }) => {
   const navigate = useNavigate();
   const { dispatch } = useAuthContext();
+  const { userLocationName, userLat, userLng } = GetUserLocation();
 
   const handleLogin = () => {
     dispatch({ type: "LOGIN", payload: formData });
@@ -107,10 +109,14 @@ export const Signin = ({ onDirect }) => {
 
   const handleSubmit = () => {
     const url = `http://localhost:8081/user-accounts`;
+    if (userLocationName) console.log(userLocationName);
     const insertedData = {
       username: formData.username,
       email: formData.email,
       password: formData.password,
+      location_name: userLocationName,
+      location_lat: userLat,
+      location_lng: userLng,
     };
 
     fetch(url, {

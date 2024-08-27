@@ -28,10 +28,15 @@ export const Home = () => {
       .then((data) => {
         if (Array.isArray(data)) {
           setData(data);
-          const relevantData = data.find(
+          let relevantData = data.find(
             (item) => item.lat === userLat && item.lng === userLng
           );
-          setUserData(relevantData || null);
+          if (!relevantData) {
+            relevantData = data.find(
+              (item) => item.lat === -6.2197 && item.lng === 107
+            );
+          }
+          setUserData(relevantData);
           if (data === null) {
             setUserLat(-6.2197);
             setUserLng(107);

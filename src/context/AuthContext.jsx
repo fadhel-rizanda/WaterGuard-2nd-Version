@@ -54,8 +54,8 @@ export const AuthProvider = ({ children }) => {
     formData.append("date_of_birth", updatedUser.date_of_birth);
     formData.append("role", updatedUser.role);
     formData.append("location_name", updatedUser.location_name);
-    formData.append("location_lat", updatedUser.location_lat);
-    formData.append("location_lng", updatedUser.location_lng);
+    // formData.append("location_lat", updatedUser.location_lat);
+    // formData.append("location_lng", updatedUser.location_lng);
 
     // Check if profile_picture is a file, append it to formData
     if (updatedUser.profile_picture) {

@@ -12,9 +12,9 @@ export const AddData = ({ onUpdate, onClose }) => {
   const [wrongPassword, setWrongPassword] = useState(false);
   const { user } = useAuthContext();
   const [formData, setFormData] = useState({
-    name: "",
-    lat: "",
-    lng: "",
+    name: user?.location_name || "",
+    lat: user?.location_lat || "",
+    lng: user?.location_lng || "",
     status: "",
     ika_score: "",
     reporter_name: user?.username || "",
