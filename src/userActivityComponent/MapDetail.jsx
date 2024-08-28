@@ -1,9 +1,11 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { DeleteLocationCondition } from "./DeleteLocationCondition";
+import { DetailDisplay } from "../mapComponents/DetailDisplay";
 
 export const MapDetail = ({ selectedData, handleUpdate }) => {
   const [deleteRecord, setDeleteRecord] = useState(false);
+  const [detailRecord, setDetailRecord] = useState(false);
 
   const handleDeleteRecord = () => {
     setDeleteRecord(!deleteRecord);
@@ -11,6 +13,10 @@ export const MapDetail = ({ selectedData, handleUpdate }) => {
 
   const handleSuccess = () => {
     handleUpdate();
+  };
+
+  const handleDetailRecord = () => {
+    setDetailRecord(!detailRecord);
   };
 
   return (
@@ -87,6 +93,13 @@ export const MapDetail = ({ selectedData, handleUpdate }) => {
 
           <div className="flex gap-3">
             <button
+              onClick={handleDetailRecord}
+              className="p-2 rounded-xl shadow-custom bg-green-500 text-white hover:bg-green-300 active:bg-green-100 active:text-green-500 transition-all ease-out duration-500"
+            >
+              detail location condition
+            </button>
+
+            <button
               onClick={handleDeleteRecord}
               className="p-2 rounded-xl shadow-custom bg-red-500 text-white hover:bg-red-300 active:bg-red-100 active:text-red-500 transition-all ease-out duration-500"
             >
@@ -95,11 +108,21 @@ export const MapDetail = ({ selectedData, handleUpdate }) => {
           </div>
         </div>
       </div>
+
+      {/* selectedData, onClose, onUpdate */}
+      {detailRecord && (
+        <DetailDisplay
+          selectedData={selectedData}
+          onClose={handleDetailRecord}
+          onUpdate={handleSuccess}
+        />
+      )}
+
       {deleteRecord && (
         <DeleteLocationCondition
           selectedData={selectedData}
           onClose={handleDeleteRecord}
-          handleSuccess={handleSuccess} 
+          handleSuccess={handleSuccess}
         />
       )}
     </>

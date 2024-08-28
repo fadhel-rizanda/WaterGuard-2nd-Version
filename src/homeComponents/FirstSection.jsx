@@ -75,7 +75,7 @@ export const FirstSection = ({ getData, updateData }) => {
                       <br /> {"Latest Updated Location:"}
                     </>
                   ) : (
-                    "Your Current location:"
+                    "Nearest your location:"
                   )
                 ) : (
                   <>

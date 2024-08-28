@@ -49,7 +49,6 @@ export const UserActivityGetData = () => {
 
   const handleUser = async () => {
     try {
-      // console.log("Fetching user data...");
       const res = await fetch("http://localhost:8081/userAccount");
       const data = await res.json();
 
@@ -66,7 +65,6 @@ export const UserActivityGetData = () => {
 
   const handleLocation = async () => {
     try {
-      // console.log("Fetching location data...");
       const res = await fetch("http://localhost:8081/user");
       const data = await res.json();
 

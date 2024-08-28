@@ -58,7 +58,7 @@ export const AddData = ({ onUpdate, onClose }) => {
     .padStart(2, "0")}:${currentTime.getMinutes().toString().padStart(2, "0")}`;
 
   const verifyPassword = () => {
-    if (passwordValue === "admin123") {
+    if (passwordValue === "Professional!23") {
       setProfesional(!profesional);
       setWrongPassword(false);
       setPasswordActive(false);
@@ -186,7 +186,7 @@ export const AddData = ({ onUpdate, onClose }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        onClose(); 
+        onClose();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -194,10 +194,13 @@ export const AddData = ({ onUpdate, onClose }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
-  
+
   return (
     <div className="fixed inset-0 bg-white bg-opacity-75 flex justify-center items-center z-50">
-      <div ref={modalRef} className="bg-white w-4/5  sm:max-w-3xl rounded-xl border-2 shadow-custom p-7 pt-2 flex flex-col text-center sm:text-left">
+      <div
+        ref={modalRef}
+        className="bg-white w-4/5  sm:max-w-3xl rounded-xl border-2 shadow-custom p-7 pt-2 flex flex-col text-center sm:text-left"
+      >
         <div className="flex flex-col lg:gap-2 overflow-auto max-h-[80vh] no-scrollbar">
           <CloseDisplay onClose={onClose} />
 
@@ -406,7 +409,7 @@ export const AddData = ({ onUpdate, onClose }) => {
                 )}
 
                 <button
-                type="button"
+                  type="button"
                   onClick={verifyPassword}
                   className="text-start text-sm rounded-xl text-white p-2 mt-2 bg-green-500 hover:bg-green-400 active:bg-green-300 trasition ease-out duration-300"
                 >
@@ -455,18 +458,17 @@ export const AddData = ({ onUpdate, onClose }) => {
             <div className="flex flex-col sm:flex-row gap-5 items-center">
               <div className="flex gap-5">
                 <button
+                  type="submit"
+                  className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-300"
+                >
+                  Add Data
+                </button>
+                <button
                   type="button"
                   className="text-start rounded-xl text-white p-2 mt-10 bg-red-500 hover:bg-red-400 active:bg-red-300 trasition ease-out duration-300"
                   onClick={onClose}
                 >
                   Cancel Additon
-                </button>
-
-                <button
-                  type="submit"
-                  className="text-start rounded-xl text-white p-2 mt-10 bg-slate-500 hover:bg-slate-400 active:bg-slate-300 trasition ease-out duration-300"
-                >
-                  Add Data
                 </button>
               </div>
             </div>

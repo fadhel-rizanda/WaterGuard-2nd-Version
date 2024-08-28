@@ -25,7 +25,7 @@ export const DeleteData = ({
   const verifyText = () => {
     if (textDelete !== getFirstWord(selectedData.name)) {
       setErrorMessage("Wrong Text");
-    } else if (adminPassword !== "Admin!23DELETE") {
+    } else if (adminPassword !== "Professional!23DELETE") {
       setErrorMessage("Wrong Delete Password");
     } else {
       deleteData(selectedData.id);

@@ -136,10 +136,13 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
 
   const verifyPassword = (e) => {
     e.preventDefault();
-    if (user.role !== "Affiliated Professional") {
+    if (
+      user.role !== "Affiliated Professional" &&
+      user.role !== "Admin Operator"
+    ) {
       setWrongPassword(true);
-      setErrorMessage(`Your role must be "Affiliated Proffesional"`);
-    } else if (passwordValue !== "Admin!23") {
+      setErrorMessage(`Your role must be "Proffesional"`);
+    } else if (passwordValue !== "Professional!23") {
       setWrongPassword(true);
       setErrorMessage("Wrong Password");
     } else {
