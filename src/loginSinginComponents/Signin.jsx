@@ -16,7 +16,14 @@ import { GetUserLocation } from "../userLocation/GetUserLocation";
 export const Signin = ({ onDirect }) => {
   const navigate = useNavigate();
   const { dispatch } = useAuthContext();
-  const { userLocationName, userLat, userLng } = GetUserLocation();
+  const { triggerLocationFetch, setTriggerLocationFetch } = useState(false);
+  const { userLocationName, userLat, userLng } = GetUserLocation({
+    onCall: triggerLocationFetch,
+  });
+
+  const handleTriggerLocationFetch = () => {
+    setTriggerLocationFetch(!triggerLocationFetch);
+  };
 
   const handleLogin = () => {
     dispatch({ type: "LOGIN", payload: formData });
@@ -108,6 +115,7 @@ export const Signin = ({ onDirect }) => {
   };
 
   const handleSubmit = () => {
+    handleTriggerLocationFetch();
     const url = `http://localhost:8081/user-accounts`;
     if (userLocationName) console.log(userLocationName);
     const insertedData = {

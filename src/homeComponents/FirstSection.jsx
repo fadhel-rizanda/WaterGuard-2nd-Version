@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-export const FirstSection = ({ getData, updateData }) => {
+export const FirstSection = ({ getData, updateData, noData }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const { user } = useAuthContext();
 
@@ -55,7 +55,7 @@ export const FirstSection = ({ getData, updateData }) => {
   return (
     <div className="min-h-screen pb-20 w-full items-center bg-bgHomeFirst bg-cover bg-center bg-no-repeat ">
       <div className="flex text-white">
-        <div className="sm:mx-16 mx-10 mt-28 lg:mt-52 flex flex-col gap-5 trasition ease-out duration-500">
+        <div className="sm:mx-16 mx-10 mt-32 md:mt-40 lg:mt-44 flex flex-col gap-5 trasition ease-out duration-500">
           <div className="cursor-default text-5xl  2xl:text-8xl  font-semibold  trasition ease-out duration-500">
             Water Clarity Starts <br />{" "}
             <span className="font-thin text-3xl sm:text-5xl md:text-6xl lg:text-7xl trasition ease-out duration-500">
@@ -67,12 +67,12 @@ export const FirstSection = ({ getData, updateData }) => {
             <div className="cursor-default bg-black w-fit p-2 h-fit hover:opacity-100 px-4 bg-opacity-40 hover:bg-opacity-65 rounded-2xl border-2 border-white border-opacity-50 hover:border-opacity-100 trasition ease-out duration-1000">
               <div className="text-xl font-light">
                 {user ? (
-                  !user.location_lat ? (
+                  noData ? (
                     <>
                       <span className="text-xs font-thin">
                         {"No data for your location yet"}
                       </span>
-                      <br /> {"Latest Updated Location:"}
+                      <br /> {"Recently Updated Location:"}
                     </>
                   ) : (
                     "Nearest your location:"
@@ -82,7 +82,7 @@ export const FirstSection = ({ getData, updateData }) => {
                     <span className="text-xs font-thin">
                       {"No data for your location yet"}
                     </span>
-                    <br /> {"Latest Updated Location:"}
+                    <br /> {"Recently Updated Location:"}
                   </>
                 )}
               </div>
@@ -104,7 +104,7 @@ export const FirstSection = ({ getData, updateData }) => {
               </div>
             </div>
 
-            <div className="flex flex-wrap gap-3 gap-y-5  transition-all ease-out duration-500">
+            <div className="flex flex-wrap gap-3 gap-y-5 transition-all ease-out duration-500">
               {getData.ika_score ? (
                 <div
                   className={`cursor-default group bg-black w-fit p-1 md:p-2 h-max bg-opacity-40 hover:bg-opacity-65 rounded-2xl border-2 border-white ${getCategoryClassBorder(
@@ -114,7 +114,7 @@ export const FirstSection = ({ getData, updateData }) => {
                   <div
                     className={`${getCategoryClass(
                       getData.ikaCategories
-                    )} opacity-80  group-hover:opacity-100 flex flex-col gap-0 text-black p-1 md:p-9 h-14 w-14 md:h-12 md:w-12 items-center justify-center rounded-full trasition ease-out duration-500`}
+                    )} opacity-80  group-hover:opacity-100 flex flex-col gap-0 p-1 md:p-9 h-14 w-14 md:h-12 md:w-12 items-center justify-center rounded-full trasition ease-out duration-500`}
                   >
                     <div className="font-bold text-xs">IKA</div>
                     <div className="text-xl">{getData.ika_score}</div>
@@ -129,7 +129,7 @@ export const FirstSection = ({ getData, updateData }) => {
                   <div
                     className={`${getCategoryClass(
                       getData.ikaCategories
-                    )} opacity-80  group-hover:opacity-100 flex flex-col gap-0 text-black md:p-9 h-14 w-min min-w-20 max-w-24 md:h-12 md:w-12 items-center justify-center rounded-xl trasition ease-out duration-500`}
+                    )} opacity-80  group-hover:opacity-100 flex flex-col gap-0 md:p-9 h-14 w-min min-w-20 max-w-24 md:h-12 md:w-12 items-center justify-center rounded-xl trasition ease-out duration-500`}
                   >
                     <div className="text-center">{getData.ikaCategories}</div>
                   </div>
@@ -218,4 +218,5 @@ export const FirstSection = ({ getData, updateData }) => {
 FirstSection.propTypes = {
   getData: PropTypes.object,
   updateData: PropTypes.func,
+  noData: PropTypes.bool.isRequired,
 };

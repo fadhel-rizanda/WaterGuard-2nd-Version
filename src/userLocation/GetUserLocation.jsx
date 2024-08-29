@@ -4,13 +4,15 @@ import axios from "axios";
 const API_endpoint = `https://api.openweathermap.org/data/2.5/weather?`;
 const API_key = `33a1d0157e21a0a59d6b0de805698404`;
 
-export const GetUserLocation = () => {
+export const GetUserLocation = ({ onCall }) => {
   const [userLat, setUserLat] = useState(null);
   const [userLng, setUserLng] = useState(null);
   const [userLocationName, setUserLocationName] = useState("");
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log(onCall);
+
     const successCallback = (position) => {
       const lat = position.coords.latitude;
       const lon = position.coords.longitude;
@@ -49,7 +51,7 @@ export const GetUserLocation = () => {
       setUserLng(null);
       setError(null);
     };
-  }, []);
+  }, [onCall]);
 
   return { userLocationName, userLat, userLng, error };
 };

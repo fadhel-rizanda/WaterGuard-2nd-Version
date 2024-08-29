@@ -233,6 +233,15 @@ app.get("/user", (req, res) => {
   });
 });
 
+// Get data water condition newest update
+app.get("/user-newest", (req, res) => {
+  const sql = "SELECT * FROM water_conditions ORDER BY lastUpdate LIMIT 1";
+  db.query(sql, (err, data) => {
+    if (err) return res.status(500).json(err);
+    return res.json(data);
+  });
+});
+
 // File download
 app.get("/user/download/:filename", (req, res) => {
   const { filename } = req.params;

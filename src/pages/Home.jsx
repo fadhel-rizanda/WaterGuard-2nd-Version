@@ -7,52 +7,84 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 export const Home = () => {
   const { user } = useAuthContext();
-  const [userLat, setUserLat] = useState(user?.location_lat || -6.2197);
-  const [userLng, setUserLng] = useState(user?.location_lng || 107);
+  const [userLat, setUserLat] = useState(null);
+  const [userLng, setUserLng] = useState(null);
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [isFetched, setIsFetched] = useState(false);
+  const [noData, setNoData] = useState(false);
 
   const handleUpdate = () => {
     console.log("Handle Update Called...");
     setIsFetched((prev) => !prev);
   };
 
-  useEffect(() => {
-    console.log("Fetching Data...");
+  const getNewestData = async () => {
+    console.log("Fetching Newest Data...");
     setLoading(true);
-    fetch("http://localhost:8081/user")
-      .then((res) => res.json())
-      .then((data) => {
+    try {
+      const response = await fetch("http://localhost:8081/user-newest");
+      const data = await response.json();
+      if (Array.isArray(data) && data.length > 0) {
+        setUserData(data[0]);
+        setNoData(false);
+      } else {
+        setUserData(null);
+        setNoData(true);
+      }
+    } catch (err) {
+      console.error(err);
+      setUserData(null);
+      setNoData(true);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (user && user.location_lat && user.location_lng) {
+        setUserLat(user.location_lat || -6.2197);
+        setUserLng(user.location_lng || 107);
+      }
+
+      console.log("Fetching User Data...");
+      setLoading(true);
+      try {
+        const response = await fetch("http://localhost:8081/user");
+        const data = await response.json();
         if (Array.isArray(data)) {
           setData(data);
           let relevantData = data.find(
             (item) => item.lat === userLat && item.lng === userLng
           );
           if (!relevantData) {
-            relevantData = data.find(
-              (item) => item.lat === -6.2197 && item.lng === 107
-            );
-          }
-          setUserData(relevantData);
-          if (data === null) {
-            setUserLat(-6.2197);
-            setUserLng(107);
+            await getNewestData();
+            setNoData(true);
+          } else {
+            setNoData(false);
+            setUserData(relevantData);
           }
         } else {
           console.error("Data is not an array:", data);
           setData([]);
           setUserData(null);
+          setNoData(true);
         }
-        setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err);
+        setData([]);
+        setUserData(null);
+        setNoData(true);
+      } finally {
         setLoading(false);
-      });
-  }, [userLat, userLng, isFetched]);
+      }
+    };
+
+    fetchData();
+  }, [user, userLat, userLng, isFetched]);
 
   useEffect(() => {
     let intervalId;
@@ -73,14 +105,18 @@ export const Home = () => {
     return <Loading />;
   }
 
-  if (!data.length) {
+  if (data.length === 0) {
     return <NoData />;
   }
 
   return (
     <div className="">
       {/* first section */}
-      <FirstSection getData={userData} updateData={handleUpdate} />
+      <FirstSection
+        getData={userData}
+        updateData={handleUpdate}
+        noData={noData}
+      />
 
       {/* second section */}
       <SecondSection getData={data} onUpdate={handleUpdate} />
