@@ -7,8 +7,9 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 export const Home = () => {
   const { user } = useAuthContext();
-  const [userLat, setUserLat] = useState(null);
-  const [userLng, setUserLng] = useState(null);
+  // on change page
+  const [userLat, setUserLat] = useState(user?.location_lat || null);
+  const [userLng, setUserLng] = useState(user?.location_lng || null);
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,9 +46,10 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      // on refresh
       if (user && user.location_lat && user.location_lng) {
-        setUserLat(user.location_lat || -6.2197);
-        setUserLng(user.location_lng || 107);
+        setUserLat(user.location_lat);
+        setUserLng(user.location_lng);
       }
 
       console.log("Fetching User Data...");

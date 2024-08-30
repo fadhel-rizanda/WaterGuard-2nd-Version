@@ -429,6 +429,7 @@ app.delete("/user/:id", (req, res) => {
 // get data
 app.get("/user-monitoring-activity/get", (req, res) => {
   const sql = "SELECT * FROM user_monitoring_activity";
+  // const sql = "SELECT * FROM user_monitoring_activity uma JOIN water_conditions wc ON uma.location_id = wc.id JOIN user_accounts ua ON uma.user_id = ua.id"; kekurangan jika menggunakan join apabila diantara data lokasi ataupun akun user sudah dihapus maka data uma tidak ditampilkan semua karena hanya menampilkan data sesuai dengan ON
   db.query(sql, (err, data) => {
     if (err) return res.status(500).json(err);
     return res.json(data);

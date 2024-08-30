@@ -15,7 +15,7 @@ export const AboutContent = () => {
         <div className="text-white xl:mt-16 text-8xl xl:text-9xl font-bold text-shadow">
           About Us
         </div>
-        <div className="text-white text-sm md:text-lg xl:text-2xl w-3/4 bg-black bg-opacity-20 p-1 rounded-xl h-fit shadow-custom">
+        <div className="text-white text-sm md:text-lg xl:text-2xl w-3/4 bg-black bg-opacity-20 p-1 rounded-xl h-fit shadow-custom font-extralight">
           Welcome to WaterGuard! We provide real-time, accurate water quality
           data to help you monitor and improve water resources in Jakarta. Our
           advanced tools and user-friendly platform empower you to manage water

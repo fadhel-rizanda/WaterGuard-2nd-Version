@@ -72,17 +72,17 @@ export const FirstSection = ({ getData, updateData, noData }) => {
                       <span className="text-xs font-thin">
                         {"No data for your location yet"}
                       </span>
-                      <br /> {"Recently Updated Location:"}
+                      <br /> {"Our Recent Updated Location:"}
                     </>
                   ) : (
-                    "Nearest your location:"
+                    "Your current location:"
                   )
                 ) : (
                   <>
                     <span className="text-xs font-thin">
                       {"No data for your location yet"}
                     </span>
-                    <br /> {"Recently Updated Location:"}
+                    <br /> {"Our Recent Updated Location:"}
                   </>
                 )}
               </div>
