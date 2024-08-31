@@ -628,7 +628,7 @@ export const UserProfileContent = () => {
                     <option value="Admin Operator">Admin Operator</option>
                   )}
                 </select>
-                
+
                 <div
                   className={`cursor-default h-fit w-fit my-2 text-white ${
                     updateButton
@@ -778,7 +778,7 @@ export const UserProfileContent = () => {
                         onChange={handleInputChange}
                         accept="image/png, image/jpeg, image/jpg, image/gif"
                         required
-                        className="w-52 text-sm mt-1 font-semibold file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100 transition ease-out duration-300"
+                        className="w-52 text-sm mt-1 font-semibold file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100"
                       />
                       <button
                         type="button"
