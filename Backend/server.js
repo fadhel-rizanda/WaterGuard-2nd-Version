@@ -1,5 +1,3 @@
-// https://chatgpt.com/c/935abce7-3485-4020-a030-fb73e3a6f71c lanjutin multer
-
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");

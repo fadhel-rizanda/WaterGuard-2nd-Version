@@ -335,6 +335,15 @@ export const UserProfileContent = () => {
     }
   };
 
+  const handleRemovePicture = () => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      profile_picture: null,
+      profile_picture_extension: "",
+    }));
+    setPpUrl(guestPicture);
+  };
+
   const [changePP, setChangePP] = useState(false);
   const handleChangePP = () => {
     setChangePP(!changePP);
@@ -619,8 +628,7 @@ export const UserProfileContent = () => {
                     <option value="Admin Operator">Admin Operator</option>
                   )}
                 </select>
-
-                {/*  */}
+                
                 <div
                   className={`cursor-default h-fit w-fit my-2 text-white ${
                     updateButton
@@ -657,7 +665,6 @@ export const UserProfileContent = () => {
                     </button>
                   )}
                 </div>
-                {/*  */}
               </div>
             </div>
 
@@ -724,7 +731,6 @@ export const UserProfileContent = () => {
                 )}
               </div>
             </div>
-            {/*  */}
           </div>
           {/* change pp */}
           <div className="px-5 flex flex-col gap-5 ">
@@ -753,7 +759,6 @@ export const UserProfileContent = () => {
                   profile picture change?
                 </button>
 
-                {/* <ProfilePicture onUpdate={onUpdate} /> */}
                 <div className="flex w-full h-fit sm:ml-5">
                   <div className="p-5 w-fit gap-3 flex-col h-full rounded-3xl border-2 border-white flex justify-center items-center bg-white bg-opacity-25">
                     <div className="flex gap-3 w-fit p-5 rounded-3xl flex-col bg-black bg-opacity-30 justify-center items-center">
@@ -762,11 +767,10 @@ export const UserProfileContent = () => {
                         alt="Profile Picture"
                         className="w-52 h-52 object-cover rounded-xl"
                       />
-
                       <div className="text-xl">{formData.username}</div>
                     </div>
 
-                    <div className="flex">
+                    <div className="flex flex-col items-center gap-5">
                       <input
                         type="file"
                         id="profile_picture"
@@ -776,14 +780,19 @@ export const UserProfileContent = () => {
                         required
                         className="w-52 text-sm mt-1 font-semibold file:cursor-pointer file:text-gray-500 file:mr-4 file:py-2 file:rounded-full file:border-0 file:border-slate-200 file:text-sm file:bg-gray-300 hover:file:bg-gray-200 file:active:bg-gray-100 transition ease-out duration-300"
                       />
+                      <button
+                        type="button"
+                        className="text-sm bg-red-500 p-0.5 px-1 rounded-lg hover:bg-red-300 active:bg-red-100 active:text-red-500 transition-all ease-out duration-300"
+                        onClick={handleRemovePicture}
+                      >
+                        remove picture
+                      </button>
                     </div>
                   </div>
                 </div>
-                {/* <ProfilePicture onUpdate={onUpdate} /> */}
               </>
             )}
           </div>
-          {/*  */}
         </form>
       </div>
 
