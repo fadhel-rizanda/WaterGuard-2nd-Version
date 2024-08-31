@@ -50,6 +50,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   const handleClose = (e) => {
     e.preventDefault();
     setDeleteData(null);
+    onClose();
   };
 
   // untuk mengirim data dalam bentuk file harus menggunakan FormData, jika tidak maka dapat menggunakna json
