@@ -108,7 +108,7 @@ export const UserProfileContent = () => {
     }
     timeoutRef.current = setTimeout(() => {
       setShowPassword(false);
-    }, 5000);
+    }, 1000);
   };
   const handleHide = (e) => {
     e.preventDefault();
@@ -127,7 +127,7 @@ export const UserProfileContent = () => {
     timeoutRef.current = setTimeout(() => {
       setSuccessUpdate(false);
       setErrorMessage("");
-    }, 5000);
+    }, 1000);
   };
 
   // ab!a1A12
@@ -161,8 +161,8 @@ export const UserProfileContent = () => {
     if (passwordError) {
       setErrorMessage(passwordError);
     } else if (
-      formData.phone_number === null &&
-      (formData.phone_number.length < 10 || formData.phone_number.length > 15)
+      formData.phone_number.length < 10 ||
+      formData.phone_number.length > 15
     ) {
       setErrorMessage("Phone number must be between 10 - 15 numbers");
     } else {
@@ -184,8 +184,6 @@ export const UserProfileContent = () => {
     if (!user || !user.id) {
       console.error("User ID is missing");
       return;
-    } else {
-      console.log(user.id);
     }
 
     const url = `http://localhost:8081/user-accounts/${formData.id}`;
@@ -496,6 +494,13 @@ export const UserProfileContent = () => {
             <div className="flex flex-col">
               <label htmlFor="phone_number" className="w-fit">
                 Phone number
+                <span
+                  className={` ${
+                    updateButton && "text-red-500 font-bold text-xl"
+                  }`}
+                >
+                  *
+                </span>
               </label>
               <input
                 type="number"
@@ -504,6 +509,7 @@ export const UserProfileContent = () => {
                 value={formData.phone_number}
                 disabled={!updateButton}
                 onChange={handleInputChange}
+                required
                 className={`p-1 text-black ${
                   !updateButton && "text-white  opacity-70"
                 } rounded-md shadow-sm focus:outline-none border-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}

@@ -16,7 +16,7 @@ import { GetUserLocation } from "../userLocation/GetUserLocation";
 export const Signin = ({ onDirect }) => {
   const navigate = useNavigate();
   const { dispatch } = useAuthContext();
-  const { triggerLocationFetch, setTriggerLocationFetch } = useState(false);
+  const [triggerLocationFetch, setTriggerLocationFetch] = useState(false);
   const { userLocationName, userLat, userLng } = GetUserLocation({
     onCall: triggerLocationFetch,
   });
