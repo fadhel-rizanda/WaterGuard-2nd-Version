@@ -16,7 +16,10 @@ export const Footer = () => {
     <>
       <footer className="bg-blue-950 pb-28 pt-20 px-10 text-white flex flex-col items-center gap-10">
         <div className="flex flex-wrap  xl:items-start items-center  gap-10 justify-center border-t-orange-50 border-t-2 pt-10 md:pt-16 lg:px-10">
-          <Link to={"/"} className="cursor-default w-fit h-fit flex flex-col gap-2 items-center hover:text-blue-400 trasition ease-out duration-300">
+          <Link
+            to={"/"}
+            className="cursor-default w-fit h-fit flex flex-col gap-2 items-center hover:text-blue-400 trasition ease-out duration-300"
+          >
             <div className="flex items-center">
               <img src={appLogo} alt="WaterGuard Logo" className="w-20" />
               <div className="text-5xl font-bold">WaterGuard</div>
@@ -26,7 +29,7 @@ export const Footer = () => {
             </div>
           </Link>
 
-          <div className="flex flex-col gap-3 w-fit">
+          <div className="flex flex-col gap-3 sm:w-32">
             <Link to={"/"}>
               <FooterLogo logo={homeLogo} value={"Home"} />
             </Link>
@@ -41,7 +44,7 @@ export const Footer = () => {
             </Link>
           </div>
 
-          <div className="flex flex-col md:text-xl gap-3 w-fit">
+          <div className="flex flex-col md:text-xl gap-3 sm:w-72">
             <FooterLogo logo={emailLogo} value={"WaterGuard@gmail.com"} />
             <FooterLogo logo={phoneLogo} value={"+62 821 176 14370"} />
             <FooterLogo logo={facebookLogo} value={"WaterGuard"} />
@@ -53,10 +56,10 @@ export const Footer = () => {
         <div className="md:text-xl">
           Created by{" "}
           <a
-            href="mailto:fadhelbaihaqir25@gmail.com"
+            href="mailto:fadhelrizanda@gmail.com"
             className="text-blue-400 font-semibold hover:text-white hover:font-bold trasition ease-out duration-500"
           >
-            fadhelbaihaqir25@gmail.com
+            fadhelrizanda@gmail.com
           </a>
           . | © 2024.
         </div>

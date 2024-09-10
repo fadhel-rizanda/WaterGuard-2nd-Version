@@ -9,7 +9,8 @@ export const ContactPersonal = ({ logo, value, link }) => {
       .writeText("+62 821 176 14370")
       .then(() => {
         setEnableCopyWhatsapp(false);
-        setTimeout(() => setEnableCopyWhatsapp(true), 5000);
+        setTimeout(() => setEnableCopyWhatsapp(true), 1500);
+        setTimeout(() => setCopyWhatsapp(false), 1500);
       })
       .catch((err) => console.error("Failed to copy Whatsapp: ", err));
   };
@@ -26,12 +27,12 @@ export const ContactPersonal = ({ logo, value, link }) => {
         href={link}
         onClick={handleClick}
         target="_blank"
-        className={`flex cursor-pointer hover:bg-gray-200 gap-5 p-1 px-1.5 w-fit rounded-lg hover:shadow-custom items-center hover:ml-3 sm:hover:ml-5 trasition ease-out duration-1000 group text-lg sm:text-xl font-light ${copyWhatsapp && "ml-3 sm:ml-5  bg-gray-200 font-semibold sm:font-bold"}`}
+        className={`flex cursor-pointer hover:bg-gray-200 gap-5 p-1 px-1.5 w-fit rounded-lg hover:shadow-custom items-center hover:ml-3 sm:hover:ml-5 trasition ease-out duration-1000 group text-lg sm:text-xl font-light ${
+          copyWhatsapp && "ml-3 sm:ml-5  bg-gray-200 font-semibold sm:font-bold"
+        }`}
       >
         <img src={logo} alt="Whatsapp" className="h-6 " />
-        <div className=" trasition ease-out duration-1000">
-          {value}
-        </div>
+        <div className=" trasition ease-out duration-1000">{value}</div>
       </a>
       <div className="flex justify-center items-center">
         {copyWhatsapp && (

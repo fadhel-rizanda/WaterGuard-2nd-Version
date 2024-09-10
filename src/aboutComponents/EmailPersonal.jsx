@@ -14,10 +14,14 @@ export const EmailPersonal = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleEmailBodyInput = () => {
+    const trimmedEmailSubjectInput = emailSubjectInput.trim();
     const trimmedEmailBodyInput = emailBodyInput.trim();
     const words = trimmedEmailBodyInput.split(/\s+/);
 
-    if (trimmedEmailBodyInput === "") {
+    if (trimmedEmailSubjectInput === "") {
+      setWrongInput(true);
+      setErrorMessage("Subject cannot be null");
+    } else if (trimmedEmailBodyInput === "") {
       setWrongInput(true);
       setErrorMessage("Body cannot be null");
     } else if (words.length < 100) {
@@ -27,11 +31,12 @@ export const EmailPersonal = () => {
       const subject = encodeURIComponent(emailSubjectInput);
       const body = encodeURIComponent(emailBodyInput);
       window.open(
-        `mailto:fadhelbaihaqir25@gmail.com?subject=${subject}&body=${body}`
+        `mailto:fadhelrizanda@gmail.com?subject=${subject}&body=${body}`
       );
       setWrongInput(false);
       setErrorMessage("");
       setSendMail(false);
+      setCopyEmail(false);
     }
   };
 
@@ -44,10 +49,10 @@ export const EmailPersonal = () => {
 
   const handleCopyEmail = () => {
     navigator.clipboard
-      .writeText("fadhelbaihaqir25@gmail.com")
+      .writeText("fadhelrizanda@gmail.com")
       .then(() => {
         setEnableCopyEmail(false);
-        setTimeout(() => setEnableCopyEmail(true), 5000);
+        setTimeout(() => setEnableCopyEmail(true), 1500);
       })
       .catch((err) => console.error("Failed to copy email: ", err));
   };
@@ -62,13 +67,13 @@ export const EmailPersonal = () => {
       <div className="flex flex-wrap gap-5">
         <div
           onClick={handleSendMail}
-          className={`flex cursor-pointer hover:font-semibold hover:bg-gray-200 p-1 px-1.5 w-fit rounded-lg hover:shadow-custom items-center hover:ml-3 sm:hover:ml-5 transition-all ease-out duration-1000 group text-lg sm:text-xl font-light ${
+          className={`flex cursor-pointer hover:font-semibold hover:bg-gray-200 p-1 px-1.5 w-fit rounded-lg hover:shadow-custom items-center sm:hover:ml-5 transition-all ease-out duration-1000 group text-lg sm:text-xl font-light ${
             sendMail ? "ml-5 font-semibold bg-gray-200 shadow-custom" : ""
           }`}
         >
           <div className="flex gap-5">
             <img src={imageEmail} alt="email" className="h-6" />
-            <div>fadhelbaihaqir25@gmail.com</div>
+            <div>fadhelrizanda@gmail.com</div>
           </div>
         </div>
 
