@@ -353,7 +353,10 @@ export const UserProfileContent = () => {
   useEffect(() => {
     if (formData?.profile_picture) {
       if (typeof formData.profile_picture === "string") {
-        setPpUrl(`/profile-picture/${formData.profile_picture}`);
+        setPpUrl(
+          // `../../../Backend/uploads/profile-picture/${formData.profile_picture}`
+          `http://localhost:8081/uploads/profile-picture/${formData.profile_picture}`
+        );
       } else if (formData.profile_picture instanceof File) {
         const fileUrl = URL.createObjectURL(formData.profile_picture);
         setPpUrl(fileUrl);

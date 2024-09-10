@@ -134,10 +134,7 @@ app.delete("/user-accounts/:id", (req, res) => {
 // File upload configuration
 const storagePP = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(
-      __dirname,
-      "../Frontend/public/profile-picture"
-    );
+    const uploadPath = path.join(__dirname, "/uploads/profile-picture");
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -149,7 +146,7 @@ const storagePP = multer.diskStorage({
 
 const uploadPP = multer({ storage: storagePP });
 
-// Update data user account
+// Update user account data
 app.put(
   "/user-accounts/:id",
   uploadPP.single("profile_picture"),
@@ -223,6 +220,16 @@ app.put(
   }
 );
 
+// Middleware to give static folder directory
+app.use(
+  "/uploads/profile-picture",
+  express.static(path.join(__dirname, "uploads/profile-picture"))
+);
+app.use(
+  "/uploads/file-upload",
+  express.static(path.join(__dirname, "uploads/file-upload"))
+);
+
 // =====================================================================================================
 
 // Get data water condition
@@ -246,11 +253,7 @@ app.get("/user-newest", (req, res) => {
 // File download
 app.get("/user/download/:filename", (req, res) => {
   const { filename } = req.params;
-  const filePath = path.join(
-    __dirname,
-    "../Frontend/public/file-upload",
-    filename
-  );
+  const filePath = path.join(__dirname, "/uploads/file-upload", filename);
 
   res.download(filePath, (err) => {
     if (err) {
@@ -267,7 +270,7 @@ app.get("/user/download/:filename", (req, res) => {
 // File upload configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, "../Frontend/file-upload");
+    const uploadPath = path.join(__dirname, "/uploads/file-upload");
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {

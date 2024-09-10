@@ -35,7 +35,9 @@ export const Navbar = () => {
   useEffect(() => {
     if (user?.profile_picture) {
       if (typeof user.profile_picture === "string") {
-        setPpUrl(`/profile-picture/${user.profile_picture}`);
+        setPpUrl(
+          `http://localhost:8081/uploads/profile-picture/${user.profile_picture}`
+        );
       } else if (user.profile_picture instanceof File) {
         const fileUrl = URL.createObjectURL(user.profile_picture);
         setPpUrl(fileUrl);
