@@ -134,7 +134,10 @@ app.delete("/user-accounts/:id", (req, res) => {
 // File upload configuration
 const storagePP = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, "../public/profile-picture");
+    const uploadPath = path.join(
+      __dirname,
+      "../Frontend/public/profile-picture"
+    );
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
@@ -243,7 +246,11 @@ app.get("/user-newest", (req, res) => {
 // File download
 app.get("/user/download/:filename", (req, res) => {
   const { filename } = req.params;
-  const filePath = path.join(__dirname, "../public/file-upload", filename);
+  const filePath = path.join(
+    __dirname,
+    "../Frontend/public/file-upload",
+    filename
+  );
 
   res.download(filePath, (err) => {
     if (err) {
@@ -260,7 +267,7 @@ app.get("/user/download/:filename", (req, res) => {
 // File upload configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, "../public/file-upload");
+    const uploadPath = path.join(__dirname, "../Frontend/file-upload");
     cb(null, uploadPath);
   },
   filename: (req, file, cb) => {
