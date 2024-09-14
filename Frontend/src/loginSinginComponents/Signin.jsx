@@ -68,7 +68,7 @@ export const Signin = ({ onDirect }) => {
   useEffect(() => {
     console.log("Fetching Data...");
     setLoading(true);
-    fetch("http://localhost:8081/userAccount")
+    fetch("https://api2.waterguard.asia/userAccount")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -116,7 +116,7 @@ export const Signin = ({ onDirect }) => {
 
   const handleSubmit = () => {
     handleTriggerLocationFetch();
-    const url = `http://localhost:8081/user-accounts`;
+    const url = `https://api2.waterguard.asia/user-accounts`;
     if (userLocationName) console.log(userLocationName);
     const insertedData = {
       username: formData.username,

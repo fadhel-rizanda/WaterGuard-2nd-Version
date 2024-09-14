@@ -23,9 +23,9 @@ export const UserActivityGetData = () => {
         setLoading(true);
 
         const [dataRes, userRes, locationRes] = await Promise.all([
-          fetch("http://localhost:8081/user-monitoring-activity/get"),
-          fetch("http://localhost:8081/userAccount"),
-          fetch("http://localhost:8081/user"),
+          fetch("https://api2.waterguard.asia/user-monitoring-activity/get"),
+          fetch("https://api2.waterguard.asia/userAccount"),
+          fetch("https://api2.waterguard.asia/user"),
         ]);
 
         const [data, userData, locationData] = await Promise.all([

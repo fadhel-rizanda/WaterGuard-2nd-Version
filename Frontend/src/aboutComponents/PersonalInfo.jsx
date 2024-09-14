@@ -60,15 +60,14 @@ export const PersonalInfo = () => {
         <div className="px-10 md:px-0 text-sm xl:text-base flex flex-col gap-7  lg:mt-7">
           <div className="">
             I’m Fadhel Baihaqi Rizanda, a 20-year-old software engineering
-            student currently in my 5th semester at Binus University. Residing
-            in Harapan Indah, Pejuang, Medan Satria, Bekasi Kota, Jawa Barat, I
-            am deeply committed to refining my technical skills and preparing
-            for my future career. My academic journey is driven by a strong
-            passion to excel and equip myself for the professional world,
-            particularly with upcoming internships in semesters 6-7. My aim is
-            to rapidly adapt to real-world work environments, leveraging the
-            skills and knowledge I acquire to build a solid foundation for a
-            successful career in software engineering.
+            student in my 5th semester at Binus University. Currently residing
+            in Bekasi, I am dedicated to honing my technical skills and
+            preparing for a successful career. My academic journey is fueled by
+            a passion for excellence, as I focus on building the expertise
+            needed for upcoming internships in my 6th and 7th semesters. I am
+            eager to quickly adapt to real-world work environments and leverage
+            my skills and knowledge to lay a strong foundation for a future in
+            software engineering.
           </div>
           <div className="flex flex-col gap-5">
             <div className="text-4xl font-semibold">My Contacts:</div>

@@ -42,7 +42,7 @@ export const MapContent = () => {
   useEffect(() => {
     console.log("Fetching Data...");
     setLoading(true);
-    fetch("http://localhost:8081/user")
+    fetch("https://api2.waterguard.asia/user")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

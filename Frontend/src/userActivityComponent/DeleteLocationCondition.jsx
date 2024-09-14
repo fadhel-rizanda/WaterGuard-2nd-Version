@@ -27,7 +27,7 @@ export const DeleteLocationCondition = ({
   };
 
   const deleteData = (dataID) => {
-    const url = `http://localhost:8081/user/${dataID}`;
+    const url = `https://api2.waterguard.asia/user/${dataID}`;
     fetch(url, {
       method: "DELETE",
       headers: {

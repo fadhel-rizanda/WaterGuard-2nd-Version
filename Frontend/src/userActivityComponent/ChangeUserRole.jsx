@@ -25,7 +25,7 @@ export const ChangeUserRole = ({ userForm, onClose, handleSuccess }) => {
 
   const handleUpdate = (dataID) => {
     setLoading(true);
-    const url = `http://localhost:8081/user-accounts/update-role/${dataID}`;
+    const url = `https://api2.waterguard.asia/user-accounts/update-role/${dataID}`;
 
     const updatedData = {
       role: updatedRole,

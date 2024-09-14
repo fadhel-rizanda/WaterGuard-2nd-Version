@@ -40,7 +40,7 @@ export const Login = ({ onDirect, onForget }) => {
     const fetchData = async () => {
       try {
         console.log("Fetching Data...");
-        const response = await fetch("http://localhost:8081/userAccount");
+        const response = await fetch("https://api2.waterguard.asia/userAccount");
         const result = await response.json();
 
         if (Array.isArray(result)) {

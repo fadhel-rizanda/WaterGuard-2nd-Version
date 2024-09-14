@@ -33,7 +33,7 @@ export const DeleteData = ({
   };
 
   const deleteData = async (dataID) => {
-    const url = `http://localhost:8081/user/${dataID}`;
+    const url = `https://api2.waterguard.asia/user/${dataID}`;
     try {
       const response = await fetch(url, {
         method: "DELETE",
@@ -57,7 +57,7 @@ export const DeleteData = ({
     }
   };
   const postUserActivity = async () => {
-    const url = `http://localhost:8081/user-monitoring-activity/post`;
+    const url = `https://api2.waterguard.asia/user-monitoring-activity/post`;
     const location_id = selectedData.id;
     const location_name = selectedData.name;
     const user_activity = "DELETE";

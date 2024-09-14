@@ -15,7 +15,7 @@ export const WaterConditionActivity = ({
     console.log(user.id);
     console.log(selectedData.id);
 
-    const url = `http://localhost:8081/water-conditions-activity`;
+    const url = `https://api2.waterguard.asia/water-conditions-activity`;
     const insertedData = {
       admin_id: user.id.toString(),
       location_id: selectedData.id.toString(),

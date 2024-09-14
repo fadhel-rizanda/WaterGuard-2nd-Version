@@ -94,7 +94,7 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
     const fetchData = async () => {
       try {
         console.log("Fetching Data...");
-        const response = await fetch("http://localhost:8081/userAccount");
+        const response = await fetch("https://api2.waterguard.asia/userAccount");
         const result = await response.json();
 
         if (Array.isArray(result)) {
@@ -147,7 +147,7 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
   };
 
   const handleUpdate = () => {
-    const url = `http://localhost:8081/user-accounts/forgot-password/${updateAccount.id}`;
+    const url = `https://api2.waterguard.asia/user-accounts/forgot-password/${updateAccount.id}`;
 
     const updatedData = {
       password: formData.password,

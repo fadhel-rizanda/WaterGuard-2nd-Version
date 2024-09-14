@@ -5,7 +5,7 @@ export const LocationDetail = ({ location_id }) => {
 
   useEffect(() => {
     console.log("Fetching data...");
-    fetch("http://localhost:8081/user")
+    fetch("https://api2.waterguard.asia/user")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

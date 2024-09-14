@@ -25,8 +25,8 @@ export const Home = () => {
   const getNewestData = async () => {
     console.log("Fetching Newest Data...");
     setLoading(true);
-    try {
-      const response = await fetch("http://localhost:8081/user-newest");
+    try {      
+      const response = await fetch("https://api2.waterguard.asia/user-newest");
       const data = await response.json();
       if (Array.isArray(data) && data.length > 0) {
         setUserData(data[0]);
@@ -55,7 +55,7 @@ export const Home = () => {
       console.log("Fetching User Data...");
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:8081/user");
+        const response = await fetch("https://api2.waterguard.asia/user");
         const data = await response.json();
         if (Array.isArray(data)) {
           setData(data);

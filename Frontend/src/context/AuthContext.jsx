@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     console.log("Fetching Data...");
     setLoading(true);
-    fetch("http://localhost:8081/userAccount")
+    fetch("https://api2.waterguard.asia/userAccount")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }) => {
   }, [state.user?.username]);
 
   const updateUser = (updatedUser) => {
-    const url = `http://localhost:8081/userAccount/${updatedUser.username}`;
+    const url = `https://api2.waterguard.asia/userAccount/${updatedUser.username}`;
 
     const formData = new FormData();
     formData.append("username", updatedUser.username);

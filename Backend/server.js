@@ -11,10 +11,10 @@ app.use(express.json());
 
 // Database connection configuration
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "test",
+  host: "127.0.0.1",
+  user: "watergua_admin",
+  password: "){9IUWs29_BY",
+  database: "watergua_db_waterguard",
 });
 
 // Root route

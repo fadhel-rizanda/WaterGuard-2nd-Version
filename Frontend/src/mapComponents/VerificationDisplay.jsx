@@ -5,7 +5,7 @@ import { CloseDisplay } from "../objects/CloseDisplay";
 export const VerificationDisplay = ({ selectedData, onClose }) => {
   const handleDownload = () => {
     if (selectedData.ika_file) {
-      const url = `http://localhost:8081/user/download/${selectedData.ika_file}`;
+      const url = `https://api2.waterguard.asia/user/download/${selectedData.ika_file}`;
 
       const link = document.createElement("a");
       link.href = url;

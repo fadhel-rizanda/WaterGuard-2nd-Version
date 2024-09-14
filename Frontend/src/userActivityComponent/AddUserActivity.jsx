@@ -14,7 +14,7 @@ export const AddUserActivity = ({
     const fetchData = async () => {
       console.log("Fetching data...");
       try {
-        const response = await fetch("http://localhost:8081/user");
+        const response = await fetch("https://api2.waterguard.asia/user");
         if (!response.ok)
           throw new Error(`Error fetching data: ${response.statusText}`);
 
@@ -42,7 +42,7 @@ export const AddUserActivity = ({
     const postUserActivity = async () => {
       if (!selectedData) return;
 
-      const url = `http://localhost:8081/user-monitoring-activity/post`;
+      const url = `https://api2.waterguard.asia/user-monitoring-activity/post`;
       const user_activity_description = `${user_activity}_${user_id}_${user_role}_${location_name}`;
 
       const formatToSend = new FormData();

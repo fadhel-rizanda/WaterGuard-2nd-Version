@@ -6,7 +6,7 @@ export const UserDetail = ({ user_id }) => {
 
   useEffect(() => {
     console.log("Fetching data...");
-    fetch("http://localhost:8081/userAccount")
+    fetch("https://api2.waterguard.asia/userAccount")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

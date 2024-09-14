@@ -24,7 +24,7 @@ export const UserAccountGetData = () => {
         console.log("Fetching data...");
         setLoading(true);
 
-        const res = await fetch("http://localhost:8081/userAccount");
+        const res = await fetch("https://api2.waterguard.asia/userAccount");
         const data = await res.json();
 
         if (Array.isArray(data)) {

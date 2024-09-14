@@ -23,7 +23,7 @@ export const DeleteRecord = ({ selectedData, onClose, handleSuccess }) => {
   };
 
   const deleteData = (dataID) => {
-    const url = `http://localhost:8081/user-monitoring-activity/delete/${dataID}`;
+    const url = `https://api2.waterguard.asia/user-monitoring-activity/delete/${dataID}`;
     fetch(url, {
       method: "DELETE",
       headers: {

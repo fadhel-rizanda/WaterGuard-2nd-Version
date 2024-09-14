@@ -24,7 +24,7 @@ export const MapGetData = () => {
         console.log("Fetching data...");
         setLoading(true);
 
-        const res = await fetch("http://localhost:8081/user");
+        const res = await fetch("https://api2.waterguard.asia/user");
         const data = await res.json();
 
         if (Array.isArray(data)) {

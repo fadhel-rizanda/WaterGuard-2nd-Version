@@ -69,7 +69,7 @@ export const AddData = ({ onUpdate, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = `http://localhost:8081/water-conditions`;
+    const url = `https://api2.waterguard.asia/water-conditions`;
     const status = profesional ? "verified" : "unverified";
     const ika_score = profesional ? formData.ika_score : null;
     const ika_file = profesional ? formData.ika_file : null;
@@ -114,7 +114,7 @@ export const AddData = ({ onUpdate, onClose }) => {
 
   const getLocationId = async (location_name, location_time) => {
     try {
-      const response = await fetch("http://localhost:8081/user");
+      const response = await fetch("https://api2.waterguard.asia/user");
       if (!response.ok)
         throw new Error(`Error fetching user data: ${response.statusText}`);
 
@@ -143,7 +143,7 @@ export const AddData = ({ onUpdate, onClose }) => {
     }
   };
   const postUserActivity = async () => {
-    const url = `http://localhost:8081/user-monitoring-activity/post`;
+    const url = `https://api2.waterguard.asia/user-monitoring-activity/post`;
     const location_id = await getLocationId(formData.name, formattedTime);
     const location_name = formData.name;
     const user_activity = "ADD";

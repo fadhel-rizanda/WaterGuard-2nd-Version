@@ -56,7 +56,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
   // untuk mengirim data dalam bentuk file harus menggunakan FormData, jika tidak maka dapat menggunakna json
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = `http://localhost:8081/user/${selectedData.id}`;
+    const url = `https://api2.waterguard.asia/user/${selectedData.id}`;
     const status = profesional ? "verified" : "unverified";
     const ika_score = profesional ? formData.ika_score : null;
     const ika_file = profesional ? formData.ika_file : null;
@@ -96,7 +96,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     }
   };
   const postUserActivity = async () => {
-    const url = `http://localhost:8081/user-monitoring-activity/post`;
+    const url = `https://api2.waterguard.asia/user-monitoring-activity/post`;
     const location_id = selectedData.id;
     const location_name = selectedData.name;
     const user_activity = "UPDATE";

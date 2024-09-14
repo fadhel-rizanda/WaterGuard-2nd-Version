@@ -33,7 +33,7 @@ export const DeleteUserAccount = ({ onClose }) => {
   };
 
   const deleteData = (dataID) => {
-    const url = `http://localhost:8081/user-accounts/${dataID}`;
+    const url = `https://api2.waterguard.asia/user-accounts/${dataID}`;
     fetch(url, {
       method: "DELETE",
       headers: {

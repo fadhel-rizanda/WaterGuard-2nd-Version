@@ -4,8 +4,6 @@ import passwordLogo from "/ASSET/image-logo/mdi--password.png";
 import passwordDisableLogo from "/ASSET/image-logo/mdi--passwordwhite.png";
 import showLogo from "/ASSET/image-logo/mdi--show-outline.png";
 import hideLogo from "/ASSET/image-logo/mdi--hide-outline.png";
-import showDisableLogo from "/ASSET/image-logo/mdi--show-outline23.png";
-import hideDisableLogo from "/ASSET/image-logo/mdi--hide-outline23.png";
 import alertLogo from "/ASSET/image-logo/alert.png";
 import successLogo from "/ASSET/image-logo/success.png";
 
@@ -109,7 +107,7 @@ export const UserProfileContent = () => {
     }
     timeoutRef.current = setTimeout(() => {
       setShowPassword(false);
-    }, 1000);
+    }, 3000);
   };
   const handleHide = (e) => {
     e.preventDefault();
@@ -187,7 +185,7 @@ export const UserProfileContent = () => {
       return;
     }
 
-    const url = `http://localhost:8081/user-accounts/${formData.id}`;
+    const url = `https://api2.waterguard.asia/user-accounts/${formData.id}`;
     const phone_number = formData.phone_number || null;
     const gender = formData.gender || null;
     const date_of_birth = formData.date_of_birth || null;
@@ -275,6 +273,7 @@ export const UserProfileContent = () => {
       setProfesional(false);
       setAdmin(false);
     }
+    setShowPassword(false);
     setChangePP(false);
   };
 
@@ -355,7 +354,7 @@ export const UserProfileContent = () => {
       if (typeof formData.profile_picture === "string") {
         setPpUrl(
           // `../../../Backend/uploads/profile-picture/${formData.profile_picture}`
-          `http://localhost:8081/uploads/profile-picture/${formData.profile_picture}`
+          `https://api2.waterguard.asia/uploads/profile-picture/${formData.profile_picture}`
         );
       } else if (formData.profile_picture instanceof File) {
         const fileUrl = URL.createObjectURL(formData.profile_picture);
@@ -438,34 +437,32 @@ export const UserProfileContent = () => {
                   }`}
                 />
 
-                {formData.password.trim() !== "" && (
-                  <button
-                    onClick={showPassword ? handleHide : handleShow}
-                    type="button"
-                  >
-                    <img
-                      src={
-                        !updateButton
-                          ? showPassword
-                            ? hideDisableLogo
-                            : showDisableLogo
-                          : showPassword
-                          ? hideLogo
-                          : showLogo
-                      }
-                      alt=""
-                      className="w-5 h-5"
-                    />
-                  </button>
-                )}
-                {formData.password.trim() === "" && (
-                  <label htmlFor="password" className="w-fit">
-                    <img
-                      src={updateButton ? passwordLogo : passwordDisableLogo}
-                      alt=""
-                      className={`w-5 h-5 ${!updateButton && "opacity-75"}`}
-                    />
-                  </label>
+                {updateButton && (
+                  <>
+                    {formData.password.trim() !== "" && (
+                      <button
+                        onClick={showPassword ? handleHide : handleShow}
+                        type="button"
+                      >
+                        <img
+                          src={showPassword ? hideLogo : showLogo}
+                          alt=""
+                          className="w-5 h-5"
+                        />
+                      </button>
+                    )}
+                    {formData.password.trim() === "" && (
+                      <label htmlFor="password" className="w-fit">
+                        <img
+                          src={
+                            updateButton ? passwordLogo : passwordDisableLogo
+                          }
+                          alt=""
+                          className={`w-5 h-5 ${!updateButton && "opacity-75"}`}
+                        />
+                      </label>
+                    )}
+                  </>
                 )}
               </div>
             </div>
