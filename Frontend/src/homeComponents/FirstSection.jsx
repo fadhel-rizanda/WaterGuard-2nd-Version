@@ -55,7 +55,7 @@ export const FirstSection = ({ getData, updateData, noData }) => {
   return (
     <div className="min-h-screen pb-20 w-full items-center bg-bgHomeFirst bg-cover bg-center bg-no-repeat ">
       <div className="flex text-white">
-        <div className="sm:mx-16 mx-10 mt-32 md:mt-40 lg:mt-44 flex flex-col gap-5 trasition ease-out duration-500">
+        <div className=" mx-3 sm:mx-16 mt-32 md:mt-40 lg:mt-44 flex flex-col gap-5 trasition ease-out duration-500">
           <div className="cursor-default text-5xl  2xl:text-8xl  font-semibold  trasition ease-out duration-500">
             Water Clarity Starts <br />{" "}
             <span className="font-thin text-3xl sm:text-5xl md:text-6xl lg:text-7xl trasition ease-out duration-500">

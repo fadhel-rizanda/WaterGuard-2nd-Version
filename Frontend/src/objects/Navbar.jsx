@@ -50,19 +50,19 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-100 shadow-custom px-5 py-2 flex items-center justify-between lg:text-xl h-16">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-100 shadow-custom px-0.5 sm:px-5 py-2 flex items-center justify-between lg:text-xl h-16">
         <div className="w-1/3">
           <Link
             to={"/"}
             onClick={() => setHamburgerActive(false)}
-            className="flex items-center cursor-pointer w-fit hover:pl-2 transition-all duration-500 ease-out group"
+            className="flex items-center cursor-pointer w-fit sm:hover:pl-2 transition-all duration-500 ease-out group"
           >
             <img
               src={appLogo}
               alt="WaterGuard Logo"
               className="w-10 lg:w-12 h-auto"
             />
-            <div className="text-2xl lg:text-3xl group-hover:font-semibold group-hover:text-gray-400 group-active:text-gray-300 font-light transition-all ease-out duration-500">
+            <div className="sm:text-2xl lg:text-3xl group-hover:font-semibold group-hover:text-gray-400 group-active:text-gray-300 font-light transition-all ease-out duration-500">
               WaterGuard
             </div>
           </Link>
@@ -98,20 +98,20 @@ export const Navbar = () => {
           )}
         </div>
 
-        <div className="flex gap-10 items-center w-1/3 justify-end">
-          <div className="flex justify-end hover:pr-2 group transition-all duration-500 ease-out">
+        <div className="flex gap-8 sm:gap-10 items-center w-1/3 justify-end">
+          <div className="flex justify-end  group transition-all duration-500 ease-out">
             {user ? (
               <Link
                 to={"/userProfile"}
                 onClick={() => setHamburgerActive(false)}
-                className="flex items-center gap-1 hover:pr-2 cursor-pointer transition-all duration-500 ease-out"
+                className="flex items-center gap-1 cursor-pointer transition-all duration-500 ease-out"
               >
-                <div className="flex gap-2 items-center group-hover:font-semibold group-hover:text-gray-400 active:text-gray-300 font-light transition-all duration-500">
+                <div className="flex gap-0.5 items-center group-hover:font-semibold group-hover:text-gray-400 active:text-gray-300 font-light transition-all duration-500">
                   <img
                     src={ppUrl}
                     alt="profile picture"
-                    className={`object-cover w-8 h-8 group-hover:w-9 group-hover:h-9  sm:w-9 sm:h-9 group-hover:sm:w-10 group-hover:sm:h-10  rounded-full transition-all ease-out duration-500 ${
-                      !ppUrl && "border-2 border-black  "
+                    className={`object-cover w-6 h-6 sm:w-9 sm:h-9 group-hover:sm:w-10 group-hover:sm:h-10 rounded-full transition-all ease-out duration-500 ${
+                      !ppUrl && "border-2 border-black"
                     }`}
                   />
                   <span>{user.username}</span>
