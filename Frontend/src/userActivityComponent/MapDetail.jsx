@@ -29,7 +29,6 @@ export const MapDetail = ({ selectedData, handleUpdate }) => {
           <div className="">{selectedData.lastUpdate}</div>
         </div>
 
-        {/* ============================================================ */}
         <div className="border-t-2"></div>
         <div className="font-semibold">Latest Information:</div>
 
@@ -109,7 +108,6 @@ export const MapDetail = ({ selectedData, handleUpdate }) => {
         </div>
       </div>
 
-      {/* selectedData, onClose, onUpdate */}
       {detailRecord && (
         <DetailDisplay
           selectedData={selectedData}

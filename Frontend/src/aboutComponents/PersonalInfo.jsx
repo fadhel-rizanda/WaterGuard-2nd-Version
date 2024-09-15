@@ -45,7 +45,6 @@ export const PersonalInfo = () => {
           </div>
         )}
       </div>
-      {/* DetailPersonalInfo.jsx */}
       <div className="md:w-1/2">
         {!titleActive && (
           <div className="text-5xl md:text-8xl lg:text-9xl font-bold md:text-end flex flex-col text-center">

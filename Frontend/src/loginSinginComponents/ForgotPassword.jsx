@@ -1,7 +1,8 @@
 import PropTypes from "prop-types";
 import { useState, useRef, useEffect } from "react";
 import usernameLogo from "/ASSET/image-logo/image-logo-loginSingin/clarity--email-line (2).png";
-import passwordLogo from "/ASSET/image-logo/image-logo-loginSingin/clarity--email-line (4).png";
+import passwordLogo from "/ASSET/image-logo/image-logo-loginSingin/mdi--password-outline.png";
+import passwordReLogo from "/ASSET/image-logo/image-logo-loginSingin/clarity--email-line (4).png";
 import showLogo from "/ASSET/image-logo/image-logo-loginSingin/clarity--email-line (5).png";
 import hideLogo from "/ASSET/image-logo/image-logo-loginSingin/clarity--email-line (3).png";
 import emailLogo from "/ASSET/image-logo/image-logo-loginSingin/clarity--email-line (1).png";
@@ -18,6 +19,12 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
     username: "",
     email: "",
     password: "",
+    passwordRe: "",
+  });
+
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    showPassword: false,
+    showPasswordRe: false,
   });
 
   const handleInputChange = (e) => {
@@ -28,8 +35,8 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
     });
   };
 
-  const [showPassword, setShowPassword] = useState(false);
   const timeoutRef = useRef(null);
+  const timeoutRef2 = useRef(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [updateAccount, setUpdateAccount] = useState([]);
@@ -46,27 +53,6 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
   const [rememberMe, setRememberMe] = useState(false);
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
-  };
-
-  const handleShow = (e) => {
-    e.preventDefault();
-    setShowPassword(true);
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      setShowPassword(false);
-    }, 5000);
-  };
-  const handleHide = (e) => {
-    e.preventDefault();
-    setShowPassword(false);
-
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
   };
 
   const passwordDifficulty = (password) => {
@@ -94,7 +80,9 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
     const fetchData = async () => {
       try {
         console.log("Fetching Data...");
-        const response = await fetch("https://api2.waterguard.asia/userAccount");
+        const response = await fetch(
+          "https://api2.waterguard.asia/userAccount"
+        );
         const result = await response.json();
 
         if (Array.isArray(result)) {
@@ -123,15 +111,19 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
 
   const findAccount = (e) => {
     e.preventDefault();
-    const account = data.find((item) => item.username === formData.username);
-    if (account === undefined) {
-      console.log(formData.username);
-      setErrorMessage("Account Not Found");
-    } else if (account.email !== formData.email) {
-      setErrorMessage("Incorrect Email, email cannot be different");
+    if (formData.passwordRe !== formData.password) {
+      setErrorMessage("Password and Re-enter Password must be same");
     } else {
-      setUpdateAccount(account);
-      handleSubmit();
+      const account = data.find((item) => item.username === formData.username);
+      if (account === undefined) {
+        console.log(formData.username);
+        setErrorMessage("Account Not Found");
+      } else if (account.email !== formData.email) {
+        setErrorMessage("Incorrect Email, email cannot be different");
+      } else {
+        setUpdateAccount(account);
+        handleSubmit();
+      }
     }
   };
 
@@ -177,6 +169,63 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
         console.error("Error:", error);
       });
   };
+  const handleShowPassword = (e) => {
+    e.preventDefault();
+    setPasswordVisibility((prevState) => ({
+      ...prevState,
+      showPassword: true,
+    }));
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setPasswordVisibility((prevState) => ({
+        ...prevState,
+        showPassword: false,
+      }));
+    }, 5000);
+  };
+  const handleHidePassword = (e) => {
+    e.preventDefault();
+    setPasswordVisibility((prevState) => ({
+      ...prevState,
+      showPassword: false,
+    }));
+
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+  };
+
+  const handleShowPasswordRe = (e) => {
+    e.preventDefault();
+    setPasswordVisibility((prevState) => ({
+      ...prevState,
+      showPasswordRe: true,
+    }));
+
+    if (timeoutRef2.current) {
+      clearTimeout(timeoutRef2.current);
+    }
+    timeoutRef2.current = setTimeout(() => {
+      setPasswordVisibility((prevState) => ({
+        ...prevState,
+        showPasswordRe: false,
+      }));
+    }, 5000);
+  };
+  const handleHidePasswordRe = (e) => {
+    e.preventDefault();
+    setPasswordVisibility((prevState) => ({
+      ...prevState,
+      showPasswordRe: false,
+    }));
+
+    if (timeoutRef2.current) {
+      clearTimeout(timeoutRef2.current);
+    }
+  };
 
   return (
     <div className="h-full w-full flex justify-center items-center py-20">
@@ -195,7 +244,7 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
               type="text"
               name="username"
               id="username"
-              placeholder="username"
+              placeholder="Username"
               required
               onChange={handleInputChange}
               className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
@@ -226,10 +275,10 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
             `}
           >
             <input
-              type={showPassword ? "text" : "password"}
+              type={passwordVisibility.showPassword ? "text" : "password"}
               name="password"
               id="password"
-              placeholder="New Password"
+              placeholder="New password"
               required
               onChange={handleInputChange}
               className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
@@ -237,12 +286,20 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
 
             {formData.password.trim() !== "" && (
               <button
-                onClick={showPassword ? handleHide : handleShow}
+                onClick={
+                  passwordVisibility.showPassword
+                    ? handleHidePassword
+                    : handleShowPassword
+                }
                 type="button"
               >
                 <img
-                  src={showPassword ? hideLogo : showLogo}
-                  alt={showPassword ? "Hide Password" : "Show Password"}
+                  src={passwordVisibility.showPassword ? hideLogo : showLogo}
+                  alt={
+                    passwordVisibility.showPassword
+                      ? "Hide Password"
+                      : "Show Password"
+                  }
                   className="w-5 h-5"
                 />
               </button>
@@ -252,6 +309,52 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
                 <img
                   src={passwordLogo}
                   alt="Password Icon"
+                  className="w-5 h-5"
+                />
+              </label>
+            )}
+          </div>
+
+          <div
+            className={`flex gap-1 border-2 w-full justify-center items-center rounded-full pr-3 bg-opacity-0 focus-within:shadow-custom 
+                ${formData.passwordRe.trim() !== "" ? "bg-white" : ""}
+            `}
+          >
+            <input
+              type={passwordVisibility.showPasswordRe ? "text" : "password"}
+              name="passwordRe"
+              id="passwordRe"
+              placeholder="Re-enter new password"
+              required
+              onChange={handleInputChange}
+              className="w-full rounded-l-full py-2 pl-3 focus:outline-none placeholder:text-white bg-white bg-opacity-0 text-white"
+            />
+
+            {formData.passwordRe.trim() !== "" && (
+              <button
+                onClick={
+                  passwordVisibility.showPasswordRe
+                    ? handleHidePasswordRe
+                    : handleShowPasswordRe
+                }
+                type="button"
+              >
+                <img
+                  src={passwordVisibility.showPasswordRe ? hideLogo : showLogo}
+                  alt={
+                    passwordVisibility.showPasswordRe
+                      ? "Hide Password"
+                      : "Show Password"
+                  }
+                  className="w-5 h-5"
+                />
+              </button>
+            )}
+            {formData.passwordRe.trim() === "" && (
+              <label htmlFor="passwordRe">
+                <img
+                  src={passwordReLogo}
+                  alt="PasswordRe Icon"
                   className="w-5 h-5"
                 />
               </label>
@@ -288,8 +391,8 @@ export const ForgotPassword = ({ onDirect, onForget }) => {
           </button>
 
           {errorMessage != "" && (
-            <div className="flex items-center gap-2 text-red-500 text-xl font-black">
-              <img src={alertLogo} alt="Alert Icon" className="w-6 h-6" />
+            <div className="flex gap-2 text-red-500 font-bold">
+              <img src={alertLogo} alt="Alert Icon" className="w-4 h-4 mt-1" />
               <div>{errorMessage}</div>
             </div>
           )}

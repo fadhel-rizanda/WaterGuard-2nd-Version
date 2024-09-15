@@ -105,7 +105,6 @@ export const MapDisplay = ({ getData, onUpdate, detailActive }) => {
     <>
       <div className="h-custom shadow-custom overflow-hidden">
         {" "}
-        {/* rounded-3xl */}
         <MapContainer
           center={[data[0]?.lat ?? 0, data[0]?.lng ?? 0]}
           zoom={13}

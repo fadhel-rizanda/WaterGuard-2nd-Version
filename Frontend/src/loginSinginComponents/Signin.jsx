@@ -61,6 +61,7 @@ export const Signin = ({ onDirect }) => {
 
   const [noDataFound, setNoDataFound] = useState(false);
   const timeoutRef = useRef(null);
+  const timeoutRef2 = useRef(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
@@ -150,7 +151,6 @@ export const Signin = ({ onDirect }) => {
       });
   };
 
-  // ab!a1A12
   const passwordDifficulty = (password) => {
     const containSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const containSpace = /\s/.test(password);
@@ -172,7 +172,6 @@ export const Signin = ({ onDirect }) => {
     return "";
   };
 
-  // ===========================================
   const handleShowPassword = (e) => {
     e.preventDefault();
     setPasswordVisibility((prevState) => ({
@@ -201,8 +200,6 @@ export const Signin = ({ onDirect }) => {
       clearTimeout(timeoutRef.current);
     }
   };
-  // ===========================================
-  // ===========================================
   const handleShowConfirmPassword = (e) => {
     e.preventDefault();
     setPasswordVisibility((prevState) => ({
@@ -210,10 +207,10 @@ export const Signin = ({ onDirect }) => {
       showConfirmPassword: true,
     }));
 
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+    if (timeoutRef2.current) {
+      clearTimeout(timeoutRef2.current);
     }
-    timeoutRef.current = setTimeout(() => {
+    timeoutRef2.current = setTimeout(() => {
       setPasswordVisibility((prevState) => ({
         ...prevState,
         showConfirmPassword: false,
@@ -227,11 +224,10 @@ export const Signin = ({ onDirect }) => {
       showConfirmPassword: false,
     }));
 
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+    if (timeoutRef2.current) {
+      clearTimeout(timeoutRef2.current);
     }
   };
-  // ===========================================
 
   return (
     <div className="h-full w-full py-20 flex justify-center items-center">
@@ -252,7 +248,7 @@ export const Signin = ({ onDirect }) => {
               type="text"
               name="username"
               id="username"
-              placeholder="username"
+              placeholder="Username"
               required
               value={formData.username}
               onChange={handleInputChange}
@@ -329,7 +325,7 @@ export const Signin = ({ onDirect }) => {
               }
               name="confirmPassword"
               id="confirmPassword"
-              placeholder="Confirm Password"
+              placeholder="Confirm password"
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
@@ -386,7 +382,7 @@ export const Signin = ({ onDirect }) => {
 
             {noDataFound && (
               <div className="flex gap-2 text-red-500 font-bold">
-                <img src={alertLogo} alt="" className="w-4 h-4  mt-1" />
+                <img src={alertLogo} alt="Alert Icon" className="w-4 h-4 mt-1" />
                 <div className="">{errorMessage}</div>
               </div>
             )}

@@ -53,7 +53,7 @@ export const ReportUpdate = ({ selectedData, onUpdate, onClose }) => {
     onClose();
   };
 
-  // untuk mengirim data dalam bentuk file harus menggunakan FormData, jika tidak maka dapat menggunakna json
+  // untuk mengirim data dalam bentuk file harus menggunakan FormData, jika tidak maka dapat menggunakan json
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `https://api2.waterguard.asia/user/${selectedData.id}`;

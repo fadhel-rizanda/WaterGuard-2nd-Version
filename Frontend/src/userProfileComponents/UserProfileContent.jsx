@@ -12,7 +12,6 @@ import updateLogo from "/ASSET/image-logo/update.png";
 import deleteLogo from "/ASSET/image-logo/delete.png";
 
 import guestPicture from "/ASSET/image-background/guestPicture.png";
-// import guestPicture from "../../../Backend/uploads/1723537014114.png";
 
 import { useNavigate } from "react-router-dom";
 
@@ -129,7 +128,6 @@ export const UserProfileContent = () => {
     }, 1000);
   };
 
-  // ab!a1A12
   const passwordDifficulty = (password) => {
     const containSymbol = /[!@#$%^&*(),.?":{}|<>]/.test(password);
     const containSpace = /\s/.test(password);
@@ -353,7 +351,6 @@ export const UserProfileContent = () => {
     if (formData?.profile_picture) {
       if (typeof formData.profile_picture === "string") {
         setPpUrl(
-          // `../../../Backend/uploads/profile-picture/${formData.profile_picture}`
           `https://api2.waterguard.asia/uploads/profile-picture/${formData.profile_picture}`
         );
       } else if (formData.profile_picture instanceof File) {
@@ -380,7 +377,6 @@ export const UserProfileContent = () => {
             handleSubmit();
           }}
         >
-          {/* left */}
           <div className="w-full lg:w-1/2 px-5 flex flex-col gap-2">
             <div className="text-2xl font-semibold">Your profile</div>
             <div className="flex flex-col ">
@@ -556,7 +552,6 @@ export const UserProfileContent = () => {
             </div>
           </div>
 
-          {/* right */}
           <div className="w-full lg:w-2/5 px-5 flex flex-col justify-between gap-10 lg:gap-0">
             <div className=" flex flex-col gap-2">
               <div className="text-2xl font-semibold">
@@ -739,7 +734,6 @@ export const UserProfileContent = () => {
               </div>
             </div>
           </div>
-          {/* change pp */}
           <div className="px-5 flex flex-col gap-5 ">
             {!changePP ? (
               <button

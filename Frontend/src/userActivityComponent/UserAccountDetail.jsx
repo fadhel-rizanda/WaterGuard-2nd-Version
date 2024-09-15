@@ -55,7 +55,6 @@ export const UserAccountDetail = ({ selectedData, handleUpdate }) => {
           </div>
         </div>
 
-        {/* ============================================================ */}
         <div className="border-t-2"></div>
         <div className="font-semibold">Latest Information:</div>
 

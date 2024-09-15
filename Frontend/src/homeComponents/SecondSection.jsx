@@ -102,7 +102,6 @@ export const SecondSection = ({ getData, onUpdate }) => {
           <img src={image2} alt="" className="md:w-2/5 rounded-xl flex w-0" />
         </div>
 
-        {/* display map */}
         <div className="flex flex-col w-full py-5 bg-gradient-to-r  from-sky-500 via-blue-700 to-sky-500 ">
           <div className="h-3"></div>
           <div className="w-full flex h-96 flex-col justify-center">

@@ -12,8 +12,7 @@ export const DeleteRecord = ({ selectedData, onClose, handleSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
   const timeoutRef = useRef(null);
 
-  const verifyText = () => {
-    // password admin
+  const verifyText = () => {    
     if (passwordDelete !== "Admin!23_DELETE_RECORD") {
       setWrongPasswordDelete(true);
     } else {

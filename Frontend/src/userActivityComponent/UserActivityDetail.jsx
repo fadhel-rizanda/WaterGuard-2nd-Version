@@ -54,7 +54,6 @@ export const UserActivityDetail = ({
           {selectedData.user_activity_description}
         </div>
 
-        {/* ============================================================ */}
         <div className="border-t-2"></div>
         <div className="text-xl font-bold">Latest Information:</div>
 
@@ -87,7 +86,6 @@ export const UserActivityDetail = ({
               </div>
             )}
 
-            {/* ============================================================ */}
             <div className="border-l-2"></div>
 
             {locationForm.location_name ? (

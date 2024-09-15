@@ -1,5 +1,5 @@
 import { FAQContent } from "./FAQContent";
-// import { ContactsContent } from "./ContactsContent";
+
 export const FAQContacts = () => {
   return (
     <div>

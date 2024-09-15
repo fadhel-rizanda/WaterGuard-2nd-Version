@@ -202,9 +202,9 @@ export const Login = ({ onDirect, onForget }) => {
           </button>
 
           {noDataFound && (
-            <div className="flex items-center gap-2 text-red-500 text-xl font-black">
-              <img src={alertLogo} alt="Alert Icon" className="w-6 h-6" />
-              <div>{errorMessage}</div>
+            <div className="flex gap-2 text-red-500 font-black">              
+              <img src={alertLogo} alt="Alert Icon" className="w-4 h-4 mt-1" />
+                <div className="">{errorMessage}</div>
             </div>
           )}
 

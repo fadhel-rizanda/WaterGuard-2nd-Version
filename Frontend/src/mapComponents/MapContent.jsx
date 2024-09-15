@@ -125,7 +125,6 @@ export const MapContent = () => {
 
   return (
     <>
-      {/* Map */}
       <div className="w-full rounded-xl mt-16">
         <div className=" flex flex-col w-full justify-center items-center">
           <div className="w-full flex flex-col justify-center">

@@ -32,7 +32,6 @@ export const QuestionDisplay = ({ onClose }) => {
           className="overflow-auto max-h-[80vh] no-scrollbar bg-white mx-20 sm:max-w-3xl rounded-xl border-2 shadow-custom  flex flex-col p-10 pt-5"
         >
           <CloseDisplay onClose={onClose} />
-          {/* 1 */}
           <div className="">
             <div className="text-xl font-bold mb-1.5">
               Indicators Informations
@@ -54,7 +53,6 @@ export const QuestionDisplay = ({ onClose }) => {
               />
 
               <div className="border-b-2 my-2 border-gray-300"></div>
-              {/* 2 */}
               <div className="">
                 <div className="flex gap-1 items-center p-0.5 pr-2 rounded-xl hover:bg-gray-100 w-fit trasition ease-out duration-200">
                   <img
@@ -82,7 +80,6 @@ export const QuestionDisplay = ({ onClose }) => {
             </div>
           </div>
 
-          {/* 3 */}
           <div className="mt-5">
             <div className="text-xl font-bold mb-1.5">Water Index Quality</div>
             <ul className="text-sm md:text-lg font-light pl-5 md:pl-10 list-disc">

@@ -75,7 +75,7 @@ export const AddUserActivity = ({
     postUserActivity();
   }, [selectedData, user_id, user_activity, location_name]);
 
-  return null; // If the component does not render anything
+  return null; 
 };
 
 AddUserActivity.propTypes = {

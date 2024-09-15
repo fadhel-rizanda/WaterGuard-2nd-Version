@@ -14,17 +14,17 @@ import { Link } from "react-router-dom";
 export const Footer = () => {
   return (
     <>
-      <footer className="bg-blue-950 pb-28 pt-20 px-10 text-white flex flex-col items-center gap-10">
-        <div className="flex flex-wrap  xl:items-start items-center  gap-10 justify-center border-t-orange-50 border-t-2 pt-10 md:pt-16 lg:px-10">
+      <footer className="bg-blue-950 sm:pb-28 sm:pt-20 sm:px-10 text-white flex flex-col items-center gap-10">
+        <div className="flex flex-wrap xl:items-start items-center  gap-5 sm:gap-10 justify-center border-t-orange-50 border-t-2 pt-10 md:pt-16 lg:px-10">
           <Link
             to={"/"}
             className="cursor-default w-fit h-fit flex flex-col gap-2 items-center hover:text-blue-400 trasition ease-out duration-300"
           >
             <div className="flex items-center">
               <img src={appLogo} alt="WaterGuard Logo" className="w-20" />
-              <div className="text-5xl font-bold">WaterGuard</div>
+              <div className="text-3xl sm:text-5xl font-bold">WaterGuard</div>
             </div>
-            <div className="font-thin text-xl">
+            <div className="font-thin text-base md:text-xl">
               Water Clarity Starts with Smart Monitoring
             </div>
           </Link>
@@ -44,7 +44,7 @@ export const Footer = () => {
             </Link>
           </div>
 
-          <div className="flex flex-col md:text-xl gap-3 sm:w-72">
+          <div className="flex flex-col text-sm sm:text-base md:text-xl gap-3 sm:w-72">
             <FooterLogo logo={emailLogo} value={"WaterGuard@gmail.com"} />
             <FooterLogo logo={phoneLogo} value={"+62 821 176 14370"} />
             <FooterLogo logo={facebookLogo} value={"WaterGuard"} />
@@ -53,7 +53,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="md:text-xl">
+        <div className="text-sm sm:text-basemd:text-xl">
           Created by{" "}
           <a
             href="mailto:fadhelrizanda@gmail.com"

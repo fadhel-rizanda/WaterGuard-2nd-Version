@@ -7,7 +7,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 
 export const Home = () => {
   const { user } = useAuthContext();
-  // on change page
   const [userLat, setUserLat] = useState(user?.location_lat || null);
   const [userLng, setUserLng] = useState(user?.location_lng || null);
 
@@ -45,8 +44,7 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      // on refresh
+    const fetchData = async () => {      
       if (user && user.location_lat && user.location_lng) {
         setUserLat(user.location_lat);
         setUserLng(user.location_lng);
@@ -113,14 +111,12 @@ export const Home = () => {
 
   return (
     <div className="">
-      {/* first section */}
       <FirstSection
         getData={userData}
         updateData={handleUpdate}
         noData={noData}
       />
 
-      {/* second section */}
       <SecondSection getData={data} onUpdate={handleUpdate} />
     </div>
   );

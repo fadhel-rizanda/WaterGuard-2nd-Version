@@ -9,8 +9,7 @@ import { DescriptionApp } from "./DescriptionApp";
 
 export const AboutContent = () => {
   return (
-    <div className="">
-      {/* 1 */}
+    <div className="">      
       <div className=" flex text-center flex-col justify-center items-center w-full h-screen bg-bgAbout bg-cover bg-center bg-no-repeat shadow-custom">
         <div className="text-white xl:mt-16 text-8xl xl:text-9xl font-bold text-shadow">
           About Us
@@ -35,7 +34,6 @@ export const AboutContent = () => {
         designed to simplify the monitoring and protection of our water
         resources, especially in Jakarta.
       </div>
-      {/* 2 */}
       <div className="flex py-16 pr-10 text-xs md:text-sm md:px-16 xl:px-28  gap-10 items-center">
         <img src={image1} alt="" className="md:w-2/5 rounded-xl flex w-0" />
         <div className="">
@@ -119,7 +117,6 @@ export const AboutContent = () => {
         <FAQContent />
       </div>
 
-      {/* 3 */}
       <div className="flex flex-col h-fit gap-10 justify-center shadow-custom mb-40 mx-5 xl:mx-16 rounded-3xl py-10  sm:pb-20">
         <div className="flex flex-col justify-center items-center gap-5">
           <div className="flex justify-center items-center px-10">
