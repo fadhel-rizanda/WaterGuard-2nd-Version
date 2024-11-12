@@ -1,6 +1,9 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const cookieParser = require('cookie-parser');
 
 const multer = require("multer");
 const path = require("path");
@@ -8,14 +11,30 @@ const path = require("path");
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser);
 
 // Database connection configuration
+// const db = mysql.createConnection({
+//   host: "127.0.0.1",
+//   user: "watergua_admin",
+//   password: "){9IUWs29_BY",
+//   database: "watergua_db_waterguard",
+// });
+
 const db = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "watergua_admin",
-  password: "){9IUWs29_BY",
-  database: "watergua_db_waterguard",
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "test",
 });
+
+db.connect((err) => {
+  if(err){
+    console.error(`Database connection failed: ${err.stack}`);
+    return;  
+  }
+  console.log("Database connected");  
+})
 
 // Root route
 app.get("/", (req, res) => {
@@ -32,7 +51,7 @@ app.get("/userAccount", (req, res) => {
 });
 
 // Sign Insert data user account
-app.post("/user-accounts", (req, res) => {
+app.post("/user-accounts", async (req, res) => {
   const {
     username,
     email,
@@ -53,6 +72,8 @@ app.post("/user-accounts", (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  const hashedPassword = await bcrypt.hash(password);
+
   const sql = `
   INSERT INTO user_accounts (
     username, email, password, role, location_name, location_lat, location_lng) VALUES (?, ?, ?, ?, ?, ?, ?);`;
@@ -62,7 +83,7 @@ app.post("/user-accounts", (req, res) => {
     [
       username,
       email,
-      password,
+      hashedPassword,
       role,
       location_name,
       location_lat,
@@ -79,7 +100,7 @@ app.post("/user-accounts", (req, res) => {
 });
 
 // Forget Password Update data user account
-app.put("/user-accounts/forgot-password/:id", (req, res) => {
+app.put("/user-accounts/forgot-password/:id", async (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
 
@@ -87,7 +108,10 @@ app.put("/user-accounts/forgot-password/:id", (req, res) => {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
+  const hashedPassword = await bcrypt.hash(password);
+
   const checkSql = `SELECT id FROM user_accounts WHERE id = ?`;
+
   db.query(checkSql, [id], (checkErr, results) => {
     if (checkErr) {
       console.error("Database error:", checkErr);
@@ -104,7 +128,7 @@ app.put("/user-accounts/forgot-password/:id", (req, res) => {
       SET password = ?
       WHERE id = ?`;
 
-    db.query(sql, [password, id], (err) => {
+    db.query(sql, [hashedPassword, id], (err) => {
       if (err) {
         console.error("Database error:", err);
         return res.status(500).json({ error: "Failed to update record" });
@@ -518,5 +542,5 @@ app.put("/user-accounts/update-role/:id", (req, res) => {
 // =====================================================================================================
 
 app.listen(8081, () => {
-  console.log("Listening on port 8081");
+  console.log(`Listening on port 8081 `);
 });
